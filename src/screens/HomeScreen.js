@@ -1,11 +1,12 @@
-// app/(tabs)/index.tsx
+// src/screens/HomeScreen.js
 import { useEffect, useMemo, useState } from 'react';
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import CurrencyPicker from '../../src/components/CurrencyPicker';
-import { fetchFx, fetchGoldToday } from '../../src/lib/api';
-import { num } from '../../src/lib/format';
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+import CurrencyPicker from '../components/CurrencyPicker';
+import { fetchFx, fetchGoldToday, fetchGoldXau } from '../lib/api';
+import { num, parseTr } from '../lib/format';
 
-// AdMob tamamen devre dışı - sadece mobil'de çalışır
+const BANNER_ID = TestIds.BANNER; // Yayında gerçek ID ile değiştirilecek
 
 const CURRENCIES = [
   { label: 'Türk Lirası (TRY)', value: 'TRY' },
@@ -23,12 +24,13 @@ export default function HomeScreen() {
   const [amount, setAmount] = useState('1');
   const [from, setFrom] = useState('USD');
   const [to, setTo] = useState('TRY');
-  const [result, setResult] = useState<number | null>(null);
-  const [updatedAt, setUpdatedAt] = useState<string | null>(null);
-  const [gold, setGold] = useState<any>(null);
+  const [result, setResult] = useState(null);
+  const [updatedAt, setUpdatedAt] = useState(null);
+  const [gold, setGold] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [conversionCount, setConversionCount] = useState(0);
+  const [error, setError] = useState(null);
+  const [xauPrice, setXauPrice] = useState(null); // { ounce, gram, date, currency }
+  const [xauLoading, setXauLoading] = useState(false);
 
   // Altın verisini ilk açılışta çek (TRuncgil)
   useEffect(() => {
@@ -43,24 +45,32 @@ export default function HomeScreen() {
     })();
   }, []);
 
+  // Seçilen hedef para birimine göre XAU fiyatını çek
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        setXauLoading(true);
+        const x = await fetchGoldXau(to === 'GOLD_GRAM' || to === 'GOLD_ONS' ? 'TRY' : to);
+        if (!cancelled) setXauPrice(x);
+      } catch {
+        if (!cancelled) setXauPrice(null);
+      } finally {
+        if (!cancelled) setXauLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [to]);
+
   const handleSwap = () => {
     setFrom(to);
     setTo(from);
   };
 
-  const showInterstitialAd = async () => {
-    // Web'de reklam göstermiyoruz
-    if (Platform.OS === 'web') return;
-
-    // Mobil'de reklam göstermek için gerekli kod buraya eklenecek
-    // Şimdilik sessizce geç
-    console.log('Interstitial ad would show here on mobile');
-  };
-
   const goldToTryPrice = useMemo(() => {
     if (!gold) return null;
-    // Truncgil "Satış" değeri TL cinsinden metindir (örn. "2.547,50"). Bunu sayıya çevirelim.
-    const parseTr = (s: any) => Number(String(s).replaceAll('.', '').replace(',', '.'));
 
     return {
       GOLD_GRAM: gold?.gram?.Satış ? parseTr(gold.gram.Satış) : null,
@@ -77,27 +87,26 @@ export default function HomeScreen() {
     setError(null);
     try {
       const amt = Number(amount) || 0;
-      if (!amt) throw new Error('Lütfen geçerli bir tutar girin');
-      if (amt <= 0) throw new Error('Tutar 0\'dan büyük olmalıdır');
+      if (!amt) throw new Error('Lütfen tutar girin');
 
       // Altın ↔ TRY dönüşümü
-      const goldMap: any = goldToTryPrice || {};
-      const isGold = (code: string) => String(code).startsWith('GOLD_');
+      const goldMap = goldToTryPrice || {};
+      const isGold = (code) => String(code).startsWith('GOLD_');
 
       let value = null;
 
       if (from === 'TRY' && isGold(to)) {
         const tlPerGold = goldMap[to];
-        if (!tlPerGold) throw new Error('Altın fiyatı şu anda mevcut değil. Lütfen daha sonra tekrar deneyin.');
+        if (!tlPerGold) throw new Error('Altın fiyatı bulunamadı');
         value = amt / tlPerGold; // TRY -> Altın birimi
       } else if (isGold(from) && to === 'TRY') {
         const tlPerGold = goldMap[from];
-        if (!tlPerGold) throw new Error('Altın fiyatı şu anda mevcut değil. Lütfen daha sonra tekrar deneyin.');
+        if (!tlPerGold) throw new Error('Altın fiyatı bulunamadı');
         value = amt * tlPerGold; // Altın -> TRY
       } else if (isGold(from) && isGold(to)) {
         const fromTl = goldMap[from];
         const toTl = goldMap[to];
-        if (!fromTl || !toTl) throw new Error('Altın fiyatları şu anda mevcut değil. Lütfen daha sonra tekrar deneyin.');
+        if (!fromTl || !toTl) throw new Error('Altın fiyatı bulunamadı');
         value = amt * (fromTl / toTl); // Altın A -> Altın B
       } else if (!isGold(from) && !isGold(to)) {
         // Döviz ↔ Döviz (USD/EUR/TRY)
@@ -110,7 +119,7 @@ export default function HomeScreen() {
         const fromIsGold = isGold(from);
         const goldCode = fromIsGold ? from : to;
         const tlPerGold = tlMap[goldCode];
-        if (!tlPerGold) throw new Error('Altın fiyatı şu anda mevcut değil. Lütfen daha sonra tekrar deneyin.');
+        if (!tlPerGold) throw new Error('Altın fiyatı bulunamadı');
 
         if (fromIsGold) {
           // Altın -> Döviz
@@ -128,15 +137,8 @@ export default function HomeScreen() {
       }
 
       setResult(value);
-
-      // Her 3 çeviride bir interstitial reklam göster
-      const newCount = conversionCount + 1;
-      setConversionCount(newCount);
-      if (newCount % 3 === 0) {
-        setTimeout(() => showInterstitialAd(), 1000); // 1 saniye bekle
-      }
-    } catch (e: any) {
-      setError(e.message || 'Bir hata oluştu. Lütfen tekrar deneyin.');
+    } catch (e) {
+      setError(e.message);
       setResult(null);
     } finally {
       setLoading(false);
@@ -202,12 +204,32 @@ export default function HomeScreen() {
           {!!error && (
             <Text style={styles.errorText}>{error}</Text>
           )}
+
+          {/* XAU canlı fiyatı (bilgi amaçlı) */}
+          <View style={styles.xauBox}>
+            <Text style={styles.resultLabel}>Altın (XAU) Bilgi</Text>
+            {xauLoading ? (
+              <Text style={styles.xauText}>Yükleniyor...</Text>
+            ) : xauPrice && isFinite(xauPrice.ounce) ? (
+              <>
+                <Text style={styles.xauText}>
+                  1 ons ≈ {num(xauPrice.ounce, 2)} {xauPrice.currency}
+                </Text>
+                <Text style={styles.xauText}>
+                  1 gram ≈ {num(xauPrice.gram, 4)} {xauPrice.currency}
+                </Text>
+                {!!xauPrice.date && (
+                  <Text style={styles.updatedText}>XAU tarih: {xauPrice.date}</Text>
+                )}
+              </>
+            ) : (
+              <Text style={styles.xauText}>XAU fiyatı alınamadı.</Text>
+            )}
+          </View>
         </View>
 
         <View style={styles.adContainer}>
-          <Text style={{ textAlign: 'center', color: '#6b7280', fontSize: 12 }}>
-            Reklamlar mobil uygulamada gösterilir
-          </Text>
+          <BannerAd unitId={BANNER_ID} size={BannerAdSize.BANNER} />
         </View>
       </View>
     </KeyboardAvoidingView>
@@ -340,5 +362,15 @@ const styles = StyleSheet.create({
   adContainer: {
     marginTop: 30,
     alignItems: 'center',
+  },
+  xauBox: {
+    marginTop: 12,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#e5e7eb',
+  },
+  xauText: {
+    fontSize: 13,
+    color: '#374151',
   },
 });
