@@ -1,18 +1,24 @@
 // src/components/CurrencyPicker.js
 import { Picker } from '@react-native-picker/picker';
 import { StyleSheet, Text, View } from 'react-native';
+import { useTheme } from '../theme';
 
 export default function CurrencyPicker({ label, value, onChange, options }) {
+  const theme = useTheme();
+  
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
-      <View style={styles.pickerContainer}>
+      <Text style={[styles.label, { color: theme.colors.textSecondary }]}>{label}</Text>
+      <View style={[styles.pickerContainer, { 
+        borderColor: theme.colors.border,
+        backgroundColor: theme.colors.cardBackground 
+      }]}>
         <Picker
           selectedValue={value}
           onValueChange={onChange}
-          style={styles.picker}
+          style={[styles.picker, { color: theme.colors.text }]}
         >
-          {options.map(opt => (
+          {options?.map(opt => (
             <Picker.Item key={opt.value} label={opt.label} value={opt.value} />
           ))}
         </Picker>
@@ -26,20 +32,17 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   label: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
     marginBottom: 8,
-    color: '#374151',
   },
   pickerContainer: {
-    borderWidth: 2,
-    borderColor: '#e5e7eb',
+    borderWidth: 1,
     borderRadius: 12,
     overflow: 'hidden',
-    backgroundColor: '#f9fafb',
+    minHeight: 50,
   },
   picker: {
     height: 50,
-    color: '#1f2937',
   },
 });

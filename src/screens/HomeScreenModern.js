@@ -287,10 +287,8 @@ export default function HomeScreen() {
 
             {/* From Currency */}
             <View style={styles.pickerSection}>
-              <Text style={[styles.inputLabel, { color: theme.colors.textSecondary }]}>
-                Kaynak Para Birimi
-              </Text>
               <CurrencyPicker
+                label="Kaynak Para Birimi"
                 value={from}
                 onChange={setFrom}
                 options={CURRENCIES}
@@ -309,10 +307,8 @@ export default function HomeScreen() {
 
             {/* To Currency */}
             <View style={styles.pickerSection}>
-              <Text style={[styles.inputLabel, { color: theme.colors.textSecondary }]}>
-                Hedef Para Birimi
-              </Text>
               <CurrencyPicker
+                label="Hedef Para Birimi"
                 value={to}
                 onChange={setTo}
                 options={CURRENCIES}

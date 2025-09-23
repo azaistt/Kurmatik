@@ -1,127 +1,52 @@
-// src/lib/api.js
-import { parseTr } from './format';
-import { normalizeTruncgil } from './truncgil';
+// src/lib/api.js - Yahoo Finance API Integration
+import { fetchFxYahooCompatible } from './yahoo/fx.js';
+import { fetchGoldFromYahoo, fetchXauFromYahoo } from './yahoo/gold.js';
 
-const FX_BASE = "https://api.exchangerate-api.com/v4/latest"; // Alternatif FX API
-const TRUNC_BASE = "https://finans.truncgil.com/v4/today.json"; // Altın için şimdilik aynı
-const XAU_BASE = "https://api.exchangerate.host/latest"; // Ücretsiz, anahtarsız XAU desteği varsayımı
-const NOSY_BASE = "https://www.nosyapi.com/apiv2/service";
-
-let NOSY_API_KEY = null; // İsteğe bağlı – ayarlanırsa NosyAPI kullanılabilir
-
-export function setNosyApiKey(key) {
-  NOSY_API_KEY = key || null;
-}
-
-
-function buildNosyHeaders(key) {
-  return key ? { 'X-NSYP': key } : {};
-}
-
-export async function fetchNosyCurrencies(options = {}) {
-  const key = options.apiKey || NOSY_API_KEY;
-  const preferHeader = options.useHeader !== false; // varsayılan header kullan
-  const url = preferHeader
-    ? `${NOSY_BASE}/economy/currency/list`
-    : `${NOSY_BASE}/economy/currency/list?apiKey=${encodeURIComponent(String(key || ''))}`;
-
-  const r = await fetch(url, {
-    headers: preferHeader ? buildNosyHeaders(key) : undefined,
-  });
-  if (!r.ok) throw new Error(`NosyAPI hata: ${r.status}`);
-  const j = await r.json();
-
-  // Muhtemel veri şemaları:
-  // { data: [{ code: 'USD', buying: '...', selling: '...' }, ...] }
-  // veya { currencies: [...] } / doğrudan array
-  const arr = Array.isArray(j)
-    ? j
-    : Array.isArray(j?.data)
-    ? j.data
-    : Array.isArray(j?.currencies)
-    ? j.currencies
-    : [];
-
-  const map = {};
-  for (const it of arr) {
-    const code = it?.code || it?.Code || it?.currencyCode || it?.Kod;
-    if (!code) continue;
-    // Fiyatlar sayı veya TR formatlı string olabilir
-    const selling = it?.selling ?? it?.Sell ?? it?.satis ?? it?.Satış ?? it?.Satis;
-    const buying = it?.buying ?? it?.Buy ?? it?.alis ?? it?.Alış ?? it?.Alis;
-    const sellNum = typeof selling === 'number' ? selling : parseTr(selling);
-    const buyNum = typeof buying === 'number' ? buying : parseTr(buying);
-    map[String(code).toUpperCase()] = {
-      buying: buyNum,
-      selling: sellNum,
-      raw: it,
-    };
-  }
-  return { map, raw: j };
-}
-
+// Yahoo Finance'i kullanarak döviz kuru çevirisi
 export async function fetchFx(from = "USD", to = "TRY", amount = 1) {
-  // Önce (varsa) NosyAPI ile dene
-  if (NOSY_API_KEY && from && to) {
+  try {
+    // Yahoo Finance API kullan
+    const result = await fetchFxYahooCompatible(from, to, amount);
+    return result;
+  } catch (e) {
+    console.error("Yahoo Finance FX API error:", e);
+    // Fallback: TradingView veya diğer kaynak
     try {
-      const { map } = await fetchNosyCurrencies();
-      const F = String(from).toUpperCase();
-      const T = String(to).toUpperCase();
-      if (F === T) {
-        return { rate: 1, result: amount, date: new Date().toISOString().split('T')[0] };
-      }
-      // Nosy listesi genelde TRY karşılıkları verir
-      const TRY_PER_F = F === 'TRY' ? 1 : map[F]?.selling;
-      const TRY_PER_T = T === 'TRY' ? 1 : map[T]?.selling;
-      if (!isFinite(TRY_PER_F) || !isFinite(TRY_PER_T) || TRY_PER_F <= 0 || TRY_PER_T <= 0) {
-        throw new Error('NosyAPI: kur eksik');
-      }
-      let rate;
-      if (F === 'TRY') {
-        rate = 1 / TRY_PER_T; // TRY -> T
-      } else if (T === 'TRY') {
-        rate = TRY_PER_F; // F -> TRY
-      } else {
-        rate = TRY_PER_F / TRY_PER_T; // F -> T
-      }
+      const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${from}`);
+      if (!response.ok) throw new Error("Fallback FX API failed");
+      
+      const data = await response.json();
+      const rate = data.rates?.[to];
+      if (!rate) throw new Error("Currency not found in fallback API");
+
       return {
-        rate,
+        rate: rate,
         result: rate * amount,
         date: new Date().toISOString().split('T')[0],
+        source: 'Fallback API'
       };
-    } catch (e) {
-      console.warn('NosyAPI FX fallback to public API:', e?.message || e);
-      // Devam edip public API'ye düşeceğiz
+    } catch (fallbackError) {
+      console.error("All FX APIs failed:", fallbackError);
+      
+      // Son fallback: yaklaşık değerler
+      const staticRates = {
+        'USD': { 'TRY': 41.41, 'EUR': 0.92 },
+        'EUR': { 'TRY': 45.20, 'USD': 1.09 },
+        'TRY': { 'USD': 0.024, 'EUR': 0.022 }
+      };
+      
+      const rate = staticRates[from]?.[to] || 1;
+      return {
+        rate: rate,
+        result: rate * amount,
+        date: new Date().toISOString().split('T')[0],
+        source: 'Static Fallback'
+      };
     }
-  }
-
-  // Public API (anahtar gerektirmez)
-  try {
-    const url = `${FX_BASE}/${from}`;
-    const r = await fetch(url);
-    if (!r.ok) throw new Error("Döviz kuru alınamadı. İnternet bağlantınızı kontrol edin.");
-    const j = await r.json();
-    const rate = j.rates?.[to];
-    if (!rate) throw new Error("Döviz kuru bulunamadı.");
-
-    return {
-      rate: rate,
-      result: rate * amount,
-      date: new Date().toISOString().split('T')[0], // Bugünün tarihi
-    };
-  } catch (e) {
-    console.error("FX API error:", e);
-    // Fallback: yaklaşık değerler
-    const fallbackRates = { USD: 41.5, EUR: 45.2 };
-    const rate = fallbackRates[from] || 1;
-    return {
-      rate: rate,
-      result: rate * amount,
-      date: new Date().toISOString().split('T')[0],
-    };
   }
 }
 
+// Yahoo Finance'i kullanarak altın fiyatlarını çek ve TL'ye çevir
 export async function fetchGoldToday() {
   const formatTr = (n) => {
     try {
@@ -131,193 +56,161 @@ export async function fetchGoldToday() {
     }
   };
 
-  // 1) NosyAPI (varsa) dene
-  if (NOSY_API_KEY) {
-    try {
-      // Önce header ile dene
-      let r = await fetch(`${NOSY_BASE}/economy/gold/list`, { headers: buildNosyHeaders(NOSY_API_KEY) });
-      if (!r.ok) {
-        // Query param ile ikinci deneme
-        r = await fetch(`${NOSY_BASE}/economy/gold/list?apiKey=${encodeURIComponent(NOSY_API_KEY)}`);
-      }
-      if (r.ok) {
-        const j = await r.json();
-        const arr = Array.isArray(j?.data)
-          ? j.data
-          : Array.isArray(j?.gold)
-          ? j.gold
-          : Array.isArray(j?.items)
-          ? j.items
-          : Array.isArray(j)
-          ? j
-          : [];
-
-        const pick = (needle, alts = []) => {
-          const keys = [needle, ...alts];
-          const findByName = () => {
-            for (const it of arr) {
-              const name = String(it?.name || it?.Name || it?.title || it?.Title || it?.kod || it?.Kod || '').toLowerCase();
-              for (const k of keys) {
-                if (name.includes(k)) return it;
-              }
-            }
-            return null;
-          };
-          const byName = findByName();
-          return byName;
-        };
-
-        const extract = (it) => {
-          if (!it) return null;
-          const selling = it?.selling ?? it?.satis ?? it?.Satış ?? it?.Satis ?? it?.Sell ?? it?.sell;
-          const buying = it?.buying ?? it?.alis ?? it?.Alış ?? it?.Alis ?? it?.Buy ?? it?.buy;
-          const change = it?.change ?? it?.degisim ?? it?.Değişim ?? it?.Degisim ?? it?.Change;
-          const sNum = typeof selling === 'number' ? selling : parseTr(selling);
-          const bNum = typeof buying === 'number' ? buying : parseTr(buying);
-          return {
-            Alış: isFinite(bNum) ? formatTr(bNum) : undefined,
-            Satış: isFinite(sNum) ? formatTr(sNum) : undefined,
-            Değişim: change != null ? String(change) : undefined,
-          };
-        };
-
-        const gram = extract(pick('gram'));
-        const ceyrek = extract(pick('çeyrek', ['ceyrek']))
-          || extract(pick('ceyrek'));
-        const yarim = extract(pick('yarım', ['yarim']))
-          || extract(pick('yarim'));
-        const tam = extract(pick('tam'));
-        const cumhuriyet = extract(pick('cumhuriyet'));
-        const ons = extract(pick('ons', ['ounce', 'xau']));
-
-        if (gram || ceyrek || yarim || tam || cumhuriyet || ons) {
-          return {
-            gram,
-            ceyrek,
-            yarim,
-            tam,
-            cumhuriyet,
-            ons,
-            updated: j?.date || j?.time || new Date().toISOString().split('T')[0],
-          };
-        }
-      }
-    } catch (e) {
-      console.warn('Nosy gold fallback to Truncgil:', e?.message || e);
-    }
-  }
-
-  // 2) Truncgil (varsayılan) - normalize edilmiş yapı kullan
   try {
-    const r = await fetch(TRUNC_BASE);
-    if (!r.ok) throw new Error("Altın fiyatları alınamadı. İnternet bağlantınızı kontrol edin.");
-    const j = await r.json();
-
-    // Normalize with helper (supports Laravel package shape and raw Truncgil JSON)
-    const nm = normalizeTruncgil(j);
-
-    const pick = (candidates) => {
-      for (const k of candidates) {
-        if (nm[k]) return nm[k];
-      }
-      return null;
-    };
-
-    const gram = pick(['GRA', 'Gram Altın', 'GRAMALTIN']);
-    const ceyrek = pick(['CEYREKALTIN', 'Çeyrek Altın', 'CEYREK']);
-    const yarim = pick(['YARIMALTIN', 'Yarım Altın', 'YARIM']);
-    const tam = pick(['TAMALTIN', 'Tam Altın', 'TAM']);
-    const cumhuriyet = pick(['CUMHURIYETALTINI', 'Cumhuriyet Altını', 'CUMHURIYET']);
-    const ons = pick(['ONS', 'Ons Altın', 'ONSALTIN']);
-
+    // Yahoo Finance'den XAU/USD fiyatını al
+    const xauData = await fetchXauFromYahoo();
+    console.log('XAU/USD from Yahoo:', xauData);
+    
+    // USD/TRY kurunu al
+    const fxData = await fetchFx('USD', 'TRY', 1);
+    console.log('USD/TRY rate:', fxData);
+    
+    const usdToTry = fxData.rate;
+    const xauUsd = xauData.price; // 1 ons altın = X USD
+    const xauTry = xauUsd * usdToTry; // 1 ons altın = X TRY
+    
+    // Türk altınlarının gram ağırlıkları (yaklaşık)
+    const gramPerOunce = 31.1034768;
+    const gramTry = xauTry / gramPerOunce; // 1 gram altın = X TRY
+    
+    // Türk geleneksel altınları
+    const ceyrekWeight = 1.75; // gram
+    const yarimWeight = 3.5; // gram  
+    const tamWeight = 7.216; // gram
+    const cumhuriyetWeight = 7.216; // gram (Cumhuriyet altını tam altın ile aynı ağırlık)
+    
     return {
-      gram: gram,
-      ceyrek: ceyrek,
-      yarim: yarim,
-      tam: tam,
-      cumhuriyet: cumhuriyet,
-      ons: ons,
-      updated: j["Update_Date"] || j.date || new Date().toISOString().split('T')[0],
+      gram: {
+        Alış: formatTr(gramTry * 0.995), // %0.5 spread
+        Satış: formatTr(gramTry * 1.005),
+        Değişim: xauData.changePercent ? `%${xauData.changePercent.toFixed(2)}` : '0.00'
+      },
+      ceyrek: {
+        Alış: formatTr(gramTry * ceyrekWeight * 0.995),
+        Satış: formatTr(gramTry * ceyrekWeight * 1.005),
+        Değişim: xauData.changePercent ? `%${xauData.changePercent.toFixed(2)}` : '0.00'
+      },
+      yarim: {
+        Alış: formatTr(gramTry * yarimWeight * 0.995),
+        Satış: formatTr(gramTry * yarimWeight * 1.005),
+        Değişim: xauData.changePercent ? `%${xauData.changePercent.toFixed(2)}` : '0.00'
+      },
+      tam: {
+        Alış: formatTr(gramTry * tamWeight * 0.995),
+        Satış: formatTr(gramTry * tamWeight * 1.005),
+        Değişim: xauData.changePercent ? `%${xauData.changePercent.toFixed(2)}` : '0.00'
+      },
+      cumhuriyet: {
+        Alış: formatTr(gramTry * cumhuriyetWeight * 0.995),
+        Satış: formatTr(gramTry * cumhuriyetWeight * 1.005),
+        Değişim: xauData.changePercent ? `%${xauData.changePercent.toFixed(2)}` : '0.00'
+      },
+      ons: {
+        Alış: formatTr(xauTry * 0.995),
+        Satış: formatTr(xauTry * 1.005),
+        Değişim: xauData.changePercent ? `%${xauData.changePercent.toFixed(2)}` : '0.00'
+      },
+      updated: new Date().toISOString().split('T')[0],
+      source: 'Yahoo Finance + Real-time FX'
     };
   } catch (e) {
-    console.error("Gold API error:", e);
-    // Fallback: yaklaşık altın fiyatları (TL cinsinden)
+    console.error("Yahoo Finance Gold API error:", e);
+    
+    // Fallback: TradingView Gold fiyatı
+    try {
+      const response = await fetch('https://api.tradingview.com/v1/symbols/XAUUSD');
+      if (response.ok) {
+        const data = await response.json();
+        const goldPrice = data.price || 2650; // USD/ounce
+        const fxData = await fetchFx('USD', 'TRY', 1);
+        const goldTry = goldPrice * fxData.rate;
+        const gramTry = goldTry / 31.1034768;
+        
+        return {
+          gram: { Satış: formatTr(gramTry) },
+          ceyrek: { Satış: formatTr(gramTry * 1.75) },
+          yarim: { Satış: formatTr(gramTry * 3.5) },
+          tam: { Satış: formatTr(gramTry * 7.216) },
+          cumhuriyet: { Satış: formatTr(gramTry * 7.216) },
+          ons: { Satış: formatTr(goldTry) },
+          updated: new Date().toISOString().split('T')[0],
+          source: 'TradingView Fallback'
+        };
+      }
+    } catch (fallbackError) {
+      console.error("TradingView fallback failed:", fallbackError);
+    }
+    
+    // Son fallback: statik yaklaşık değerler
     return {
-      gram: { Satış: "3200,00" },
-      ceyrek: { Satış: "5200,00" },
-      yarim: { Satış: "10400,00" },
-      tam: { Satış: "20800,00" },
-      cumhuriyet: { Satış: "21200,00" },
-      ons: { Satış: "25600,00" },
+      gram: { Satış: "3.250,00" },
+      ceyrek: { Satış: "5.687,50" },
+      yarim: { Satış: "11.375,00" },
+      tam: { Satış: "23.452,00" },
+      cumhuriyet: { Satış: "23.452,00" },
+      ons: { Satış: "135.000,00" },
       updated: new Date().toISOString().split('T')[0],
+      source: 'Static Fallback'
     };
   }
 }
 
-// XAU (Troy Ounce) baz alınarak seçilen para biriminde altın fiyatlarını getirir.
-// Dönüş: { ounce: number, gram: number, date: string, currency: string }
+// Yahoo Finance'i kullanarak XAU fiyatlarını çek
 export async function fetchGoldXau(to = "USD") {
-  const GRAMS_PER_TROY_OUNCE = 31.1034768;
   try {
-    const key = process.env.EXCHANGE_RATE_HOST_KEY || process.env.EXCHANGERATE_HOST_KEY || null;
-    const qs = key ? `access_key=${encodeURIComponent(key)}&symbols=${encodeURIComponent(to)}` : `base=XAU&symbols=${encodeURIComponent(to)}`;
-    const url = key ? `${XAU_BASE}?${qs}` : `${XAU_BASE}?${qs}`;
-    const r = await fetch(url);
-    if (!r.ok) throw new Error("XAU fiyatı alınamadı");
-    const j = await r.json();
-    const rate = j?.rates?.[to]; // 1 XAU kaç 'to' eder
-    if (!rate || !isFinite(rate)) throw new Error("XAU kuru bulunamadı");
-    return {
-      ounce: rate,
-      gram: rate / GRAMS_PER_TROY_OUNCE,
-      date: j?.date || new Date().toISOString().split('T')[0],
-      currency: to,
-    };
+    // Yahoo Finance'den altın fiyatını istenilen para biriminde al
+    const goldData = await fetchGoldFromYahoo(to);
+    return goldData;
   } catch (e) {
-    console.warn("XAU API error:", e);
-    // Fallback: Truncgil 'Ons Altın' (TL) kullan, sonra FX ile hedef para birimine çevir
+    console.error("Yahoo Finance XAU error:", e);
+    
+    // Fallback: fetchGoldToday kullanarak TL fiyatından çevir
     try {
       const today = await fetchGoldToday();
-      // Try Truncgil ons first
-      const onsSaleStr = today?.ons?.Satış || today?.ons?.Satis || today?.ons?.selling || null; // TL cinsinden metin
-      let tlPerOns = onsSaleStr ? Number(String(onsSaleStr).replaceAll('.', '').replace(',', '.')) : NaN;
-
-      // If ons is missing or zero, fall back to Gram Altın * grams per troy ounce
-      if (!isFinite(tlPerOns) || tlPerOns <= 0) {
-        const gramSaleStr = today?.gram?.Satış || today?.gram?.Satis || today?.gram?.selling || null;
-        const gramPrice = gramSaleStr ? Number(String(gramSaleStr).replaceAll('.', '').replace(',', '.')) : NaN;
-        if (isFinite(gramPrice) && gramPrice > 0) {
-          tlPerOns = gramPrice * GRAMS_PER_TROY_OUNCE;
-        } else {
-          throw new Error("Truncgil ons/gram fiyatı yok veya geçersiz");
+      const onsSaleStr = today?.ons?.Satış;
+      
+      if (onsSaleStr) {
+        let tlPerOns = Number(String(onsSaleStr).replaceAll('.', '').replace(',', '.'));
+        
+        if (to === 'TRY') {
+          return {
+            ounce: tlPerOns,
+            gram: tlPerOns / 31.1034768,
+            date: today.updated,
+            currency: to,
+            source: 'TL Fallback'
+          };
         }
-      }
-      if (!isFinite(tlPerOns) || tlPerOns <= 0) throw new Error("Truncgil ons fiyatı geçersiz");
-      if (to === 'TRY') {
+        
+        // TL'den başka para birimine çevir
+        const fx = await fetchFx('TRY', to, tlPerOns);
         return {
-          ounce: tlPerOns,
-          gram: tlPerOns / GRAMS_PER_TROY_OUNCE,
-          date: today?.updated || new Date().toISOString().split('T')[0],
+          ounce: fx.result,
+          gram: fx.result / 31.1034768,
+          date: fx.date,
           currency: to,
+          source: 'TL + FX Fallback'
         };
       }
-      const fx = await fetchFx('TRY', to, tlPerOns);
-      const ounce = fx.result; // 1 ons TL -> hedef para birimi
-      return {
-        ounce,
-        gram: ounce / GRAMS_PER_TROY_OUNCE,
-        date: fx.date,
-        currency: to,
-      };
-    } catch (fallbackErr) {
-      console.error("XAU fallback failed:", fallbackErr);
-      // Son çare: yaklaşık değer dön
-      return {
-        ounce: NaN,
-        gram: NaN,
-        date: new Date().toISOString().split('T')[0],
-        currency: to,
-      };
+    } catch (fallbackError) {
+      console.error("XAU fallback failed:", fallbackError);
     }
+    
+    // Son fallback: yaklaşık değerler
+    const staticPrices = {
+      'USD': 2650,
+      'EUR': 2430,
+      'TRY': 109765
+    };
+    
+    const ounce = staticPrices[to] || staticPrices['USD'];
+    
+    return {
+      ounce: ounce,
+      gram: ounce / 31.1034768,
+      date: new Date().toISOString().split('T')[0],
+      currency: to,
+      source: 'Static Fallback'
+    };
   }
 }
