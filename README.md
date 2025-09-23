@@ -1,26 +1,52 @@
-# Welcome to your Expo app 👋
+# 💰 Kurmatik - Modern Finans Uygulaması
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**Real-time Currency & Gold Price Converter**
 
-## Get started
+Kurmatik, Yahoo Finance API'sini kullanarak gerçek zamanlı döviz kurları ve altın fiyatları sunan modern bir React Native uygulamasıdır.
 
-1. Install dependencies
+## 🚀 Özellikler
 
-   ```bash
-   npm install
-   ```
+### 💱 Döviz Çevirici
+- **Desteklenen Para Birimleri**: USD, EUR, TRY
+- **Gerçek Zamanlı Kurlar**: Yahoo Finance API
+- **Çapraz Kurlar**: Herhangi bir para biriminden diğerine çevrim
+- **Otomatik Güncelleme**: Canlı piyasa verileri
 
-2. Start the app
+### 🥇 Altın Fiyatları
+- **Gram Altın**: Anlık TL fiyatı
+- **Çeyrek Altın**: 1.608 gram
+- **Yarım Altın**: 3.216 gram  
+- **Tam Altın**: 6.432 gram
+- **Cumhuriyet Altını**: 6.615 gram
+- **Ons Altın**: 31.1035 gram (Troy ons)
 
-   ```bash
-   npx expo start
-   ```
+### 🎨 Modern UI/UX
+- **Card-based Tasarım**: Profesyonel finans uygulaması görünümü
+- **Tema Sistemi**: Light/Dark mode desteği
+- **Responsive**: Mobil ve web uyumlu
+- **Logo Entegrasyonu**: Marka kimliği
+- **Pull-to-Refresh**: Verileri yenileme
 
-In the output, you'll find options to open the app in a
+## 🏃‍♂️ Çalıştırma
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+### Kurulum
+```bash
+# Projeyi klonlayın
+git clone https://github.com/azaistt/Kurmatik.git
+cd Kurmatik
+
+# Bağımlılıkları yükleyin
+npm install
+
+# Uygulamayı başlatın
+npx expo start
+```
+
+### Test Etme
+- **Mobil**: QR kodu Expo Go ile tarayın
+- **Web**: http://localhost:8081
+- **Android**: `a` tuşuna basın
+- **iOS**: `i` tuşuna basın
 - [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
