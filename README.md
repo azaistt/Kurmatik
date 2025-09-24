@@ -1,31 +1,49 @@
 # 💰 Kurmatik - Modern Finans Uygulaması
 
-**Real-time Currency & Gold Price Converter**
+**Real-time Currency & Gold Price Converter with Smart Alerts**
 
-Kurmatik, Yahoo Finance API'sini kullanarak gerçek zamanlı döviz kurları ve altın fiyatları sunan modern bir React Native uygulamasıdır.
+Kurmatik, Yahoo Finance API'sini kullanarak gerçek zamanlı döviz kurları ve altın fiyatları sunan, akıllı uyarı sistemi ile donatılmış modern bir React Native uygulamasıdır.
 
 ## 🚀 Özellikler
 
 ### 💱 Döviz Çevirici
-- **Desteklenen Para Birimleri**: USD, EUR, TRY
-- **Gerçek Zamanlı Kurlar**: Yahoo Finance API
+- **Desteklenen Para Birimleri**: USD, EUR, TRY, GBP, QAR, IRR, IQD, RUB
+- **Gerçek Zamanlı Kurlar**: Yahoo Finance API entegrasyonu
 - **Çapraz Kurlar**: Herhangi bir para biriminden diğerine çevrim
+- **Compact Design**: Mobil-optimized modern arayüz
 - **Otomatik Güncelleme**: Canlı piyasa verileri
 
 ### 🥇 Altın Fiyatları
 - **Gram Altın**: Anlık TL fiyatı
 - **Çeyrek Altın**: 1.608 gram
-- **Yarım Altın**: 3.216 gram  
+- **Yarım Altın**: 3.216 gram
 - **Tam Altın**: 6.432 gram
 - **Cumhuriyet Altını**: 6.615 gram
 - **Ons Altın**: 31.1035 gram (Troy ons)
+- **XAU Entegrasyonu**: Ons bazlı uluslararası fiyatlar
+
+### 🔔 Akıllı Uyarı Sistemi
+- **Fiyat Uyarıları**: Kur ve altın fiyatları için hedef değer belirleme
+- **Koşul Bazlı**: Üstüne çıkınca / altına düşünce bildirim
+- **Kalıcı Depolama**: AsyncStorage ile uyarıları kaydetme
+- **Fallback Support**: AsyncStorage yoksa in-memory storage
+- **Real-time Monitoring**: Otomatik fiyat kontrolü
 
 ### 🎨 Modern UI/UX
+- **Swipe Navigation**: Sayfa geçişi için sağa-sola kaydırma
 - **Card-based Tasarım**: Profesyonel finans uygulaması görünümü
 - **Tema Sistemi**: Light/Dark mode desteği
 - **Responsive**: Mobil ve web uyumlu
-- **Logo Entegrasyonu**: Marka kimliği
+- **Compact Converter**: Küçük ekranda optimize edilmiş tasarım
 - **Pull-to-Refresh**: Verileri yenileme
+- **Keyboard Handling**: Otomatik klavye yönetimi
+
+### 🔧 Teknik Özellikler
+- **Lazy Loading**: Sayfa komponentleri için performans optimizasyonu
+- **Error Boundaries**: Kapsamlı hata yakalama
+- **Fallback APIs**: Birden fazla API kaynağı ile güvenilirlik
+- **Offline Support**: İnternet yokken static değerler
+- **TypeScript Support**: Tip güvenliği
 
 ## 🏃‍♂️ Çalıştırma
 
@@ -44,61 +62,90 @@ npx expo start
 
 ### Test Etme
 - **Mobil**: QR kodu Expo Go ile tarayın
-- **Web**: http://localhost:8081
-- **Android**: `a` tuşuna basın
-- **iOS**: `i` tuşuna basın
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- **Web**: Tarayıcıda açın (http://localhost:8081)
+- **Android**: Terminal'de `a` tuşuna basın
+- **iOS**: Terminal'de `i` tuşuna basın
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Navigasyon
+- **Swipe**: Sayfa geçişi için sağa-sola kaydırın
+- **Home**: Ana sayfa - döviz ve altın çevirici
+- **Uyarılar**: İkinci sayfa - fiyat uyarıları
 
-## Get a fresh project
+## 📱 Uygulama Yapısı
 
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+Kurmatik/
+├── app/
+│   ├── (tabs)/
+│   │   ├── _layout.tsx    # Ana navigasyon (TabView + Swipe)
+│   │   ├── index.tsx      # Ana sayfa
+│   │   └── explore.tsx    # Uyarılar sayfası
+│   └── _layout.tsx
+├── src/
+│   ├── components/        # Yeniden kullanılabilir komponentler
+│   │   ├── Card.js
+│   │   ├── CompactConverter.js
+│   │   ├── CompactResult.js
+│   │   └── Header.js
+│   ├── lib/               # Yardımcı fonksiyonlar
+│   │   ├── api.js         # API entegrasyonları
+│   │   ├── alertBus.js    # Uyarı sistemi
+│   │   ├── format.js      # Veri formatlaması
+│   │   └── yahoo/         # Yahoo Finance API
+│   ├── screens/           # Sayfa komponentleri
+│   └── theme/             # Tema sistemi
+└── assets/                # Görseller ve ikonlar
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 🔌 API Entegrasyonları
 
-## Altın ve Döviz API Kullanımı
+Bu projede birden fazla ücretsiz API kaynağı kullanılmıştır:
 
-Bu projede ücretsiz kaynaklar tercih edilmiştir:
+### Birincil API'ler
+- **Yahoo Finance**: Döviz kurları için (`src/lib/yahoo/fx.js`)
+- **Truncgil**: Altın fiyatları için (`https://finans.truncgil.com/v4/today.json`)
+- **ExchangeRate API**: Fallback döviz kurları
 
-- Altın (TL bazlı): `https://finans.truncgil.com/v4/today.json`
-- XAU (Ons/Gram ve farklı para birimleri): `https://api.exchangerate.host/latest?base=XAU`
-- Opsiyonel NosyAPI (ek ücret gerektirmeyen ücretsiz katman): `https://www.nosyapi.com/apiv2/service`
+### Yardımcı Fonksiyonlar
 
-Uygulama içindeki başlıca fonksiyonlar:
+#### Ana API Fonksiyonları (`src/lib/api.js`)
+- `fetchFx(from, to, amount)` → Döviz çevirimi
+- `fetchGoldToday()` → Günlük altın fiyatları (TL)
+- `fetchGoldXau(to)` → XAU bazlı fiyatlar
 
-- `fetchGoldToday()` → Truncgil'den gram/çeyrek/yarım/tam/cumhuriyet/ons fiyatlarını çeker (TL).
-- `fetchGoldXau(to)` → XAU bazlı 1 ons ve 1 gram fiyatını hedef para biriminde döner (örn. `USD`, `TRY`, `EUR`).
-- `fetchFx(from, to, amount)` → Döviz çevirir; ayarlıysa önce NosyAPI, aksi halde public FX API kullanılır.
-- `setNosyApiKey(key)` / `fetchNosyCurrencies()` → NosyAPI ile çalışmak için yardımcılar.
+#### Veri Formatlama (`src/lib/format.js`)
+- `parseTr(string)` → TR formatından sayıya ("2.547,50" → 2547.5)
+- `num(number, digits)` → Sayıyı TR formatına
 
-TR sayı formatından (örn. `"2.547,50"`) sayıya dönüştürmek için `parseTr(s)` fonksiyonunu kullanın.
+#### Uyarı Sistemi (`src/lib/alertBus.js`)
+- `subscribe(callback)` → Uyarı sayısı değişikliklerini dinleme
+- `publish(count)` → Uyarı sayısını güncelleme
 
-### Test scripti
+### Test Scripti
 
-Windows PowerShell ile test scriptini çalıştırın:
+Windows PowerShell ile API'leri test edin:
 
 ```powershell
+# Temel test
 node .\test-api.js
+
+# Yahoo Finance test
+node .\test-yahoo-comprehensive.js
+
+# XAU altın test
+node .\test-yahoo-xau.js
 ```
 
-NosyAPI anahtarınız varsa ortam değişkeni ile birlikte çalıştırın:
+### Fallback Mekanizması
 
-```powershell
-$env:NOSY_API_KEY = "YOUR_NOSY_API_KEY"; node .\test-api.js
-```
+Uygulama internet bağlantısı olmadığında veya API'ler yanıt vermediğinde static değerler kullanır:
 
-NosyAPI için örnek cURL (ikisi de çalışır):
-
-```bash
-curl --location "https://www.nosyapi.com/apiv2/service/economy/currency/list?apiKey=APIKEY"
-
-curl --location "https://www.nosyapi.com/apiv2/service/economy/currency/list" \
-   --header "X-NSYP: APIKEY"
+```javascript
+// Örnek fallback döviz kurları
+const staticRates = {
+  'USD': { 'TRY': 41.41, 'EUR': 0.92 },
+  'EUR': { 'TRY': 45.20, 'USD': 1.09 }
+};
 ```
 
 ## Learn more
@@ -115,32 +162,37 @@ Join our community of developers creating universal apps.
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
 
-## Altın (Gold) Fiyatları – Ücretsiz API
+## 🥇 Altın Fiyatları Entegrasyonu
 
-- Kaynak: `https://finans.truncgil.com/v4/today.json`
-- Dönen JSON anahtarları: `"Gram Altın"`, `"Çeyrek Altın"`, `"Yarım Altın"`, `"Tam Altın"`, `"Cumhuriyet Altını"`, `"Ons Altın"`, `"Update_Date"` vb.
-- Alanlar: `Alış`, `Satış`, `Değişim` ve değerler TR formatında gelir (örn. `"2.547,50"`).
+### API Kaynağı
+- **Truncgil API**: `https://finans.truncgil.com/v4/today.json`
+- **Dönen Veriler**: Gram, Çeyrek, Yarım, Tam, Cumhuriyet, Ons altın fiyatları
+- **Format**: TR sayı formatı ("2.547,50")
 
-Kodda ilgili fonksiyonlar:
+### Kullanım Örneği
 
-- API erişimi: `src/lib/api.js` → `fetchGoldToday()` ve `fetchGoldXau(to)`
-- TR sayı dönüştürme: `src/lib/format.js` → `parseTr()`
-
-Örnek kullanım:
-
-```js
+```javascript
 import { fetchGoldToday } from './src/lib/api';
 import { parseTr } from './src/lib/format';
 
 const gold = await fetchGoldToday();
-const gramTL = parseTr(gold.gram.Satış);       // 1 gram altın TL
-const ceyrekTL = parseTr(gold.ceyrek.Satış);   // 1 çeyrek altın TL
+const prices = {
+  gram: parseTr(gold.gram?.Satış),
+  ceyrek: parseTr(gold.ceyrek?.Satış),
+  yarim: parseTr(gold.yarim?.Satış),
+  tam: parseTr(gold.tam?.Satış),
+  cumhuriyet: parseTr(gold.cumhuriyet?.Satış),
+  ons: parseTr(gold.ons?.Satış)
+};
 ```
 
-Hızlı test çalıştırma:
+### XAU Entegrasyonu
 
-```powershell
-node .\test-api.js
+Ons bazlı uluslararası fiyatlar için:
+
+```javascript
+import { fetchGoldXau } from './src/lib/api';
+
+const xauPrice = await fetchGoldXau('TRY'); // TRY cinsinden 1 ons fiyatı
+const gramPrice = xauPrice / 31.1035; // 1 gram fiyatı
 ```
-
-Uygulama içi entegrasyon örneği: `src/screens/HomeScreen.js`.
