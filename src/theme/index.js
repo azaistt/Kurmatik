@@ -1,5 +1,5 @@
 // Modern finans uygulaması tema sistemi
-import { Appearance } from 'react-native';
+// Sabit dark theme kullanımı
 
 // Ana renk paleti - Finans uygulaması için profesyonel renkler
 const lightColors = {
@@ -196,10 +196,9 @@ const createTheme = (isDark = false) => ({
   isDark,
 });
 
-// Hook kullanımı için
+// Hook kullanımı için - Sabit dark theme
 export const useTheme = () => {
-  const colorScheme = Appearance.getColorScheme();
-  return createTheme(colorScheme === 'dark');
+  return createTheme(true); // Her zaman dark theme
 };
 
 // Statik tema erişimi

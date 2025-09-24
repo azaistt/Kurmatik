@@ -32,17 +32,19 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   label: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: '600',
-    marginBottom: 8,
+    marginBottom: 10,
+    letterSpacing: 0.2,
   },
   pickerContainer: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 12,
     overflow: 'hidden',
-    minHeight: 50,
+    minHeight: 56,
   },
   picker: {
-    height: 50,
+    height: 56,
+    paddingHorizontal: 12,
   },
 });

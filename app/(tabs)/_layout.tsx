@@ -1,35 +1,78 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import React, { useState } from 'react';
+import { Text, useWindowDimensions, View } from 'react-native';
+import { SceneMap, TabView } from 'react-native-tab-view';
 
 import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
+// Import the screens
+const HomeScreen = React.lazy(() => import('./index'));
+const ExploreScreen = React.lazy(() => import('./explore'));
+
+const renderScene = SceneMap({
+  home: HomeScreen,
+  explore: ExploreScreen,
+});
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const layout = useWindowDimensions();
+
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: 'home', title: 'Home' },
+    { key: 'explore', title: 'Uyarılar' },
+  ]);
+
+  const renderTabBar = (props: any) => {
+    const { navigationState, jumpTo } = props;
+    return (
+      <View style={{ flexDirection: 'row', backgroundColor: Colors[colorScheme ?? 'light'].background }}>
+        {navigationState.routes.map((route: any, i: number) => {
+          const isActive = i === navigationState.index;
+          return (
+            <HapticTab
+              key={route.key}
+              onPress={() => {
+                setIndex(i);
+                jumpTo(route.key);
+              }}
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                paddingVertical: 10,
+                backgroundColor: isActive ? Colors[colorScheme ?? 'light'].tint : 'transparent',
+              }}
+            >
+              <IconSymbol
+                size={28}
+                name={route.key === 'home' ? 'house.fill' : 'bell.fill'}
+                color={isActive ? '#FFFFFF' : Colors[colorScheme ?? 'light'].tint}
+              />
+              <Text style={{
+                color: isActive ? '#FFFFFF' : Colors[colorScheme ?? 'light'].text,
+                fontSize: 12,
+                marginTop: 4
+              }}>
+                {route.title}
+              </Text>
+            </HapticTab>
+          );
+        })}
+      </View>
+    );
+  };
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
+    <TabView
+      navigationState={{ index, routes }}
+      renderScene={renderScene}
+      onIndexChange={setIndex}
+      initialLayout={{ width: layout.width }}
+      renderTabBar={() => null}
+      swipeEnabled={true}
+    />
   );
 }

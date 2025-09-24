@@ -1,5 +1,5 @@
 // App header komponenti - Logo ve başlık ile
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useTheme } from '../theme';
 
@@ -7,9 +7,11 @@ export const AppHeader = ({
   title = "Kurmatik", 
   subtitle = "Döviz & Altın", 
   showLogo = true,
-  style 
+  style = undefined,
+  rightComponent = null
 }) => {
   const theme = useTheme();
+  const [logoError, setLogoError] = useState(false);
   
   return (
     <View style={[
@@ -20,14 +22,22 @@ export const AppHeader = ({
       <View style={styles.headerContent}>
         {showLogo && (
           <View style={styles.logoContainer}>
-            <Image
-              source={require('../../assets/images/icon.png')}
-              style={[
-                styles.logo,
-                { tintColor: theme.colors.primary }
-              ]}
-              resizeMode="contain"
-            />
+            {!logoError ? (
+              <Image
+                source={require('../../assets/images/icon.png')}
+                style={styles.logo}
+                resizeMode="contain"
+                onError={() => {
+                  console.warn('AppHeader: failed to load logo asset');
+                  setLogoError(true);
+                }}
+              />
+            ) : (
+              // Fallback: small circular icon with initials
+              <View style={[styles.logoFallback, { backgroundColor: theme.colors.surface }]}> 
+                <Text style={[styles.logoFallbackText, { color: theme.colors.textPrimary }]}>KM</Text>
+              </View>
+            )}
           </View>
         )}
         <View style={styles.titleContainer}>
@@ -46,6 +56,11 @@ export const AppHeader = ({
             </Text>
           )}
         </View>
+        {rightComponent && (
+          <View style={styles.headerRight}>
+            {rightComponent}
+          </View>
+        )}
       </View>
       <View style={[
         styles.divider,
@@ -128,31 +143,61 @@ const styles = StyleSheet.create({
   // Ana header
   header: {
     paddingTop: Platform.OS === 'ios' ? 50 : 20,
-    paddingBottom: 16,
+    paddingBottom: 12,
     paddingHorizontal: 20,
   },
   headerContent: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   logoContainer: {
-    marginRight: 12,
+    marginRight: 14,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+    borderRadius: 8,
+    overflow: 'hidden',
   },
   logo: {
-    width: 32,
-    height: 32,
+    width: 40,
+    height: 40,
+  },
+  logoFallback: {
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 12,
+  },
+  logoFallbackText: {
+    fontSize: 16,
+    fontWeight: '700',
   },
   titleContainer: {
     flex: 1,
   },
+  headerRight: {
+    marginLeft: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    right: 20,
+    top: Platform.OS === 'ios' ? 30 : 2,
+    zIndex: 20,
+  },
   title: {
-    fontSize: 24,
-    fontWeight: '700',
+    fontSize: 26,
+    fontWeight: '800',
     marginBottom: 2,
+    letterSpacing: -0.5,
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '500',
+    opacity: 0.8,
+    letterSpacing: 0.3,
   },
   divider: {
     height: 1,

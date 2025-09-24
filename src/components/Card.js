@@ -53,6 +53,35 @@ export const CardHeader = ({ title, subtitle, rightComponent, style }) => {
   );
 };
 
+// Para birimlerinin ikonları
+const getCurrencyIcon = (symbol) => {
+  const icons = {
+    // Ana para birimleri
+    'USD/TRY': '💵',
+    'EUR/TRY': '💶',
+    'GBP/TRY': '💷',
+    'USD': '💵',
+    'EUR': '💶',
+    'TRY': '₺',
+    'GBP': '💷',
+    
+    // Orta Doğu para birimleri
+    'QAR': '🇶🇦',
+    'IRR': '🇮🇷',
+    'IQD': '🇮🇶',
+    
+    // Diğer para birimleri  
+    'RUB': '🇷🇺',
+    
+    // Para birimi çiftleri
+    'QAR/TRY': '🇶🇦',
+    'IRR/TRY': '🇮🇷',
+    'IQD/TRY': '🇮🇶',
+    'RUB/TRY': '🇷🇺'
+  };
+  return icons[symbol] || '💱';
+};
+
 // Para birimi kartı
 export const CurrencyCard = ({ 
   symbol, 
@@ -69,19 +98,22 @@ export const CurrencyCard = ({
   return (
     <Card style={[styles.currencyCard, style]} elevated={false}>
       <View style={styles.currencyHeader}>
-        <View>
-          <Text style={[
-            styles.currencySymbol,
-            { color: theme.colors.textPrimary }
-          ]}>
-            {symbol}
-          </Text>
-          <Text style={[
-            styles.currencyName,
-            { color: theme.colors.textSecondary }
-          ]}>
-            {name}
-          </Text>
+        <View style={styles.currencyLeft}>
+          <Text style={styles.currencyIcon}>{getCurrencyIcon(symbol)}</Text>
+          <View style={styles.currencyInfo}>
+            <Text style={[
+              styles.currencySymbol,
+              { color: theme.colors.textPrimary }
+            ]}>
+              {symbol}
+            </Text>
+            <Text style={[
+              styles.currencyName,
+              { color: theme.colors.textSecondary }
+            ]}>
+              {name}
+            </Text>
+          </View>
         </View>
         <View style={styles.currencyValues}>
           <Text style={[
@@ -102,6 +134,19 @@ export const CurrencyCard = ({
   );
 };
 
+// Altın ikonları
+const getGoldIcon = (type) => {
+  const icons = {
+    'Gram': '🥇',
+    'Çeyrek': '🟡',
+    'Yarım': '🟨',
+    'Tam': '🔶',
+    'Cumhuriyet': '🪙',
+    'Ons': '🏆'
+  };
+  return icons[type] || '🥇';
+};
+
 // Altın kartı
 export const GoldCard = ({ 
   type, 
@@ -120,12 +165,15 @@ export const GoldCard = ({
         styles.goldHeader,
         { backgroundColor: theme.colors.goldLight }
       ]}>
-        <Text style={[
-          styles.goldType,
-          { color: theme.colors.goldDark }
-        ]}>
-          {type}
-        </Text>
+        <View style={styles.goldHeaderContent}>
+          <Text style={styles.goldIcon}>{getGoldIcon(type)}</Text>
+          <Text style={[
+            styles.goldType,
+            { color: theme.colors.goldDark }
+          ]}>
+            {type}
+          </Text>
+        </View>
         <Text style={[
           styles.goldName,
           { color: theme.colors.textSecondary }
@@ -215,10 +263,11 @@ export const InputCard = ({
 const styles = StyleSheet.create({
   // Ana kart
   card: {
-    borderRadius: 12,
+    borderRadius: 16,
     borderWidth: 1,
-    marginVertical: 6,
-    marginHorizontal: 4,
+    marginVertical: 8,
+    marginHorizontal: 2,
+    overflow: 'hidden',
   },
   
   // Kart başlığı
@@ -247,12 +296,23 @@ const styles = StyleSheet.create({
   
   // Para birimi kartı
   currencyCard: {
-    padding: 16,
+    padding: 20,
   },
   currencyHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  currencyLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  currencyIcon: {
+    fontSize: 24,
+    marginRight: 12,
+  },
+  currencyInfo: {
+    // İkon yanındaki bilgiler için container
   },
   currencySymbol: {
     fontSize: 18,
@@ -266,9 +326,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   currencyValue: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 2,
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: 4,
     fontFamily: 'Courier New', // Rakamlar için monospace
   },
   currencyChange: {
@@ -281,7 +341,15 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   goldHeader: {
-    padding: 12,
+    padding: 16,
+  },
+  goldHeaderContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  goldIcon: {
+    fontSize: 20,
+    marginRight: 8,
   },
   goldType: {
     fontSize: 16,
@@ -316,7 +384,7 @@ const styles = StyleSheet.create({
   
   // Input kartı
   inputCard: {
-    padding: 16,
+    padding: 20,
   },
   inputTitle: {
     fontSize: 14,

@@ -1,29 +1,42 @@
-// Modern HomeScreen - Yeni tema ve card sistemi ile
+// Modern HomeScreen - Compact converter design ile
 import { useEffect, useMemo, useState } from 'react';
 import {
     RefreshControl,
     ScrollView,
     StyleSheet,
     Text,
-    TextInput,
-    TouchableOpacity,
     View
 } from 'react-native';
 
 // Yeni tema ve komponentler
-import { Card, CurrencyCard, GoldCard } from '../components/Card';
+import { TouchableOpacity } from 'react-native';
+import { CurrencyCard, GoldCard } from '../components/Card';
+import CompactConverter from '../components/CompactConverter';
+import CompactResult from '../components/CompactResult';
 import { AppHeader } from '../components/Header';
+import { subscribe as subscribeAlertCount } from '../lib/alertBus';
 import { useTheme } from '../theme';
 
-// Mevcut komponentler ve API
-import CurrencyPicker from '../components/CurrencyPicker';
+// API
 import { fetchFx, fetchGoldToday, fetchGoldXau } from '../lib/api';
-import { num, parseTr } from '../lib/format';
+import { parseTr } from '../lib/format';
 
 const CURRENCIES = [
+  // Ana para birimleri
   { label: 'Türk Lirası (TRY)', value: 'TRY' },
   { label: 'Amerikan Doları (USD)', value: 'USD' },
   { label: 'Euro (EUR)', value: 'EUR' },
+  { label: 'İngiliz Sterlini (GBP)', value: 'GBP' },
+  
+  // Orta Doğu para birimleri
+  { label: 'Katar Riyali (QAR)', value: 'QAR' },
+  { label: 'İran Riyali (IRR)', value: 'IRR' },
+  { label: 'Irak Dinarı (IQD)', value: 'IQD' },
+  
+  // Diğer önemli para birimleri
+  { label: 'Rus Rublesi (RUB)', value: 'RUB' },
+  
+  // Altın çeşitleri
   { label: 'Gram Altın', value: 'GOLD_GRAM' },
   { label: 'Çeyrek Altın', value: 'GOLD_CEYREK' },
   { label: 'Yarım Altın', value: 'GOLD_YARIM' },
@@ -34,6 +47,7 @@ const CURRENCIES = [
 
 export default function HomeScreen() {
   const theme = useTheme();
+  const [alertCount, setAlertCount] = useState(0);
   const [amount, setAmount] = useState('1');
   const [from, setFrom] = useState('USD');
   const [to, setTo] = useState('TRY');
@@ -45,6 +59,11 @@ export default function HomeScreen() {
   const [xauPrice, setXauPrice] = useState(null);
   const [xauLoading, setXauLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    const unsub = subscribeAlertCount((count) => setAlertCount(count));
+    return () => unsub();
+  }, []);
 
   // Altın verisini ilk açılışta çek
   useEffect(() => {
@@ -207,8 +226,43 @@ export default function HomeScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <AppHeader />
+      <AppHeader 
+        rightComponent={(
+          <TouchableOpacity style={{ padding: 6 }}>
+            <Text style={{ fontSize: 18, color: alertCount > 0 ? theme.colors.primary : theme.colors.textSecondary }}>🔔</Text>
+          </TouchableOpacity>
+        )}
+      />
       
+      {/* Compact Converter - Sabit üst kısım */}
+      <View style={[styles.fixedConverterSection, { backgroundColor: theme.colors.background }]}>
+        <CompactConverter
+          amount={amount}
+          setAmount={setAmount}
+          fromCurrency={from}
+          setFromCurrency={setFrom}
+          toCurrency={to}
+          setToCurrency={setTo}
+          onSwap={handleSwap}
+          onConvert={convert}
+          loading={loading}
+          currencies={CURRENCIES}
+        />
+        
+        <CompactResult
+          result={result}
+          fromAmount={amount}
+          fromCurrency={from}
+          toCurrency={to}
+          error={error}
+          updatedAt={updatedAt}
+          xauPrice={xauPrice}
+          xauLoading={xauLoading}
+          currencies={CURRENCIES}
+        />
+      </View>
+      
+      {/* Scrollable content - Alt kısım */}
       <ScrollView 
         style={styles.scrollView}
         refreshControl={
@@ -223,7 +277,7 @@ export default function HomeScreen() {
         {/* Hızlı Kurslar */}
         <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: theme.colors.textPrimary }]}>
-            Anlık Kurslar
+            Anlık Kurlar
           </Text>
           {quickRates.map((rate, index) => (
             <CurrencyCard
@@ -241,7 +295,7 @@ export default function HomeScreen() {
         {goldPrices.length > 0 && (
           <View style={styles.section}>
             <Text style={[styles.sectionTitle, { color: theme.colors.textPrimary }]}>
-              Altın Fiyatları
+              🥇 Altın Fiyatları
             </Text>
             {goldPrices.map((gold, index) => (
               <GoldCard
@@ -256,140 +310,8 @@ export default function HomeScreen() {
           </View>
         )}
 
-        {/* Çevirici */}
-        <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.textPrimary }]}>
-            Döviz Çevirici
-          </Text>
-          
-          <Card style={styles.converterCard}>
-            {/* Tutar girişi */}
-            <View style={styles.inputSection}>
-              <Text style={[styles.inputLabel, { color: theme.colors.textSecondary }]}>
-                Tutar
-              </Text>
-              <TextInput
-                value={amount}
-                onChangeText={setAmount}
-                keyboardType="decimal-pad"
-                placeholder="1"
-                placeholderTextColor={theme.colors.textTertiary}
-                style={[
-                  styles.amountInput,
-                  {
-                    color: theme.colors.textPrimary,
-                    backgroundColor: theme.colors.surface,
-                    borderColor: theme.colors.border
-                  }
-                ]}
-              />
-            </View>
-
-            {/* From Currency */}
-            <View style={styles.pickerSection}>
-              <CurrencyPicker
-                label="Kaynak Para Birimi"
-                value={from}
-                onChange={setFrom}
-                options={CURRENCIES}
-              />
-            </View>
-
-            {/* Swap Button */}
-            <View style={styles.swapContainer}>
-              <TouchableOpacity 
-                onPress={handleSwap} 
-                style={[styles.swapButton, { backgroundColor: theme.colors.primary }]}
-              >
-                <Text style={styles.swapText}>⇅</Text>
-              </TouchableOpacity>
-            </View>
-
-            {/* To Currency */}
-            <View style={styles.pickerSection}>
-              <CurrencyPicker
-                label="Hedef Para Birimi"
-                value={to}
-                onChange={setTo}
-                options={CURRENCIES}
-              />
-            </View>
-
-            {/* Convert Button */}
-            <TouchableOpacity 
-              onPress={convert} 
-              style={[
-                styles.convertButton, 
-                { backgroundColor: theme.colors.success },
-                loading && styles.convertButtonDisabled
-              ]} 
-              disabled={loading}
-            >
-              <Text style={styles.convertButtonText}>
-                {loading ? 'Hesaplanıyor...' : 'Çevir'}
-              </Text>
-            </TouchableOpacity>
-          </Card>
-        </View>
-
-        {/* Sonuç */}
-        <View style={styles.section}>
-          <Card style={styles.resultCard}>
-            <Text style={[styles.resultLabel, { color: theme.colors.textSecondary }]}>
-              Sonuç
-            </Text>
-            <Text style={[
-              styles.resultValue,
-              { color: theme.colors.textPrimary }
-            ]}>
-              {result != null ? num(result, 4) : '--'}
-            </Text>
-            
-            {!!error && (
-              <Text style={[styles.errorText, { color: theme.colors.danger }]}>
-                {error}
-              </Text>
-            )}
-            
-            {!!updatedAt && (
-              <Text style={[styles.updatedText, { color: theme.colors.textTertiary }]}>
-                Son güncelleme: {updatedAt}
-              </Text>
-            )}
-
-            {/* XAU Bilgi */}
-            {(xauPrice || xauLoading) && (
-              <View style={[styles.xauSection, { borderTopColor: theme.colors.border }]}>
-                <Text style={[styles.xauTitle, { color: theme.colors.textSecondary }]}>
-                  Altın (XAU) Referans
-                </Text>
-                {xauLoading ? (
-                  <Text style={[styles.xauText, { color: theme.colors.textTertiary }]}>
-                    Yükleniyor...
-                  </Text>
-                ) : xauPrice && isFinite(xauPrice.ounce) ? (
-                  <>
-                    <Text style={[styles.xauText, { color: theme.colors.textSecondary }]}>
-                      1 ons ≈ {num(xauPrice.ounce, 2)} {xauPrice.currency}
-                    </Text>
-                    <Text style={[styles.xauText, { color: theme.colors.textSecondary }]}>
-                      1 gram ≈ {num(xauPrice.gram, 4)} {xauPrice.currency}
-                    </Text>
-                    {!!xauPrice.date && (
-                      <Text style={[styles.updatedText, { color: theme.colors.textTertiary }]}>
-                        XAU tarih: {xauPrice.date}
-                      </Text>
-                    )}
-                  </>
-                ) : (
-                  <Text style={[styles.xauText, { color: theme.colors.textTertiary }]}>
-                    XAU fiyatı alınamadı
-                  </Text>
-                )}
-              </View>
-            )}
-          </Card>
-        </View>
+        {/* Alt padding */}
+        <View style={{ height: 12 }} />
 
       </ScrollView>
     </View>
@@ -400,119 +322,28 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  fixedConverterSection: {
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
   scrollView: {
     flex: 1,
     paddingHorizontal: 16,
+    paddingTop: 4,
   },
   section: {
     marginBottom: 24,
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 12,
-    paddingHorizontal: 4,
-  },
-  converterCard: {
-    padding: 20,
-  },
-  inputSection: {
-    marginBottom: 16,
-  },
-  inputLabel: {
-    fontSize: 14,
-    fontWeight: '500',
-    marginBottom: 8,
-  },
-  amountInput: {
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
     fontSize: 18,
-    fontFamily: 'Courier New',
-    fontWeight: '600',
-  },
-  pickerSection: {
-    marginBottom: 16,
-  },
-  swapContainer: {
-    alignItems: 'center',
-    marginVertical: 8,
-  },
-  swapButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  swapText: {
-    color: '#FFFFFF',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  convertButton: {
-    height: 50,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  convertButtonDisabled: {
-    opacity: 0.6,
-  },
-  convertButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  resultCard: {
-    padding: 20,
-  },
-  resultLabel: {
-    fontSize: 14,
-    fontWeight: '500',
-    marginBottom: 8,
-  },
-  resultValue: {
-    fontSize: 32,
     fontWeight: '700',
-    fontFamily: 'Courier New',
-    marginBottom: 8,
-  },
-  errorText: {
-    fontSize: 14,
-    fontWeight: '500',
-    textAlign: 'center',
-    marginTop: 8,
-  },
-  updatedText: {
-    fontSize: 12,
-    marginTop: 8,
-  },
-  xauSection: {
-    marginTop: 16,
-    paddingTop: 16,
-    borderTopWidth: 1,
-  },
-  xauTitle: {
-    fontSize: 14,
-    fontWeight: '500',
-    marginBottom: 8,
-  },
-  xauText: {
-    fontSize: 13,
-    marginBottom: 4,
+    marginBottom: 12,
+    paddingHorizontal: 8,
+    letterSpacing: -0.3,
   },
 });
