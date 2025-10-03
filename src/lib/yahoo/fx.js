@@ -1,6 +1,15 @@
 // Yahoo Finance'dan döviz kurlarını çekmek için yardımcı fonksiyonlar
 // Yahoo Finance FX API - yfinance kütüphanesi mantığını JavaScript'e uyarlama
 
+let yfClient = null;
+try {
+  // try to load yahoo-finance2 for server-side reliability
+  // (install with: npm install yahoo-finance2)
+  yfClient = require('yahoo-finance2').default;
+} catch (e) {
+  yfClient = null;
+}
+
 /**
  * Yahoo Finance'den döviz kurunu çeker
  * @param {string} fromCurrency - Kaynak para birimi (USD, EUR, etc.)
@@ -8,27 +17,51 @@
  * @returns {Promise<{rate: number, previousClose: number, change: number, changePercent: number, timestamp: number}>}
  */
 export async function fetchFxFromYahoo(fromCurrency, toCurrency) {
+  const symbol = `${fromCurrency}${toCurrency}=X`; // USDTRY=X, EURTRY=X format
+  console.log(`Yahoo FX fetching symbol: ${symbol}`);
+
   try {
-    const symbol = `${fromCurrency}${toCurrency}=X`; // USDTRY=X, EURTRY=X format
+    // If yahoo-finance2 client available (Node), use it for more reliable responses
+    if (yfClient && typeof yfClient.chart === 'function') {
+      const res = await yfClient.chart(symbol);
+      const result = res?.chart?.result?.[0] || res?.result?.[0];
+      if (!result) throw new Error('Yahoo Finance FX: Invalid response format');
+      const meta = result.meta || res?.meta;
+      const rate = meta.regularMarketPrice;
+      const previousClose = meta.previousClose;
+      const change = rate - previousClose;
+      const changePercent = previousClose ? ((change / previousClose) * 100) : 0;
+      return {
+        rate: rate,
+        previousClose: previousClose,
+        change: change,
+        changePercent: changePercent,
+        timestamp: Date.now(),
+        symbol: symbol,
+        marketState: meta.marketState,
+        source: 'Yahoo Finance (yfClient)'
+      };
+    }
+
+    // Fallback to HTTP fetch (used in React Native environment)
     const response = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${symbol}`);
-    
     if (!response.ok) {
       throw new Error(`Yahoo Finance FX API error: ${response.status}`);
     }
-    
+
     const data = await response.json();
     const result = data?.chart?.result?.[0];
-    
+
     if (!result) {
       throw new Error('Yahoo Finance FX: Invalid response format');
     }
-    
+
     const meta = result.meta;
     const rate = meta.regularMarketPrice;
     const previousClose = meta.previousClose;
     const change = rate - previousClose;
-    const changePercent = ((change / previousClose) * 100);
-    
+    const changePercent = previousClose ? ((change / previousClose) * 100) : 0;
+
     return {
       rate: rate,
       previousClose: previousClose,
@@ -37,10 +70,11 @@ export async function fetchFxFromYahoo(fromCurrency, toCurrency) {
       timestamp: Date.now(),
       symbol: symbol,
       marketState: meta.marketState,
-      source: 'Yahoo Finance'
+      source: 'Yahoo Finance (fetch)'
     };
   } catch (error) {
-    console.error(`Yahoo Finance FX fetch error (${fromCurrency}/${toCurrency}):`, error);
+    console.error(`Yahoo Finance FX fetch error (${symbol}):`, error.message || error);
+    // rethrow so callers can use fallback logic
     throw error;
   }
 }
@@ -62,7 +96,7 @@ export async function fetchMultipleFxFromYahoo(baseCurrency = 'USD') {
     promises.push(
       fetchFxFromYahoo(baseCurrency, currency)
         .then(data => ({ currency, data }))
-        .catch(error => ({ currency, error: error.message }))
+        .catch(error => ({ currency, error: error.message || String(error) }))
     );
   }
   

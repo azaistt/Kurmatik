@@ -1,12 +1,15 @@
 // src/screens/HomeScreen.js
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+import { AdEventType, BannerAd, BannerAdSize, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
 import CurrencyPicker from '../components/CurrencyPicker';
 import { fetchFx, fetchGoldToday, fetchGoldXau } from '../lib/api';
 import { num, parseTr } from '../lib/format';
 
-const BANNER_ID = TestIds.BANNER; // Yayında gerçek ID ile değiştirilecek
+const BANNER_ID = TestIds.BANNER; // Test banner during development
+// Interstitial: use test id during development
+const INTERSTITIAL_ID = TestIds.INTERSTITIAL;
+const SHOW_AFTER = 5; // show interstitial after this many successful conversions
 
 const CURRENCIES = [
   { label: 'Türk Lirası (TRY)', value: 'TRY' },
@@ -31,6 +34,9 @@ export default function HomeScreen() {
   const [error, setError] = useState(null);
   const [xauPrice, setXauPrice] = useState(null); // { ounce, gram, date, currency }
   const [xauLoading, setXauLoading] = useState(false);
+  const [opCount, setOpCount] = useState(0);
+  const interstitialRef = useRef(InterstitialAd.createForAdRequest(INTERSTITIAL_ID));
+  const [interstitialLoaded, setInterstitialLoaded] = useState(false);
 
   // Altın verisini ilk açılışta çek (TRuncgil)
   useEffect(() => {
@@ -137,6 +143,19 @@ export default function HomeScreen() {
       }
 
       setResult(value);
+      // successful conversion -> increase op counter and maybe show interstitial
+      setOpCount((c) => {
+        const next = c + 1;
+        if (next >= SHOW_AFTER) {
+          // show if loaded
+          if (interstitialRef.current && interstitialLoaded) {
+            interstitialRef.current.show();
+            setInterstitialLoaded(false);
+          }
+          return 0; // reset counter after showing
+        }
+        return next;
+      });
     } catch (e) {
       setError(e.message);
       setResult(null);
@@ -144,6 +163,26 @@ export default function HomeScreen() {
       setLoading(false);
     }
   }
+
+  // Interstitial ad setup
+  useEffect(() => {
+    const interstitial = interstitialRef.current;
+    const listeners = [];
+    if (interstitial) {
+      listeners.push(interstitial.addAdEventListener(AdEventType.LOADED, () => setInterstitialLoaded(true)));
+      listeners.push(interstitial.addAdEventListener(AdEventType.ERROR, () => setInterstitialLoaded(false)));
+      // when closed, load next
+      listeners.push(interstitial.addAdEventListener(AdEventType.CLOSED, () => {
+        setInterstitialLoaded(false);
+        interstitial.load();
+      }));
+      // initial load
+      interstitial.load();
+    }
+    return () => {
+      listeners.forEach((unsub) => unsub());
+    };
+  }, []);
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
@@ -243,6 +282,7 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     backgroundColor: '#f8fafc',
     alignItems: 'center',
+    position: 'relative',
   },
   title: {
     fontSize: 28,
@@ -360,8 +400,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   adContainer: {
-    marginTop: 30,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
     alignItems: 'center',
+    paddingBottom: 12,
   },
   xauBox: {
     marginTop: 12,
