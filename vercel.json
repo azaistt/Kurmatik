@@ -1,12 +1,32 @@
 {
-  "rootDirectory": "Kurmatik",
-  "buildCommand": "npm run web",
-  "outputDirectory": "dist",
-  "framework": null,
+  "buildCommand": "npx expo export:web",
+  "outputDirectory": "web-build",
+  "framework": "other",
+  "installCommand": "npm install",
   "rewrites": [
     {
       "source": "/(.*)",
       "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     }
   ]
 }
