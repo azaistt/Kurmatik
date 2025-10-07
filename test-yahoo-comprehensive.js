@@ -1,12 +1,36 @@
 // Yahoo Finance Kapsamlı Test - Tüm finans verilerini test et
 console.log('🧪 Yahoo Finance Kapsamlı Test Başlıyor...\n');
 
+// Yardımcı fonksiyonlar
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+// Rate limiting için yardımcı fonksiyon
+async function fetchWithRetry(url, retries = 3, delayMs = 1000) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      if (i > 0) {
+        await delay(delayMs * i); // Her denemede bekleme süresini artır
+      }
+      const response = await fetch(url);
+      if (response.status === 429) { // Too Many Requests
+        throw new Error('Rate limit exceeded');
+      }
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      if (i === retries - 1) throw error; // Son deneme ise hatayı fırlat
+      console.log(`Yeniden deneniyor (${i + 1}/${retries})...`);
+    }
+  }
+}
+
 // 1. XAU (Altın) Test
 async function testYahooXau() {
   try {
     console.log('📊 Yahoo Finance XAU test ediliyor...');
-    const response = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/GC=F');
-    const data = await response.json();
+    const data = await fetchWithRetry('https://query1.finance.yahoo.com/v8/finance/chart/GC=F');
     const result = data?.chart?.result?.[0];
     const meta = result.meta;
     
@@ -30,8 +54,8 @@ async function testYahooFx() {
   for (const pair of pairs) {
     try {
       console.log(`📊 ${pair} test ediliyor...`);
-      const response = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${pair}`);
-      const data = await response.json();
+      await delay(1000); // Her istek arasında 1 saniye bekle
+      const data = await fetchWithRetry(`https://query1.finance.yahoo.com/v8/finance/chart/${pair}`);
       const result = data?.chart?.result?.[0];
       const meta = result.meta;
       
