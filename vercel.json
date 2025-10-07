@@ -1,7 +1,7 @@
 {
   "buildCommand": "npx expo export:web",
   "outputDirectory": "web-build",
-  "framework": "create-react-app",
+  "framework": "nextjs",
   "installCommand": "npm install",
   "rewrites": [
     {
