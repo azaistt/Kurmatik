@@ -1,6 +1,7 @@
-import { Link } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, Text, View, Image } from 'react-native';
+import { useRouter } from 'expo-router';
+import TickerWrapper from '@/components/TickerWrapper';
 
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
@@ -63,6 +64,7 @@ const INITIAL_SNAPSHOT: RealtimeSnapshot = {
 export default function LandingPage() {
   const colorScheme = useColorScheme();
   const theme = useMemo(() => createPalette(colorScheme === 'dark'), [colorScheme]);
+  const router = useRouter();
 
   const [snapshot, setSnapshot] = useState<RealtimeSnapshot>(INITIAL_SNAPSHOT);
   const [loading, setLoading] = useState(true);
@@ -148,26 +150,40 @@ export default function LandingPage() {
 
   return (
     <ScrollView style={[styles.screen, { backgroundColor: theme.page }]} contentContainerStyle={styles.scrollContent}>
+      {Platform.OS === 'web' && <TickerWrapper />}
       <View style={[styles.hero, { backgroundColor: theme.heroBackground, borderColor: theme.heroBorder }]}>        <View style={styles.heroTextBlock}>
-          <View style={styles.heroBadgeRow}>
-            <Text style={[styles.heroBadge, { backgroundColor: theme.badgeBackground, color: theme.badgeText }]}>Finansınızı hızlandırın</Text>
-            {!!snapshot.updatedAt && (
-              <Text style={[styles.heroBadgeSecondary, { color: theme.mutedText }]}>Güncelleme: {snapshot.updatedAt}</Text>
-            )}
+          <View style={styles.heroLogoRow}>
+            <Image 
+              source={require('@/assets/images/icon.png')} 
+              style={styles.heroLogo}
+            />
+            <View style={styles.heroBadgeRow}>
+              <Text style={[styles.heroBadge, { backgroundColor: theme.badgeBackground, color: theme.badgeText }]}>Finansınızı hızlandırın</Text>
+              {!!snapshot.updatedAt && (
+                <Text style={[styles.heroBadgeSecondary, { color: theme.mutedText }]}>Güncelleme: {snapshot.updatedAt}</Text>
+              )}
+            </View>
           </View>
           <Text style={[styles.heroTitle, { color: theme.primaryText }]}>Kurmatik ile döviz ve altını tek ekrandan yönetin</Text>
           <Text style={[styles.heroSubtitle, { color: theme.secondaryText }]}>Anlık kurlar, altın fiyatları ve hedef uyarıları ile finansal kararlarınızı saniyeler içinde verin. Kurmatik yatırımcının karar merkezidir.</Text>
           <View style={styles.ctaRow}>
-            <Link href="/(tabs)" asChild>
-              <Pressable style={[styles.primaryButton, { backgroundColor: theme.accent, shadowColor: theme.accentShadow }]}>
-                <Text style={[styles.primaryButtonText, { color: theme.buttonText }]}>Uygulamayı Aç</Text>
-              </Pressable>
-            </Link>
-            <Link href="mailto:info@kurmatik.app" asChild>
-              <Pressable style={[styles.secondaryButton, { borderColor: theme.accent, backgroundColor: theme.secondaryButton }]}>
-                <Text style={[styles.secondaryButtonText, { color: theme.accent }]}>İş ortaklığı için yaz</Text>
-              </Pressable>
-            </Link>
+            <Pressable
+              style={[styles.primaryButton, { backgroundColor: theme.accent }]}
+              onPress={() => {
+                router.push('/dashboard');
+              }}
+            >
+              <Text style={[styles.primaryButtonText, { color: theme.buttonText }]}>Finance Dashboard</Text>
+            </Pressable>
+            <Pressable
+              style={[styles.secondaryButton, { borderColor: theme.accent, backgroundColor: theme.secondaryButton }]}
+              onPress={() => {
+                // Open email
+                window.open('mailto:info@kurmatik.app', '_blank');
+              }}
+            >
+              <Text style={[styles.secondaryButtonText, { color: theme.accent }]}>İş ortaklığı için yaz</Text>
+            </Pressable>
           </View>
         </View>
         <View style={[styles.heroPanel, { backgroundColor: theme.panelBackground, borderColor: theme.panelBorder }]}>          <View style={styles.panelHeader}>
@@ -217,18 +233,33 @@ export default function LandingPage() {
 
       <View style={[styles.section, styles.ctaSection, { backgroundColor: theme.ctaBackground, borderColor: theme.ctaBorder }]}>        <Text style={[styles.ctaTitle, { color: theme.primaryText }]}>Kurmatik ile finansal gündemi kaçırma</Text>
         <Text style={[styles.ctaSubtitle, { color: theme.secondaryText }]}>API altyapımız, mobil uygulamalarımız ve web konsolumuz tek çatı altında. Risklerini kontrol etmek için bugün Kurmatik’i kullanmaya başla.</Text>
-        <View style={styles.ctaRow}>          <Link href="/(tabs)" asChild>
-            <Pressable style={[styles.primaryButton, styles.ctaButton, { backgroundColor: theme.accent }]}>              <Text style={[styles.primaryButtonText, { color: theme.buttonText }]}>Kurmatik Web'i Aç</Text>
-            </Pressable>
-          </Link>
-          <Link href="https://kurmatik.app" asChild>
-            <Pressable style={[styles.secondaryButton, styles.ctaButtonOutline, { borderColor: theme.buttonOutline, backgroundColor: theme.secondaryButton }]}>              <Text style={[styles.secondaryButtonText, { color: theme.buttonOutline }]}>Mobil uygulama için bekleme listesi</Text>
-            </Pressable>
-          </Link>
+        <View style={styles.ctaRow}>          <Pressable
+            style={[styles.primaryButton, styles.ctaButton, { backgroundColor: theme.accent }]}
+            onPress={() => {
+              router.push('/dashboard');
+            }}
+          >
+            <Text style={[styles.primaryButtonText, { color: theme.buttonText }]}>Finance Dashboard'u Aç</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.secondaryButton, styles.ctaButtonOutline, { borderColor: theme.buttonOutline, backgroundColor: theme.secondaryButton }]}
+            onPress={() => {
+              window.open('https://kurmatik.app', '_blank');
+            }}
+          >
+            <Text style={[styles.secondaryButtonText, { color: theme.buttonOutline }]}>Mobil uygulama için bekleme listesi</Text>
+          </Pressable>
         </View>
       </View>
 
-      <View style={styles.footer}>        <Text style={[styles.footerTitle, { color: theme.secondaryText }]}>Kurmatik • Finansal karar merkezi</Text>
+      <View style={styles.footer}>
+        <View style={styles.footerLogo}>
+          <Image 
+            source={require('@/assets/images/icon.png')} 
+            style={styles.footerLogoImage}
+          />
+          <Text style={[styles.footerTitle, { color: theme.secondaryText }]}>Kurmatik • Finansal karar merkezi</Text>
+        </View>
         <Text style={[styles.footerText, { color: theme.mutedText }]}>© {new Date().getFullYear()} Kurmatik Teknoloji. Tüm hakları saklıdır.</Text>
       </View>
     </ScrollView>
@@ -293,6 +324,17 @@ const styles = StyleSheet.create({
     flex: 1,
     maxWidth: 560,
     rowGap: 16,
+  },
+  heroLogoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 20,
+    marginBottom: 8,
+  },
+  heroLogo: {
+    width: 60,
+    height: 60,
+    borderRadius: 16,
   },
   heroBadgeRow: {
     flexDirection: 'row',
@@ -514,7 +556,17 @@ const styles = StyleSheet.create({
   footer: {
     marginTop: 80,
     alignItems: 'center',
-    rowGap: 6,
+    rowGap: 12,
+  },
+  footerLogo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  footerLogoImage: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
   },
   footerTitle: {
     fontSize: 15,

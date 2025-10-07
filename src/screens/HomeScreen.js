@@ -19,9 +19,9 @@ if (Platform.OS !== 'web') {
   }
 }
 
-const BANNER_ID = Platform.OS === 'web' ? null : TestIds?.BANNER || 'test-banner-id'; // Test banner during development
+const BANNER_ID = Platform.OS === 'web' ? null : 'ca-app-pub-3940256099942544/6300978111'; // Google test banner ID
 // Interstitial: use test id during development
-const INTERSTITIAL_ID = Platform.OS === 'web' ? null : TestIds?.INTERSTITIAL || 'test-interstitial-id';
+const INTERSTITIAL_ID = Platform.OS === 'web' ? null : 'ca-app-pub-3940256099942544/1033173712'; // Google test interstitial ID
 const SHOW_AFTER = 5; // show interstitial after this many successful conversions
 
 const CURRENCIES = [

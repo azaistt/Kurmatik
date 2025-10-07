@@ -10,10 +10,12 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 // Import the screens
 const HomeScreen = React.lazy(() => import('./index'));
 const ExploreScreen = React.lazy(() => import('./explore'));
+const ChatScreen = React.lazy(() => import('../../src/screens/ChatScreen'));
 
 const renderScene = SceneMap({
   home: HomeScreen,
   explore: ExploreScreen,
+  chat: ChatScreen,
 });
 
 export default function TabLayout() {
@@ -24,6 +26,7 @@ export default function TabLayout() {
   const [routes] = useState([
     { key: 'home', title: 'Home' },
     { key: 'explore', title: 'Uyarılar' },
+    { key: 'chat', title: 'AI Chat' },
   ]);
 
   const renderTabBar = (props: any) => {
@@ -48,7 +51,11 @@ export default function TabLayout() {
             >
               <IconSymbol
                 size={28}
-                name={route.key === 'home' ? 'house.fill' : 'bell.fill'}
+                name={
+                  route.key === 'home' ? 'house.fill' :
+                  route.key === 'explore' ? 'bell.fill' :
+                  'message.fill'
+                }
                 color={isActive ? '#FFFFFF' : Colors[colorScheme ?? 'light'].tint}
               />
               <Text style={{
