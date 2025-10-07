@@ -196,3 +196,7 @@ import { fetchGoldXau } from './src/lib/api';
 const xauPrice = await fetchGoldXau('TRY'); // TRY cinsinden 1 ons fiyatı
 const gramPrice = xauPrice / 31.1035; // 1 gram fiyatı
 ```
+
+## 🌐 Web Sürümü
+
+Kurmatik artık web'de de kullanılabilir! [kurmatik.vercel.app](https://kurmatik.vercel.app) adresinden modern web arayüzü ile erişebilirsiniz.
