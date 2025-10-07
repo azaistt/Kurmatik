@@ -1,14 +1,27 @@
 // src/screens/HomeScreen.js
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { AdEventType, BannerAd, BannerAdSize, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
 import CurrencyPicker from '../components/CurrencyPicker';
 import { fetchFx, fetchGoldToday, fetchGoldXau } from '../lib/api';
 import { num, parseTr } from '../lib/format';
 
-const BANNER_ID = TestIds.BANNER; // Test banner during development
+let AdEventType, BannerAd, BannerAdSize, InterstitialAd, TestIds;
+if (Platform.OS !== 'web') {
+  try {
+    const ads = require('react-native-google-mobile-ads');
+    AdEventType = ads.AdEventType;
+    BannerAd = ads.BannerAd;
+    BannerAdSize = ads.BannerAdSize;
+    InterstitialAd = ads.InterstitialAd;
+    TestIds = ads.TestIds;
+  } catch (e) {
+    console.warn('Ads not available');
+  }
+}
+
+const BANNER_ID = Platform.OS === 'web' ? null : TestIds?.BANNER || 'test-banner-id'; // Test banner during development
 // Interstitial: use test id during development
-const INTERSTITIAL_ID = TestIds.INTERSTITIAL;
+const INTERSTITIAL_ID = Platform.OS === 'web' ? null : TestIds?.INTERSTITIAL || 'test-interstitial-id';
 const SHOW_AFTER = 5; // show interstitial after this many successful conversions
 
 const CURRENCIES = [
@@ -34,8 +47,6 @@ export default function HomeScreen() {
   const [error, setError] = useState(null);
   const [xauPrice, setXauPrice] = useState(null); // { ounce, gram, date, currency }
   const [xauLoading, setXauLoading] = useState(false);
-  const [opCount, setOpCount] = useState(0);
-  const interstitialRef = useRef(InterstitialAd.createForAdRequest(INTERSTITIAL_ID));
   const [interstitialLoaded, setInterstitialLoaded] = useState(false);
 
   // Altın verisini ilk açılışta çek (TRuncgil)
@@ -148,10 +159,7 @@ export default function HomeScreen() {
         const next = c + 1;
         if (next >= SHOW_AFTER) {
           // show if loaded
-          if (interstitialRef.current && interstitialLoaded) {
-            interstitialRef.current.show();
-            setInterstitialLoaded(false);
-          }
+          showInterstitial();
           return 0; // reset counter after showing
         }
         return next;
@@ -166,23 +174,42 @@ export default function HomeScreen() {
 
   // Interstitial ad setup
   useEffect(() => {
-    const interstitial = interstitialRef.current;
-    const listeners = [];
-    if (interstitial) {
-      listeners.push(interstitial.addAdEventListener(AdEventType.LOADED, () => setInterstitialLoaded(true)));
-      listeners.push(interstitial.addAdEventListener(AdEventType.ERROR, () => setInterstitialLoaded(false)));
-      // when closed, load next
-      listeners.push(interstitial.addAdEventListener(AdEventType.CLOSED, () => {
-        setInterstitialLoaded(false);
+    if (Platform.OS === 'web' || !InterstitialAd) return;
+    
+    try {
+      const interstitial = InterstitialAd.createForAdRequest(INTERSTITIAL_ID);
+      const listeners = [];
+      if (interstitial) {
+        listeners.push(interstitial.addAdEventListener(AdEventType.LOADED, () => setInterstitialLoaded(true)));
+        listeners.push(interstitial.addAdEventListener(AdEventType.ERROR, () => setInterstitialLoaded(false)));
+        // when closed, load next
+        listeners.push(interstitial.addAdEventListener(AdEventType.CLOSED, () => {
+          setInterstitialLoaded(false);
+          interstitial.load();
+        }));
+        // initial load
         interstitial.load();
-      }));
-      // initial load
-      interstitial.load();
+      }
+      return () => {
+        listeners.forEach((unsub) => unsub());
+      };
+    } catch (e) {
+      console.warn('Interstitial setup failed', e);
     }
-    return () => {
-      listeners.forEach((unsub) => unsub());
-    };
   }, []);
+
+  const showInterstitial = () => {
+    if (Platform.OS === 'web' || !InterstitialAd) return;
+    try {
+      const interstitial = InterstitialAd.createForAdRequest(INTERSTITIAL_ID);
+      if (interstitial && interstitialLoaded) {
+        interstitial.show();
+        setInterstitialLoaded(false);
+      }
+    } catch (e) {
+      console.warn('Show interstitial failed', e);
+    }
+  };
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
@@ -268,7 +295,7 @@ export default function HomeScreen() {
         </View>
 
         <View style={styles.adContainer}>
-          <BannerAd unitId={BANNER_ID} size={BannerAdSize.BANNER} />
+          {Platform.OS !== 'web' && BannerAd && <BannerAd unitId={BANNER_ID} size={BannerAdSize.BANNER} />}
         </View>
       </View>
     </KeyboardAvoidingView>
