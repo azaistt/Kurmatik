@@ -134,13 +134,12 @@ export default function FinanceDashboard() {
       Alış: string;
     };
   }
-
-  // Correct fetchGoldXau type
-  const fetchGoldXau = async (): Promise<number> => {
-    const response = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/GC=F');
-    const data = await response.json();
-    return data?.chart?.result?.[0]?.meta?.regularMarketPrice ?? 0;
-  };
+  
+  interface GoldXauResponse {
+    ounce: number;
+    gram: number;
+    date?: string;
+  }
 
   // Multi-converter calculation
   const handleMultiConvert = async () => {
@@ -150,13 +149,12 @@ export default function FinanceDashboard() {
       const amount = Number(multiConverterInput);
       if (!amount) throw new Error('Geçerli bir tutar girin');
 
-      const [usd, eur, gbp, goldGram, goldQuarter, goldOunce, silver] = await Promise.all([
-        fetchFx('TRY', 'USD', amount) as Promise<FxResponse>,
-        fetchFx('TRY', 'EUR', amount) as Promise<FxResponse>,
-        fetchFx('TRY', 'GBP', amount) as Promise<FxResponse>,
-        fetchGoldToday() as Promise<GoldResponse>,
-        fetchGoldXau() as Promise<number>,
-        fetchFx('TRY', 'XAG', amount) as Promise<FxResponse>,
+      const [usd, eur, gbp, goldGram, goldXau] = await Promise.all([
+        fetchFx('TRY', 'USD', amount),
+        fetchFx('TRY', 'EUR', amount),
+        fetchFx('TRY', 'GBP', amount),
+        fetchGoldToday(),
+        fetchGoldXau('TRY'),
       ]);
 
       setMultiConverterResults([
@@ -164,9 +162,7 @@ export default function FinanceDashboard() {
         { label: 'EUR', value: eur?.result ?? '—' },
         { label: 'GBP', value: gbp?.result ?? '—' },
         { label: 'Gram Altın', value: goldGram?.gram?.Satış ?? '—' },
-        { label: 'Çeyrek Altın', value: goldQuarter ?? '—' },
-        { label: 'Ons Altın', value: goldOunce ?? '—' },
-        { label: 'Gümüş', value: silver?.result ?? '—' },
+        { label: 'Ons Altın', value: goldXau?.ounce ?? '—' },
       ]);
     } catch (error) {
       console.error('Multi-converter error:', error);

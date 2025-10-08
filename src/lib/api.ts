@@ -53,14 +53,36 @@ export async function fetchGoldToday(): Promise<GoldResponse> {
 }
 
 // XAU/USD gold price
-export async function fetchGoldXau(): Promise<number> {
+export async function fetchGoldXau(currency = 'USD'): Promise<any> {
   try {
     const url = 'https://query1.finance.yahoo.com/v8/finance/chart/GC=F';
     const response = await fetch(url);
     const data = await response.json();
     
     if (data?.chart?.result?.[0]?.meta?.regularMarketPrice) {
-      return data.chart.result[0].meta.regularMarketPrice;
+      const ouncePrice = data.chart.result[0].meta.regularMarketPrice;
+      const gramPrice = ouncePrice / 31.1035; // Convert troy ounce to gram
+      
+      // If requesting TRY conversion
+      if (currency === 'TRY') {
+        try {
+          const usdTry = await fetchFx('USD', 'TRY', 1);
+          return {
+            ounce: ouncePrice * usdTry.rate,
+            gram: gramPrice * usdTry.rate,
+            date: new Date().toLocaleString('tr-TR')
+          };
+        } catch (error) {
+          console.error('TRY conversion error:', error);
+          return { ounce: ouncePrice, gram: gramPrice };
+        }
+      }
+      
+      return { 
+        ounce: ouncePrice, 
+        gram: gramPrice,
+        date: new Date().toLocaleString('en-US')
+      };
     }
     
     throw new Error('XAU/USD fiyatı alınamadı');

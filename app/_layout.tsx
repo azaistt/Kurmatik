@@ -4,9 +4,9 @@ import { StatusBar } from 'expo-status-bar';
 import { Platform } from 'react-native';
 import 'react-native-reanimated';
 
-
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import TradingViewTicker from '../components/TradingViewTicker';
+import SpeedInsights from '@/components/SpeedInsights';
 
 export const unstable_settings = {
   initialRouteName: 'index',
@@ -30,6 +30,7 @@ export default function RootLayout() {
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>
       <StatusBar style="auto" />
+      {Platform.OS === 'web' && <SpeedInsights />}
     </ThemeProvider>
   );
 }

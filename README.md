@@ -200,3 +200,62 @@ const gramPrice = xauPrice / 31.1035; // 1 gram fiyatı
 ## 🌐 Web Sürümü
 
 Kurmatik artık web'de de kullanılabilir! [kurmatik.vercel.app](https://kurmatik.vercel.app) adresinden modern web arayüzü ile erişebilirsiniz.
+
+### Vercel Deployment
+
+Kurmatik uygulaması Vercel üzerinde otomatik olarak deploy edilmektedir. Deployment ayarları:
+
+#### Vercel.json Yapılandırması
+
+```json
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "web-build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/favicon.ico"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
+```
+
+#### Vercel Dashboard Ayarları
+
+- **Framework Preset**: Other
+- **Build Command**: `npx expo export:web`
+- **Output Directory**: `web-build`
+- **Node.js Version**: 22.x
+
+#### Web Deployment için Geliştirmeler
+
+- TradingView ticker'ın sadece web'de gösterilmesi
+- Responsive tasarım ve layout ayarlamaları
+- Platform-specific component yapısı
+- Vercel Speed Insights entegrasyonu
