@@ -1,13 +1,16 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, ReactNode } from 'react';
 import { Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { fetchFx, fetchGoldToday, fetchGoldXau } from '@/src/lib/api';
+import BannerHorizontal from '@/components/BannerHorizontal';
+import TradingViewTicker from '@/components/TradingViewTicker';
+import TradingViewTickerAlt from '@/components/TradingViewTickerAlt';
 
 // Modern tek sayfalık finans paneli
-export default function FinanceDashboard() {
+export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactNode }) {
   const colorScheme = useColorScheme();
   const theme = useMemo(() => createPalette(colorScheme === 'dark'), [colorScheme]);
   const router = useRouter();
@@ -170,22 +173,32 @@ export default function FinanceDashboard() {
   };
 
   return (
-    <ScrollView style={[styles.container, { backgroundColor: theme.page }]}>
+    <ScrollView style={[styles.container, { backgroundColor: theme.page }]}> 
+      {/* TradingView Ticker - Header'ın hemen altında */}
+      <TradingViewTicker />
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: theme.headerBg }]}>
-        <View style={styles.headerLogo}>
-          <Image 
-            source={require('@/assets/images/icon.png')} 
-            style={styles.logoImage}
-          />
-          <View style={styles.headerText}>
-            <Text style={[styles.headerTitle, { color: theme.primaryText }]}>
-              Kurmatik Finance
-            </Text>
-            <Text style={[styles.headerSubtitle, { color: theme.secondaryText }]}>
-              Döviz Çevirici & Finansal AI Asistanı
-            </Text>
+      <View style={[styles.header, { backgroundColor: theme.headerBg }]}> 
+        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'flex-start' }}>
+          <View style={styles.headerLogo}> 
+            <Image 
+              source={require('@/assets/images/icon.png')} 
+              style={styles.logoImage}
+            />
+            <View style={styles.headerText}> 
+              <Text style={[styles.headerTitle, { color: theme.primaryText }]}> 
+                Kurmatik Finance
+              </Text>
+              <Text style={[styles.headerSubtitle, { color: theme.secondaryText }]}> 
+                Döviz Çevirici & Finansal AI Asistanı
+              </Text>
+            </View>
           </View>
+          {/* stepsHeader prop'u logonun ve sloganın sağında, ortada göster */}
+          {stepsHeader && (
+            <View style={{ marginLeft: 'auto', marginRight: 'auto', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+              {stepsHeader}
+            </View>
+          )}
         </View>
       </View>
 
@@ -369,17 +382,21 @@ export default function FinanceDashboard() {
       </View>
 
       {/* Footer */}
-      <View style={[styles.footer, { backgroundColor: theme.footerBg }]}>
-        <View style={styles.footerContent}>
+      {/* Alt TradingView ticker - sabit bannerın üstünde, static */}
+      <TradingViewTickerAlt />
+      <View style={[styles.footer, { backgroundColor: theme.footerBg }]}> 
+        <View style={styles.footerContent}> 
           <Image 
             source={require('@/assets/images/icon.png')} 
             style={styles.footerLogo}
           />
-          <Text style={[styles.footerText, { color: theme.mutedText }]}>
+          <Text style={[styles.footerText, { color: theme.mutedText }]}> 
             © 2024 Kurmatik Finance • Powered by StockBot AI • TradingView Widgets
           </Text>
         </View>
       </View>
+
+      {Platform.OS === 'web' && <BannerHorizontal />}
     </ScrollView>
   );
 }
@@ -477,6 +494,7 @@ const styles = StyleSheet.create({
     flexDirection: Platform.OS === 'web' ? 'row' : 'column',
     padding: 20,
     gap: 20,
+    ...(Platform.OS === 'web' ? { paddingLeft: 140, paddingRight: 140 } : {}),
   },
   leftPanel: {
     flex: Platform.OS === 'web' ? 1 : undefined,

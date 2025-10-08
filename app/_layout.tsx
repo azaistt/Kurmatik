@@ -7,6 +7,7 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import TradingViewTicker from '../components/TradingViewTicker';
 import SpeedInsights from '@/components/SpeedInsights';
+import BannerColumn from '../components/BannerColumn';
 
 export const unstable_settings = {
   initialRouteName: 'index',
@@ -17,6 +18,8 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      {Platform.OS === 'web' && <BannerColumn position="left" />}
+      {Platform.OS === 'web' && <BannerColumn position="right" />}
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen 

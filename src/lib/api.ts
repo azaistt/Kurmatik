@@ -1,3 +1,75 @@
+import { CURRENCY_LIST, GOLD_LIST } from '../../constants/currencies';
+
+// Herhangi bir para/altın biriminden tüm diğerlerine çapraz dönüşüm
+export async function convertAnyToAll(amount: number, fromCode: string) {
+  // Sonuç: { code, label, value, type }
+  const results: Array<{ code: string; label: string; value: number | string; type: string }> = [];
+
+  // Altın birimlerini bul
+  const isGold = GOLD_LIST.some(g => g.code === fromCode);
+
+  // Eğer kaynak altın ise önce gram karşılığını bul
+  let amountInGram = amount;
+  if (isGold) {
+    const goldInfo = GOLD_LIST.find(g => g.code === fromCode);
+    if (goldInfo) amountInGram = amount * goldInfo.gram;
+  }
+
+  // Altın fiyatlarını çek
+  let goldToday: any = null;
+  let goldXau: any = null;
+  try {
+    goldToday = await fetchGoldToday();
+    goldXau = await fetchGoldXau('TRY');
+  } catch (e) {}
+
+  // Tüm altın türleri için dönüşüm
+  for (const gold of GOLD_LIST) {
+    let value = '-';
+    if (gold.code === 'GA' && goldToday?.gram?.Satış) {
+      // Gram altın fiyatı doğrudan
+      value = ((isGold ? amountInGram : amount) * parseFloat((goldToday.gram?.Satış || '0').replace(',', '.')) / gold.gram).toLocaleString('tr-TR', { maximumFractionDigits: 2 });
+    } else if (gold.code === 'ONS' && goldXau?.ounce) {
+      // Ons altın fiyatı
+      value = (((isGold ? amountInGram : amount) / 31.1035) * goldXau.ounce).toLocaleString('tr-TR', { maximumFractionDigits: 2 });
+    } else if (goldToday && goldToday[gold.label?.toLowerCase()]) {
+      // Diğer altın türleri (çeyrek, tam, cumhuriyet, reşat)
+      const altin = goldToday[gold.label?.toLowerCase()];
+      if (altin?.Satış) {
+        value = (((isGold ? amountInGram : amount) / gold.gram) * parseFloat((altin.Satış || '0').replace(',', '.'))).toLocaleString('tr-TR', { maximumFractionDigits: 2 });
+      }
+    }
+    results.push({ code: gold.code, label: gold.label, value, type: 'gold' });
+  }
+
+  // Tüm para birimleri için dönüşüm
+  for (const cur of CURRENCY_LIST) {
+    let value = '-';
+    try {
+      if (isGold && goldToday?.gram?.Satış) {
+        // Altından para birimine: önce TL'ye çevir, sonra hedefe
+        const tlValue = amountInGram * parseFloat((goldToday.gram?.Satış || '0').replace(',', '.'));
+        if (cur.code === 'TRY') {
+          value = tlValue.toLocaleString('tr-TR', { maximumFractionDigits: 2 });
+        } else {
+          const fx = await fetchFx('TRY', cur.code, tlValue);
+          value = fx.result.toLocaleString('tr-TR', { maximumFractionDigits: 2 });
+        }
+      } else {
+        // Para biriminden diğer para birimlerine
+        if (cur.code === fromCode) {
+          value = amount.toLocaleString('tr-TR', { maximumFractionDigits: 2 });
+        } else {
+          const fx = await fetchFx(fromCode, cur.code, amount);
+          value = fx.result.toLocaleString('tr-TR', { maximumFractionDigits: 2 });
+        }
+      }
+    } catch (e) {}
+    results.push({ code: cur.code, label: cur.label, value, type: 'fiat' });
+  }
+
+  return results;
+}
 // API functions for Kurmatik finance data
 export interface FxResponse {
   result: number;
