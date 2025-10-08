@@ -8,6 +8,7 @@ import { fetchFx, fetchGoldToday, fetchGoldXau } from '@/src/lib/api';
 import BannerHorizontal from '@/components/BannerHorizontal';
 import TradingViewTicker from '@/components/TradingViewTicker';
 import TradingViewTickerAlt from '@/components/TradingViewTickerAlt';
+import AIChat from '@/components/AIChat';
 
 // Modern tek sayfalık finans paneli
 export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactNode }) {
@@ -30,10 +31,6 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
     gramAltin: '—',
     btcUsd: '—',
   });
-
-  // Chat messages state
-  const [chatMessages, setChatMessages] = useState([]);
-  const [chatInput, setChatInput] = useState('');
 
   // Multi-converter state
   const [multiConverterInput, setMultiConverterInput] = useState('');
@@ -312,61 +309,7 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
           </Text>
           
           {/* Chat Messages Area */}
-          <View style={[styles.chatArea, { backgroundColor: theme.chatBg }]}>
-            {chatMessages.length === 0 ? (
-              <View style={styles.welcomeMessage}>
-                <Text style={[styles.welcomeTitle, { color: theme.primaryText }]}>
-                  StockBot'a Hoş Geldin! 🚀
-                </Text>
-                <Text style={[styles.welcomeText, { color: theme.secondaryText }]}>
-                  • Hisse senedi fiyatları sorgula{'\n'}
-                  • Grafikleri görüntüle{'\n'}
-                  • Piyasa analizlerini al{'\n'}
-                  • Finansal haberleri takip et
-                </Text>
-                
-                {/* Quick Action Buttons */}
-                <View style={styles.quickActions}>
-                  <Pressable style={[styles.quickButton, { backgroundColor: theme.quickBg, borderColor: theme.quickBorder }]}>
-                    <Text style={[styles.quickButtonText, { color: theme.accent }]}>🍎 Apple fiyatı?</Text>
-                  </Pressable>
-                  <Pressable style={[styles.quickButton, { backgroundColor: theme.quickBg, borderColor: theme.quickBorder }]}>
-                    <Text style={[styles.quickButtonText, { color: theme.accent }]}>⚡ Tesla grafiği</Text>
-                  </Pressable>
-                  <Pressable style={[styles.quickButton, { backgroundColor: theme.quickBg, borderColor: theme.quickBorder }]}>
-                    <Text style={[styles.quickButtonText, { color: theme.accent }]}>📊 Piyasa durumu</Text>
-                  </Pressable>
-                </View>
-              </View>
-            ) : (
-              // Chat messages will be rendered here
-              <View style={styles.messagesContainer}>
-                {/* Messages go here */}
-              </View>
-            )}
-          </View>
-
-          {/* Chat Input */}
-          <View style={styles.chatInputContainer}>
-            <TextInput
-              style={[styles.chatInput, { 
-                color: theme.primaryText, 
-                backgroundColor: theme.inputBg,
-                borderColor: theme.inputBorder 
-              }]}
-              value={chatInput}
-              onChangeText={setChatInput}
-              placeholder="Finansal sorularınızı sorun..."
-              placeholderTextColor={theme.mutedText}
-              multiline
-            />
-            <Pressable 
-              style={[styles.sendButton, { backgroundColor: theme.accent }]}
-              onPress={() => {/* Handle chat message */}}
-            >
-              <Text style={styles.sendIcon}>→</Text>
-            </Pressable>
-          </View>
+          <AIChat />
 
           {/* TradingView Widget Placeholder */}
           <View style={[styles.widgetContainer, { backgroundColor: theme.widgetBg, borderColor: theme.cardBorder }]}>
@@ -606,70 +549,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     marginBottom: 16,
-  },
-  welcomeMessage: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  welcomeTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 12,
-    textAlign: 'center',
-  },
-  welcomeText: {
-    fontSize: 14,
-    lineHeight: 20,
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  quickActions: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-    justifyContent: 'center',
-  },
-  quickButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-  },
-  quickButtonText: {
-    fontSize: 12,
-    fontWeight: '500',
-  },
-  messagesContainer: {
-    flex: 1,
-  },
-  chatInputContainer: {
-    flexDirection: 'row',
-    gap: 12,
-    alignItems: 'flex-end',
-    marginBottom: 16,
-  },
-  chatInput: {
-    flex: 1,
-    minHeight: 48,
-    maxHeight: 100,
-    borderWidth: 1,
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 14,
-  },
-  sendButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  sendIcon: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
   },
   widgetContainer: {
     borderRadius: 12,
