@@ -8,7 +8,9 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "build": "npx expo export:web",
+    "vercel-build": "npx expo export:web"
   },
   "dependencies": {
     "@ai-sdk/openai": "^2.0.44",
