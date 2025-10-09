@@ -4,6 +4,11 @@ import { Picker } from '@react-native-picker/picker';
 import { CURRENCY_LIST, GOLD_LIST } from '../constants/currencies';
 import { convertAnyToAll } from '../src/lib/api';
 
+// Web için CSS dosyasını import et (web'de çalışırken)
+if (Platform.OS === 'web') {
+  import('./InstantConverter.web.css');
+}
+
 export default function InstantConverter() {
   const [amount, setAmount] = useState('100');
   const [fromCode, setFromCode] = useState('TRY');
@@ -28,7 +33,7 @@ export default function InstantConverter() {
   }, [amount, fromCode]);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} className={Platform.OS === 'web' ? 'container' : ''}>
       <Text style={styles.title}>Anlık Kur / Altın Çevirici</Text>
       <View style={styles.inputRow}>
         <TextInput
@@ -51,14 +56,22 @@ export default function InstantConverter() {
           </Picker>
         </View>
       </View>
-      <View style={styles.grid}>
+      <View style={styles.grid} className={Platform.OS === 'web' ? 'grid' : ''}>
         {loading ? (
           <Text style={styles.loading}>Yükleniyor...</Text>
         ) : (
           results.map(item => (
-            <View key={item.code} style={[styles.gridItem, item.type === 'gold' ? styles.gold : styles.fiat]}>
-              <Text style={styles.gridLabel}>{item.label}</Text>
-              <Text style={styles.gridValue}>{item.value}</Text>
+            <View 
+              key={item.code} 
+              style={[styles.gridItem, item.type === 'gold' ? styles.gold : styles.fiat]}
+              className={Platform.OS === 'web' ? 'gridItem' : ''}
+            >
+              <Text style={styles.gridLabel} className={Platform.OS === 'web' ? 'gridLabel' : ''}>
+                {item.label}
+              </Text>
+              <Text style={styles.gridValue}>
+                {amount} {fromCode} = {item.value} {item.code}
+              </Text>
             </View>
           ))
         )}
@@ -78,8 +91,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     width: '100%',
     maxWidth: 600,
-    alignSelf: 'flex-end',
-    ...Platform.select({ web: { boxShadow: '0 4px 32px #0002' } }),
+    alignSelf: 'center',
   },
   title: {
     fontSize: 20,
@@ -128,17 +140,18 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 12,
     marginTop: 8,
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
   },
   gridItem: {
-    minWidth: 120,
+    minWidth: 160,
+    width: '47%',
     padding: 12,
     borderRadius: 12,
     backgroundColor: '#181f33',
     marginBottom: 8,
     borderWidth: 1,
     borderColor: '#232b3b',
-    alignItems: 'center',
+    flex: Platform.OS === 'web' ? undefined : 1,
   },
   gold: {
     backgroundColor: '#2d2a1a',
@@ -152,12 +165,14 @@ const styles = StyleSheet.create({
     color: '#bfa14a',
     fontWeight: '600',
     fontSize: 14,
-    marginBottom: 2,
+    marginBottom: 8,
+    textAlign: 'center',
   },
   gridValue: {
     color: '#fff',
     fontWeight: '700',
-    fontSize: 18,
+    fontSize: 16,
+    textAlign: 'center',
   },
   loading: {
     color: '#fff',
