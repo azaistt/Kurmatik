@@ -8,9 +8,9 @@ import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 // Import the screens
-const HomeScreen = React.lazy(() => import('./index'));
-const ExploreScreen = React.lazy(() => import('./explore'));
-const ChatScreen = React.lazy(() => import('../../src/screens/ChatScreen'));
+import HomeScreen from './index';
+import ExploreScreen from './explore';
+import ChatScreen from '../../src/screens/ChatScreen';
 
 const renderScene = SceneMap({
   home: HomeScreen,
