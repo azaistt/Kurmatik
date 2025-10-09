@@ -12,11 +12,13 @@ export async function fetchFx(from = "USD", to = "TRY", amount = 1) {
     console.error("Yahoo Finance FX API error:", e);
     // Fallback: TradingView veya diğer kaynak
     try {
-      const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${from}`);
+      // ExchangeRate-API v6 ile API anahtarı kullanımı (Ücretli/Premium sürüm)
+      const apiKey = '620385908ec18f8768c5da93'; // Size özel API anahtarı
+      const response = await fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/${from}`);
       if (!response.ok) throw new Error("Fallback FX API failed");
       
       const data = await response.json();
-      const rate = data.rates?.[to];
+      const rate = data.conversion_rates?.[to];
       if (!rate) throw new Error("Currency not found in fallback API");
 
       return {

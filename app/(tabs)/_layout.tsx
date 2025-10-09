@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Text, useWindowDimensions, View } from 'react-native';
 import { SceneMap, TabView } from 'react-native-tab-view';
 
-import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
@@ -36,17 +35,18 @@ export default function TabLayout() {
         {navigationState.routes.map((route: any, i: number) => {
           const isActive = i === navigationState.index;
           return (
-            <HapticTab
+            <View
               key={route.key}
-              onPress={() => {
-                setIndex(i);
-                jumpTo(route.key);
-              }}
               style={{
                 flex: 1,
                 alignItems: 'center',
                 paddingVertical: 10,
                 backgroundColor: isActive ? Colors[colorScheme ?? 'light'].tint : 'transparent',
+                cursor: 'pointer',
+              }}
+              onTouchStart={() => {
+                setIndex(i);
+                jumpTo(route.key);
               }}
             >
               <IconSymbol
@@ -65,7 +65,7 @@ export default function TabLayout() {
               }}>
                 {route.title}
               </Text>
-            </HapticTab>
+            </View>
           );
         })}
       </View>
@@ -78,8 +78,8 @@ export default function TabLayout() {
       renderScene={renderScene}
       onIndexChange={setIndex}
       initialLayout={{ width: layout.width }}
-      renderTabBar={() => null}
-      swipeEnabled={true}
+      renderTabBar={renderTabBar}
+      swipeEnabled={false}
     />
   );
 }

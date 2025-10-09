@@ -102,7 +102,26 @@ export async function fetchFx(from: string, to: string, amount: number): Promise
     throw new Error('Kur bilgisi alınamadı');
   } catch (error) {
     console.error('FX API Error:', error);
-    throw error;
+    
+    // Fallback: ExchangeRate API v6
+    try {
+      // ExchangeRate-API v6 ile API anahtarı kullanımı (Ücretli/Premium sürüm)
+      const apiKey = '620385908ec18f8768c5da93'; // API anahtarınız
+      const response = await fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/${from}`);
+      if (!response.ok) throw new Error("Fallback FX API failed");
+      
+      const data = await response.json();
+      const rate = data.conversion_rates?.[to];
+      if (!rate) throw new Error("Currency not found in fallback API");
+
+      return {
+        rate: rate,
+        result: rate * amount
+      };
+    } catch (fallbackError) {
+      console.error("All FX APIs failed:", fallbackError);
+      throw error; // Orijinal hatayı fırlat
+    }
   }
 }
 

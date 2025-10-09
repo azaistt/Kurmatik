@@ -1,7 +1,8 @@
 // App.js
-import { Platform, SafeAreaView, StatusBar } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { setNosyApiKey } from './src/lib/api';
 import HomeScreen from './src/screens/HomeScreen';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 // Not: Güvenlik için anahtarı koda gömmek önerilmez; burada sizin testiniz için ekliyoruz.
 // ENV varsa onu kullan, yoksa sağlanan anahtarı kullan.
@@ -10,8 +11,9 @@ setNosyApiKey(ENV_KEY || '2ZglZmDZC6g80zsujM0Kc0thfgpzcYxwGL3CYkA3dcxdm87xJ4vhAZ
 
 export default function App() {
   return (
-    <SafeAreaView style={{ flex: 1, paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <HomeScreen />
+      <SpeedInsights />
     </SafeAreaView>
   );
 }

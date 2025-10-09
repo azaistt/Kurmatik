@@ -5,11 +5,12 @@ async function testAPIs() {
   try {
     // FX API test (matches app's FX provider)
     console.log('1. Testing FX API...');
-    const fxResponse = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+    const apiKey = '620385908ec18f8768c5da93'; // ExchangeRate-API v6 anahtarı
+    const fxResponse = await fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`);
     console.log('FX status:', fxResponse.status);
     const fxData = await fxResponse.json();
-    console.log('USD->TRY rate:', fxData?.rates?.TRY);
-    console.log('Updated:', fxData?.time_last_update_utc || fxData?.date);
+    console.log('USD->TRY rate:', fxData?.conversion_rates?.TRY);
+    console.log('Updated:', fxData?.time_last_update || fxData?.time_last_update_utc || fxData?.date);
   } catch (e) {
     console.log('FX API Error:', e.message);
   }
