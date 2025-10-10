@@ -15,29 +15,40 @@ export async function convertAnyToAll(amount: number, fromCode: string) {
     if (goldInfo) amountInGram = amount * goldInfo.gram;
   }
 
-  // Altın fiyatlarını çek
-  let goldToday: any = null;
-  let goldXau: any = null;
+  // Altın fiyatlarını Yahoo Finance'den çek (TRY cinsinden)
+  let goldData: any = null;
   try {
-    goldToday = await fetchGoldToday();
-    goldXau = await fetchGoldXau('TRY');
-  } catch (e) {}
+    goldData = await fetchGoldPrice('TRY');
+  } catch (e) {
+    console.error('Gold price fetch error:', e);
+  }
 
   // Tüm altın türleri için dönüşüm
   for (const gold of GOLD_LIST) {
     let value = '-';
-    if (gold.code === 'GA' && goldToday?.gram?.Satış) {
-      // Gram altın fiyatı doğrudan
-      value = ((isGold ? amountInGram : amount) * parseFloat((goldToday.gram?.Satış || '0').replace(',', '.')) / gold.gram).toLocaleString('tr-TR', { maximumFractionDigits: 2 });
-    } else if (gold.code === 'ONS' && goldXau?.ounce) {
-      // Ons altın fiyatı
-      value = (((isGold ? amountInGram : amount) / 31.1035) * goldXau.ounce).toLocaleString('tr-TR', { maximumFractionDigits: 2 });
-    } else if (goldToday && goldToday[gold.label?.toLowerCase()]) {
-      // Diğer altın türleri (çeyrek, tam, cumhuriyet, reşat)
-      const altin = goldToday[gold.label?.toLowerCase()];
-      if (altin?.Satış) {
-        value = (((isGold ? amountInGram : amount) / gold.gram) * parseFloat((altin.Satış || '0').replace(',', '.'))).toLocaleString('tr-TR', { maximumFractionDigits: 2 });
+    try {
+      if (goldData?.gram) {
+        // Kaynak altın ise
+        if (isGold) {
+          // Gram cinsinden değeri hesapla ve hedef altın türüne çevir
+          const valueInGrams = amountInGram / gold.gram;
+          const valueInTRY = valueInGrams * goldData.gram;
+          value = valueInTRY.toLocaleString('tr-TR', { maximumFractionDigits: 2 });
+        } else {
+          // Kaynak para birimi ise, para biriminden altına çevir
+          // Önce kaynaktan TRY'ye çevir
+          let tryValue = amount;
+          if (fromCode !== 'TRY') {
+            const fx = await fetchFx(fromCode, 'TRY', amount);
+            tryValue = fx.result;
+          }
+          // Sonra TRY'den altına çevir
+          const goldAmount = tryValue / goldData.gram; // Kaç gram altın alınabilir
+          value = (goldAmount * gold.gram).toLocaleString('tr-TR', { maximumFractionDigits: 2 });
+        }
       }
+    } catch (e) {
+      console.error(`Gold conversion error for ${gold.code}:`, e);
     }
     results.push({ code: gold.code, label: gold.label, value, type: 'gold' });
   }
@@ -46,13 +57,13 @@ export async function convertAnyToAll(amount: number, fromCode: string) {
   for (const cur of CURRENCY_LIST) {
     let value = '-';
     try {
-      if (isGold && goldToday?.gram?.Satış) {
-        // Altından para birimine: önce TL'ye çevir, sonra hedefe
-        const tlValue = amountInGram * parseFloat((goldToday.gram?.Satış || '0').replace(',', '.'));
+      if (isGold && goldData?.gram) {
+        // Altından para birimine: önce TRY'ye çevir
+        const tryValue = amountInGram * goldData.gram;
         if (cur.code === 'TRY') {
-          value = tlValue.toLocaleString('tr-TR', { maximumFractionDigits: 2 });
+          value = tryValue.toLocaleString('tr-TR', { maximumFractionDigits: 2 });
         } else {
-          const fx = await fetchFx('TRY', cur.code, tlValue);
+          const fx = await fetchFx('TRY', cur.code, tryValue);
           value = fx.result.toLocaleString('tr-TR', { maximumFractionDigits: 2 });
         }
       } else {
@@ -64,35 +75,69 @@ export async function convertAnyToAll(amount: number, fromCode: string) {
           value = fx.result.toLocaleString('tr-TR', { maximumFractionDigits: 2 });
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      console.error(`Currency conversion error for ${cur.code}:`, e);
+    }
     results.push({ code: cur.code, label: cur.label, value, type: 'fiat' });
   }
 
   return results;
 }
-// API functions for Kurmatik finance data
+/**
+ * API functions for Kurmatik finance data
+ * All data is fetched from Yahoo Finance API (100% free, no API key required)
+ */
+
 export interface FxResponse {
   result: number;
   rate: number;
 }
 
-export interface GoldResponse {
-  gram: {
-    Satış: string;
-    Alış: string;
-  };
+export interface GoldPriceResponse {
+  ounce: number;
+  gram: number;
+  currency: string;
+  date: string;
 }
 
-// Fetch currency exchange rate
+// Fetch currency exchange rate using Yahoo Finance
+// Development: Direct API call | Production: Vercel proxy
 export async function fetchFx(from: string, to: string, amount: number): Promise<FxResponse> {
   try {
-    // Yahoo Finance API for currency conversion
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${from}${to}=X`;
-    const response = await fetch(url);
-    const data = await response.json();
+    // Development mode: Direct Yahoo Finance call
+    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+      const url = `https://query1.finance.yahoo.com/v8/finance/chart/${from}${to}=X`;
+      const response = await fetch(url);
+      
+      if (!response.ok) {
+        throw new Error(`Yahoo Finance API responded with status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data?.chart?.result?.[0]?.meta?.regularMarketPrice) {
+        const rate = data.chart.result[0].meta.regularMarketPrice;
+        return {
+          result: rate * amount,
+          rate: rate
+        };
+      }
+      
+      throw new Error('Yahoo Finance\'den kur bilgisi alınamadı');
+    }
     
-    if (data?.chart?.result?.[0]?.meta?.regularMarketPrice) {
-      const rate = data.chart.result[0].meta.regularMarketPrice;
+    // Production mode: Use Vercel API endpoint to avoid CORS issues
+    const url = `/api/fx?from=${from}&to=${to}`;
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`API responded with status: ${response.status}`);
+    }
+    
+    const json = await response.json();
+    
+    if (json?.data?.rate) {
+      const rate = json.data.rate;
       return {
         result: rate * amount,
         rate: rate
@@ -102,57 +147,78 @@ export async function fetchFx(from: string, to: string, amount: number): Promise
     throw new Error('Kur bilgisi alınamadı');
   } catch (error) {
     console.error('FX API Error:', error);
-    
-    // Fallback: ExchangeRate API v6
-    try {
-      // ExchangeRate-API v6 ile API anahtarı kullanımı (Ücretli/Premium sürüm)
-      const apiKey = '620385908ec18f8768c5da93'; // API anahtarınız
-      const response = await fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/${from}`);
-      if (!response.ok) throw new Error("Fallback FX API failed");
-      
-      const data = await response.json();
-      const rate = data.conversion_rates?.[to];
-      if (!rate) throw new Error("Currency not found in fallback API");
-
-      return {
-        rate: rate,
-        result: rate * amount
-      };
-    } catch (fallbackError) {
-      console.error("All FX APIs failed:", fallbackError);
-      throw error; // Orijinal hatayı fırlat
-    }
-  }
-}
-
-// Fetch gold prices (Turkish market)
-export async function fetchGoldToday(): Promise<GoldResponse> {
-  try {
-    // Truncgil API for Turkish gold prices
-    const response = await fetch('https://api.truncgil.com/today.json');
-    const data = await response.json();
-    
-    if (data?.gram) {
-      return data;
-    }
-    
-    throw new Error('Altın fiyatları alınamadı');
-  } catch (error) {
-    console.error('Gold API Error:', error);
     throw error;
   }
 }
 
-// XAU/USD gold price
-export async function fetchGoldXau(currency = 'USD'): Promise<any> {
+/**
+ * Fetch gold prices from Yahoo Finance
+ * Development: Direct API | Production: Vercel proxy
+ * Returns gold price per ounce and per gram
+ * @param currency - Currency code (default: 'USD', can convert to 'TRY')
+ */
+export async function fetchGoldPrice(currency = 'USD'): Promise<GoldPriceResponse> {
   try {
-    const url = 'https://query1.finance.yahoo.com/v8/finance/chart/GC=F';
-    const response = await fetch(url);
-    const data = await response.json();
+    // Development mode: Direct Yahoo Finance call
+    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+      const url = 'https://query1.finance.yahoo.com/v8/finance/chart/GC=F';
+      const response = await fetch(url);
+      
+      if (!response.ok) {
+        throw new Error(`Yahoo Finance Gold API responded with status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data?.chart?.result?.[0]?.meta?.regularMarketPrice) {
+        const ouncePrice = data.chart.result[0].meta.regularMarketPrice;
+        const gramPrice = ouncePrice / 31.1035;
+        
+        // If requesting TRY conversion
+        if (currency === 'TRY') {
+          try {
+            const usdTry = await fetchFx('USD', 'TRY', 1);
+            return {
+              ounce: ouncePrice * usdTry.rate,
+              gram: gramPrice * usdTry.rate,
+              currency: 'TRY',
+              date: new Date().toLocaleString('tr-TR')
+            };
+          } catch (error) {
+            console.error('TRY conversion error:', error);
+            return { 
+              ounce: ouncePrice, 
+              gram: gramPrice,
+              currency: 'USD',
+              date: new Date().toLocaleString('en-US')
+            };
+          }
+        }
+        
+        return { 
+          ounce: ouncePrice, 
+          gram: gramPrice,
+          currency: 'USD',
+          date: new Date().toLocaleString('en-US')
+        };
+      }
+      
+      throw new Error('Yahoo Finance\'den altın fiyatı alınamadı');
+    }
     
-    if (data?.chart?.result?.[0]?.meta?.regularMarketPrice) {
-      const ouncePrice = data.chart.result[0].meta.regularMarketPrice;
-      const gramPrice = ouncePrice / 31.1035; // Convert troy ounce to gram
+    // Production mode: Use Vercel API endpoint to avoid CORS issues
+    const url = '/api/gold';
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`Gold API responded with status: ${response.status}`);
+    }
+    
+    const json = await response.json();
+    
+    if (json?.data?.ounce && json?.data?.gram) {
+      const ouncePrice = json.data.ounce;
+      const gramPrice = json.data.gram;
       
       // If requesting TRY conversion
       if (currency === 'TRY') {
@@ -161,24 +227,34 @@ export async function fetchGoldXau(currency = 'USD'): Promise<any> {
           return {
             ounce: ouncePrice * usdTry.rate,
             gram: gramPrice * usdTry.rate,
+            currency: 'TRY',
             date: new Date().toLocaleString('tr-TR')
           };
         } catch (error) {
           console.error('TRY conversion error:', error);
-          return { ounce: ouncePrice, gram: gramPrice };
+          return { 
+            ounce: ouncePrice, 
+            gram: gramPrice,
+            currency: 'USD',
+            date: new Date().toLocaleString('en-US')
+          };
         }
       }
       
       return { 
         ounce: ouncePrice, 
         gram: gramPrice,
+        currency: 'USD',
         date: new Date().toLocaleString('en-US')
       };
     }
     
-    throw new Error('XAU/USD fiyatı alınamadı');
+    throw new Error('Altın fiyatı alınamadı');
   } catch (error) {
-    console.error('XAU API Error:', error);
+    console.error('Gold API Error:', error);
     throw error;
   }
 }
+
+// Legacy alias for backward compatibility (deprecated)
+export const fetchGoldXau = fetchGoldPrice;

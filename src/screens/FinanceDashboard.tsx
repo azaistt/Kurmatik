@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState, ReactNode } from 'react';
-import { Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, Image } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, View, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { fetchFx, fetchGoldToday, fetchGoldXau } from '@/src/lib/api';
+import { fetchFx, fetchGoldPrice } from '@/src/lib/api';
 import BannerHorizontal from '@/components/BannerHorizontal';
 import TradingViewTicker from '@/components/TradingViewTicker';
 import TradingViewTickerAlt from '@/components/TradingViewTickerAlt';
@@ -45,11 +45,36 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
 
   // Currencies for converter
   const currencies = [
-    { label: 'USD - Dolar', value: 'USD' },
-    { label: 'EUR - Euro', value: 'EUR' },
-    { label: 'TRY - Türk Lirası', value: 'TRY' },
-    { label: 'GBP - İngiliz Sterlini', value: 'GBP' },
-    { label: 'GRAM - Gram Altın', value: 'GOLD_GRAM' },
+    { label: '🇺🇸 USD - Amerikan Doları', value: 'USD' },
+    { label: '🇪🇺 EUR - Euro', value: 'EUR' },
+    { label: '🇹🇷 TRY - Türk Lirası', value: 'TRY' },
+    { label: '🇬🇧 GBP - İngiliz Sterlini', value: 'GBP' },
+    { label: '🇯🇵 JPY - Japon Yeni', value: 'JPY' },
+    { label: '🇨🇭 CHF - İsviçre Frangı', value: 'CHF' },
+    { label: '🇨🇦 CAD - Kanada Doları', value: 'CAD' },
+    { label: '🇦🇺 AUD - Avustralya Doları', value: 'AUD' },
+    { label: '🇨🇳 CNY - Çin Yuanı', value: 'CNY' },
+    { label: '🇮🇳 INR - Hint Rupisi', value: 'INR' },
+    { label: '🇷🇺 RUB - Rus Rublesi', value: 'RUB' },
+    { label: '🇸🇦 SAR - Suudi Riyali', value: 'SAR' },
+    { label: '🇦🇪 AED - BAE Dirhemi', value: 'AED' },
+    { label: '🇰🇷 KRW - Güney Kore Wonu', value: 'KRW' },
+    { label: '🇸🇪 SEK - İsveç Kronu', value: 'SEK' },
+    { label: '🇳🇴 NOK - Norveç Kronu', value: 'NOK' },
+    { label: '🇩🇰 DKK - Danimarka Kronu', value: 'DKK' },
+    { label: '🇵🇱 PLN - Polonya Zlotisi', value: 'PLN' },
+    { label: '🇲🇽 MXN - Meksika Pesosu', value: 'MXN' },
+    { label: '🇧🇷 BRL - Brezilya Reali', value: 'BRL' },
+    { label: '🇿🇦 ZAR - Güney Afrika Randı', value: 'ZAR' },
+    { label: '🇸🇬 SGD - Singapur Doları', value: 'SGD' },
+    { label: '🇭🇰 HKD - Hong Kong Doları', value: 'HKD' },
+    { label: '🇳🇿 NZD - Yeni Zelanda Doları', value: 'NZD' },
+    { label: '🇹🇭 THB - Tayland Bahtı', value: 'THB' },
+    { label: '🇮🇩 IDR - Endonezya Rupisi', value: 'IDR' },
+    { label: '🇲🇾 MYR - Malezya Ringgiti', value: 'MYR' },
+    { label: '🇵🇭 PHP - Filipin Pesosu', value: 'PHP' },
+    { label: '🇻🇳 VND - Vietnam Dongu', value: 'VND' },
+    { label: '🇦🇷 ARS - Arjantin Pesosu', value: 'ARS' },
   ];
 
   // Real-time data fetch
@@ -61,7 +86,7 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
         const [usd, eur, gold] = await Promise.all([
           fetchFx('USD', 'TRY', 1),
           fetchFx('EUR', 'TRY', 1),
-          fetchGoldToday(),
+          fetchGoldPrice('TRY'),
         ]);
 
         if (cancelled) return;
@@ -79,7 +104,7 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
         setSnapshot({
           usdTry: format(usd?.result ?? usd?.rate),
           eurTry: format(eur?.result ?? eur?.rate),
-          gramAltin: gold?.gram?.Satış ?? '—',
+          gramAltin: format(gold?.gram ?? 0),
           btcUsd: '98,750', // Mock BTC price
         });
       } catch (error) {
@@ -107,10 +132,14 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
       const amt = Number(amount);
       if (!amt) throw new Error('Geçerli bir tutar girin');
       
+      console.log('Converting:', { fromCurrency, toCurrency, amt });
       const fx = await fetchFx(fromCurrency, toCurrency, amt);
+      console.log('Conversion result:', fx);
       setResult(fx.result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Bir hata oluştu');
+      console.error('Conversion error:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Bir hata oluştu';
+      setError(errorMessage);
       setResult(null);
     } finally {
       setLoading(false);
@@ -155,20 +184,23 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
       const amount = Number(multiConverterInput);
       if (!amount) throw new Error('Geçerli bir tutar girin');
 
-      const [usd, eur, gbp, goldGram, goldXau] = await Promise.all([
+      const [usd, eur, gbp, gold] = await Promise.all([
         fetchFx('TRY', 'USD', amount),
         fetchFx('TRY', 'EUR', amount),
         fetchFx('TRY', 'GBP', amount),
-        fetchGoldToday(),
-        fetchGoldXau('TRY'),
+        fetchGoldPrice('TRY'),
       ]);
+
+      // TRY cinsinden altın miktarını hesapla
+      const goldInGrams = gold?.gram ? amount / gold.gram : 0;
+      const goldInOunces = goldInGrams / 31.1035;
 
       setMultiConverterResults([
         { label: 'USD', value: usd?.result ?? '—' },
         { label: 'EUR', value: eur?.result ?? '—' },
         { label: 'GBP', value: gbp?.result ?? '—' },
-        { label: 'Gram Altın', value: goldGram?.gram?.Satış ?? '—' },
-        { label: 'Ons Altın', value: goldXau?.ounce ?? '—' },
+        { label: 'Gram Altın', value: goldInGrams > 0 ? goldInGrams.toFixed(4) : '—' },
+        { label: 'Ons Altın', value: goldInOunces > 0 ? goldInOunces.toFixed(6) : '—' },
       ]);
     } catch (error) {
       console.error('Multi-converter error:', error);
@@ -176,10 +208,9 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
   };
 
   return (
-    Platform.OS === 'web' ? (
-      <div style={{ minHeight: '100vh', boxSizing: 'border-box', overflowY: 'auto', background: theme.page }}>
-        {/* TradingView Ticker - Header'ın hemen altında */}
-        <TradingViewTicker />
+    <div style={{ minHeight: '100vh', boxSizing: 'border-box', overflowY: 'auto', background: theme.page }}>
+      {/* TradingView Ticker - Header'ın hemen altında */}
+      <TradingViewTicker />
         {/* Header */}
         <View style={[styles.header, { backgroundColor: theme.headerBg }]}> 
           <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'flex-start' }}>
@@ -266,11 +297,27 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
             <View style={styles.currencySelectors}>
               <View style={styles.currencyGroup}>
                 <Text style={[styles.inputLabel, { color: theme.secondaryText }]}>Kaynak</Text>
-                <Pressable style={[styles.currencyButton, { backgroundColor: theme.inputBg, borderColor: theme.inputBorder }]}>
-                  <Text style={[styles.currencyButtonText, { color: theme.primaryText }]}>
-                    {currencies.find(c => c.value === fromCurrency)?.label.split(' - ')[0] || fromCurrency}
-                  </Text>
-                </Pressable>
+                <select
+                  value={fromCurrency}
+                  onChange={(e) => setFromCurrency(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: 14,
+                    fontSize: 16,
+                    borderRadius: 12,
+                    border: `1px solid ${theme.inputBorder}`,
+                    backgroundColor: theme.inputBg,
+                    color: theme.primaryText,
+                    outline: 'none',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {currencies.map((curr) => (
+                    <option key={curr.value} value={curr.value}>
+                      {curr.label}
+                    </option>
+                  ))}
+                </select>
               </View>
               
               <Pressable onPress={handleSwap} style={[styles.swapButton, { backgroundColor: theme.accent }]}>
@@ -279,11 +326,27 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
               
               <View style={styles.currencyGroup}>
                 <Text style={[styles.inputLabel, { color: theme.secondaryText }]}>Hedef</Text>
-                <Pressable style={[styles.currencyButton, { backgroundColor: theme.inputBg, borderColor: theme.inputBorder }]}>
-                  <Text style={[styles.currencyButtonText, { color: theme.primaryText }]}>
-                    {currencies.find(c => c.value === toCurrency)?.label.split(' - ')[0] || toCurrency}
-                  </Text>
-                </Pressable>
+                <select
+                  value={toCurrency}
+                  onChange={(e) => setToCurrency(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: 14,
+                    fontSize: 16,
+                    borderRadius: 12,
+                    border: `1px solid ${theme.inputBorder}`,
+                    backgroundColor: theme.inputBg,
+                    color: theme.primaryText,
+                    outline: 'none',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {currencies.map((curr) => (
+                    <option key={curr.value} value={curr.value}>
+                      {curr.label}
+                    </option>
+                  ))}
+                </select>
               </View>
             </View>
 
@@ -300,10 +363,22 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
 
             {/* Result */}
             <View style={[styles.resultCard, { backgroundColor: theme.resultBg, borderColor: theme.resultBorder }]}>
-              <Text style={[styles.resultLabel, { color: theme.secondaryText }]}>Sonuç</Text>
-              <Text style={[styles.resultValue, { color: theme.accent }]}>
-                {result ? `${Number(result).toFixed(4)}` : '—'}
-              </Text>
+              <Text style={[styles.resultLabel, { color: theme.secondaryText }]}>Çevrim Sonucu</Text>
+              {result ? (
+                <>
+                  <Text style={[styles.conversionFormula, { color: theme.mutedText }]}>
+                    {amount || '0'} {currencies.find(c => c.value === fromCurrency)?.label.split(' - ')[0] || fromCurrency} =
+                  </Text>
+                  <Text style={[styles.resultValue, { color: theme.accent }]}>
+                    {Number(result).toFixed(4)} {currencies.find(c => c.value === toCurrency)?.label.split(' - ')[0] || toCurrency}
+                  </Text>
+                  <Text style={[styles.conversionExplanation, { color: theme.mutedText }]}>
+                    {currencies.find(c => c.value === fromCurrency)?.label.split(' - ')[1] || fromCurrency} → {currencies.find(c => c.value === toCurrency)?.label.split(' - ')[1] || toCurrency}
+                  </Text>
+                </>
+              ) : (
+                <Text style={[styles.resultValue, { color: theme.mutedText }]}>—</Text>
+              )}
               {error && <Text style={[styles.errorText, { color: theme.error }]}>{error}</Text>}
             </View>
           </View>
@@ -378,22 +453,20 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
                 <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 18, padding: 16, letterSpacing: 0.5 }}>📈 Canlı Piyasa Görünümü</Text>
                 <View style={{ height: 1, backgroundColor: '#222', width: '100%' }} />
               </View>
-              {Platform.OS === 'web' && (
-                <div style={{ display: 'flex', flexDirection: 'row', gap: 16, width: '100%', justifyContent: 'space-between', alignItems: 'stretch', background: 'none', padding: 16 }}>
-                  <div style={{ flex: 1, background: '#181c23', borderRadius: 16, boxShadow: '0 2px 16px rgba(0,0,0,0.18)', padding: 8, minWidth: 220, display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 340 }}>
-                    <div style={{ color: '#fff', fontWeight: 600, fontSize: 15, marginBottom: 8, letterSpacing: 0.2 }}>Hisse Fiyatı (AAPL)</div>
-                    <StockPriceWidget symbol="AAPL" height={100} />
-                  </div>
-                  <div style={{ flex: 1.5, background: '#181c23', borderRadius: 16, boxShadow: '0 2px 16px rgba(0,0,0,0.18)', padding: 8, minWidth: 320, display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 340 }}>
-                    <div style={{ color: '#fff', fontWeight: 600, fontSize: 15, marginBottom: 8, letterSpacing: 0.2 }}>Hisse Grafik (AAPL)</div>
-                    <StockChartWidget symbol="AAPL" height={220} />
-                  </div>
-                  <div style={{ flex: 1.2, background: '#181c23', borderRadius: 16, boxShadow: '0 2px 16px rgba(0,0,0,0.18)', padding: 8, minWidth: 260, display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 340 }}>
-                    <div style={{ color: '#fff', fontWeight: 600, fontSize: 15, marginBottom: 8, letterSpacing: 0.2 }}>Finansallar (AAPL)</div>
-                    <StockFinancialsWidget symbol="AAPL" height={220} />
-                  </div>
+              <div style={{ display: 'flex', flexDirection: 'row', gap: 16, width: '100%', justifyContent: 'space-between', alignItems: 'stretch', background: 'none', padding: 16 }}>
+                <div style={{ flex: 1, background: '#181c23', borderRadius: 16, boxShadow: '0 2px 16px rgba(0,0,0,0.18)', padding: 8, minWidth: 220, display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 340 }}>
+                  <div style={{ color: '#fff', fontWeight: 600, fontSize: 15, marginBottom: 8, letterSpacing: 0.2 }}>Hisse Fiyatı (AAPL)</div>
+                  <StockPriceWidget symbol="AAPL" height={100} />
                 </div>
-              )}
+                <div style={{ flex: 1.5, background: '#181c23', borderRadius: 16, boxShadow: '0 2px 16px rgba(0,0,0,0.18)', padding: 8, minWidth: 320, display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 340 }}>
+                  <div style={{ color: '#fff', fontWeight: 600, fontSize: 15, marginBottom: 8, letterSpacing: 0.2 }}>Hisse Grafik (AAPL)</div>
+                  <StockChartWidget symbol="AAPL" height={220} />
+                </div>
+                <div style={{ flex: 1.2, background: '#181c23', borderRadius: 16, boxShadow: '0 2px 16px rgba(0,0,0,0.18)', padding: 8, minWidth: 260, display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 340 }}>
+                  <div style={{ color: '#fff', fontWeight: 600, fontSize: 15, marginBottom: 8, letterSpacing: 0.2 }}>Finansallar (AAPL)</div>
+                  <StockFinancialsWidget symbol="AAPL" height={220} />
+                </div>
+              </div>
             </View>
           </View>
         </View>
@@ -413,248 +486,8 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
           </View>
         </View>
 
-        {Platform.OS === 'web' && <BannerHorizontal />}
+        <BannerHorizontal />
       </div>
-    ) : (
-      <ScrollView style={[styles.container, { backgroundColor: theme.page }]}> 
-        {/* TradingView Ticker - Header'ın hemen altında */}
-        <TradingViewTicker />
-        {/* Header */}
-        <View style={[styles.header, { backgroundColor: theme.headerBg }]}> 
-          <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'flex-start' }}>
-            <View style={styles.headerLogo}> 
-              <Image 
-                source={require('@/assets/images/icon.png')} 
-                style={styles.logoImage}
-              />
-              <View style={styles.headerText}> 
-                <Text style={[styles.headerTitle, { color: theme.primaryText }]}> 
-                  Kurmatik Finance
-                </Text>
-                <Text style={[styles.headerSubtitle, { color: theme.secondaryText }]}> 
-                  Döviz Çevirici & Finansal AI Asistanı
-                </Text>
-              </View>
-            </View>
-            {/* stepsHeader prop'u logonun ve sloganın sağında, ortada göster */}
-            {stepsHeader && (
-              <View style={{ marginLeft: 'auto', marginRight: 'auto', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                {stepsHeader}
-              </View>
-            )}
-          </View>
-        </View>
-
-        {/* Market Ticker */}
-        <View style={[styles.ticker, { backgroundColor: theme.tickerBg }]}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={styles.tickerContent}>
-              <View style={styles.tickerItem}>
-                <Text style={[styles.tickerLabel, { color: theme.mutedText }]}>USD/TRY</Text>
-                <Text style={[styles.tickerValue, { color: theme.accent }]}>{snapshot.usdTry}</Text>
-              </View>
-              <View style={styles.tickerItem}>
-                <Text style={[styles.tickerLabel, { color: theme.mutedText }]}>EUR/TRY</Text>
-                <Text style={[styles.tickerValue, { color: theme.accent }]}>{snapshot.eurTry}</Text>
-              </View>
-              <View style={styles.tickerItem}>
-                <Text style={[styles.tickerLabel, { color: theme.mutedText }]}>Gram Altın</Text>
-                <Text style={[styles.tickerValue, { color: theme.gold }]}>{snapshot.gramAltin}₺</Text>
-              </View>
-              <View style={styles.tickerItem}>
-                <Text style={[styles.tickerLabel, { color: theme.mutedText }]}>BTC/USD</Text>
-                <Text style={[styles.tickerValue, { color: theme.crypto }]}>{snapshot.btcUsd}$</Text>
-              </View>
-            </View>
-          </ScrollView>
-        </View>
-
-        {/* Main Content - Desktop: Side by Side, Mobile: Stacked */}
-        <View style={styles.mainContent}>
-          
-          {/* Sol Panel: Kurmatik Döviz Çevirici */}
-          <View style={[styles.leftPanel, { backgroundColor: theme.cardBg, borderColor: theme.cardBorder }]}>
-            <View style={styles.panelHeader}>
-              <Image 
-                source={require('@/assets/images/icon.png')} 
-                style={styles.panelLogo}
-              />
-              <Text style={[styles.panelTitle, { color: theme.primaryText }]}>
-                💱 Döviz Çevirici
-              </Text>
-            </View>
-            
-            {/* Amount Input */}
-            <View style={styles.inputGroup}>
-              <Text style={[styles.inputLabel, { color: theme.secondaryText }]}>Miktar</Text>
-              <TextInput
-                style={[styles.amountInput, { 
-                  color: theme.primaryText, 
-                  backgroundColor: theme.inputBg,
-                  borderColor: theme.inputBorder 
-                }]}
-                value={amount}
-                onChangeText={setAmount}
-                keyboardType="decimal-pad"
-                placeholder="1.00"
-                placeholderTextColor={theme.mutedText}
-              />
-            </View>
-
-            {/* Currency Selectors */}
-            <View style={styles.currencySelectors}>
-              <View style={styles.currencyGroup}>
-                <Text style={[styles.inputLabel, { color: theme.secondaryText }]}>Kaynak</Text>
-                <Pressable style={[styles.currencyButton, { backgroundColor: theme.inputBg, borderColor: theme.inputBorder }]}>
-                  <Text style={[styles.currencyButtonText, { color: theme.primaryText }]}>
-                    {currencies.find(c => c.value === fromCurrency)?.label.split(' - ')[0] || fromCurrency}
-                  </Text>
-                </Pressable>
-              </View>
-              
-              <Pressable onPress={handleSwap} style={[styles.swapButton, { backgroundColor: theme.accent }]}>
-                <Text style={styles.swapIcon}>⇄</Text>
-              </Pressable>
-              
-              <View style={styles.currencyGroup}>
-                <Text style={[styles.inputLabel, { color: theme.secondaryText }]}>Hedef</Text>
-                <Pressable style={[styles.currencyButton, { backgroundColor: theme.inputBg, borderColor: theme.inputBorder }]}>
-                  <Text style={[styles.currencyButtonText, { color: theme.primaryText }]}>
-                    {currencies.find(c => c.value === toCurrency)?.label.split(' - ')[0] || toCurrency}
-                  </Text>
-                </Pressable>
-              </View>
-            </View>
-
-            {/* Convert Button */}
-            <Pressable 
-              onPress={handleConvert} 
-              disabled={loading}
-              style={[styles.convertButton, { backgroundColor: theme.accent }]}
-            >
-              <Text style={[styles.convertButtonText, { color: '#fff' }]}>
-                {loading ? 'Hesaplanıyor...' : 'Çevir'}
-              </Text>
-            </Pressable>
-
-            {/* Result */}
-            <View style={[styles.resultCard, { backgroundColor: theme.resultBg, borderColor: theme.resultBorder }]}>
-              <Text style={[styles.resultLabel, { color: theme.secondaryText }]}>Sonuç</Text>
-              <Text style={[styles.resultValue, { color: theme.accent }]}>
-                {result ? `${Number(result).toFixed(4)}` : '—'}
-              </Text>
-              {error && <Text style={[styles.errorText, { color: theme.error }]}>{error}</Text>}
-            </View>
-          </View>
-
-          {/* Sağ Panel: StockBot AI Chat + Widgets */}
-          <View style={[styles.rightPanel, { backgroundColor: theme.cardBg, borderColor: theme.cardBorder }]}>
-            <Text style={[styles.panelTitle, { color: theme.primaryText }]}
-            >
-              🤖 Finansal AI Asistanı
-            </Text>
-            
-            {/* Chat Messages Area */}
-            <View style={[styles.chatArea, { backgroundColor: theme.chatBg }]}>
-              {chatMessages.length === 0 ? (
-                <View style={styles.welcomeMessage}>
-                  <Text style={[styles.welcomeTitle, { color: theme.primaryText }]}>
-                    StockBot'a Hoş Geldin! 🚀
-                  </Text>
-                  <Text style={[styles.welcomeText, { color: theme.secondaryText }]}>
-                    • Hisse senedi fiyatları sorgula{'\n'}
-                    • Grafikleri görüntüle{'\n'}
-                    • Piyasa analizlerini al{'\n'}
-                    • Finansal haberleri takip et
-                  </Text>
-                  
-                  {/* Quick Action Buttons */}
-                  <View style={styles.quickActions}>
-                    <Pressable style={[styles.quickButton, { backgroundColor: theme.quickBg, borderColor: theme.quickBorder }]}>
-                      <Text style={[styles.quickButtonText, { color: theme.accent }]}>🍎 Apple fiyatı?</Text>
-                    </Pressable>
-                    <Pressable style={[styles.quickButton, { backgroundColor: theme.quickBg, borderColor: theme.quickBorder }]}>
-                      <Text style={[styles.quickButtonText, { color: theme.accent }]}>⚡ Tesla grafiği</Text>
-                    </Pressable>
-                    <Pressable style={[styles.quickButton, { backgroundColor: theme.quickBg, borderColor: theme.quickBorder }]}>
-                      <Text style={[styles.quickButtonText, { color: theme.accent }]}>📊 Piyasa durumu</Text>
-                    </Pressable>
-                  </View>
-                </View>
-              ) : (
-                // Chat messages will be rendered here
-                <View style={styles.messagesContainer}>
-                  {/* Messages go here */}
-                </View>
-              )}
-            </View>
-
-            {/* Chat Input */}
-            <View style={styles.chatInputContainer}>
-              <TextInput
-                style={[styles.chatInput, { 
-                  color: theme.primaryText, 
-                  backgroundColor: theme.inputBg,
-                  borderColor: theme.inputBorder 
-                }]}
-                value={chatInput}
-                onChangeText={setChatInput}
-                placeholder="Finansal sorularınızı sorun..."
-                placeholderTextColor={theme.mutedText}
-                multiline
-              />
-              <Pressable 
-                style={[styles.sendButton, { backgroundColor: theme.accent }]}
-                onPress={() => {/* Handle chat message */}}
-              >
-                <Text style={styles.sendIcon}>→</Text>
-              </Pressable>
-            </View>
-
-            {/* TradingView Widget Alanı: Kompakt ve Modern */}
-            <View style={[styles.widgetContainer, { backgroundColor: theme.widgetBg, borderColor: theme.cardBorder, padding: 0 }]}> 
-              <View style={{ width: '100%' }}>
-                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 18, padding: 16, letterSpacing: 0.5 }}>📈 Canlı Piyasa Görünümü</Text>
-                <View style={{ height: 1, backgroundColor: '#222', width: '100%' }} />
-              </View>
-              {Platform.OS === 'web' && (
-                <div style={{ display: 'flex', flexDirection: 'row', gap: 16, width: '100%', justifyContent: 'space-between', alignItems: 'stretch', background: 'none', padding: 16 }}>
-                  <div style={{ flex: 1, background: '#181c23', borderRadius: 16, boxShadow: '0 2px 16px rgba(0,0,0,0.18)', padding: 8, minWidth: 220, display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 340 }}>
-                    <div style={{ color: '#fff', fontWeight: 600, fontSize: 15, marginBottom: 8, letterSpacing: 0.2 }}>Hisse Fiyatı (AAPL)</div>
-                    <StockPriceWidget symbol="AAPL" height={100} />
-                  </div>
-                  <div style={{ flex: 1.5, background: '#181c23', borderRadius: 16, boxShadow: '0 2px 16px rgba(0,0,0,0.18)', padding: 8, minWidth: 320, display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 340 }}>
-                    <div style={{ color: '#fff', fontWeight: 600, fontSize: 15, marginBottom: 8, letterSpacing: 0.2 }}>Hisse Grafik (AAPL)</div>
-                    <StockChartWidget symbol="AAPL" height={220} />
-                  </div>
-                  <div style={{ flex: 1.2, background: '#181c23', borderRadius: 16, boxShadow: '0 2px 16px rgba(0,0,0,0.18)', padding: 8, minWidth: 260, display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 340 }}>
-                    <div style={{ color: '#fff', fontWeight: 600, fontSize: 15, marginBottom: 8, letterSpacing: 0.2 }}>Finansallar (AAPL)</div>
-                    <StockFinancialsWidget symbol="AAPL" height={220} />
-                  </div>
-                </div>
-              )}
-            </View>
-          </View>
-        </View>
-
-        {/* Footer */}
-        {/* Alt TradingView ticker - sabit bannerın üstünde, static */}
-        <TradingViewTickerAlt />
-        <View style={[styles.footer, { backgroundColor: theme.footerBg }]}> 
-          <View style={styles.footerContent}> 
-            <Image 
-              source={require('@/assets/images/icon.png')} 
-              style={styles.footerLogo}
-            />
-            <Text style={[styles.footerText, { color: theme.mutedText }]}> 
-              © 2024 Kurmatik Finance • Powered by StockBot AI • TradingView Widgets
-            </Text>
-          </View>
-        </View>
-
-        {Platform.OS === 'web' && <BannerHorizontal />}
-      </ScrollView>
-    )
   );
 }
 
@@ -748,19 +581,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   mainContent: {
-    flexDirection: Platform.OS === 'web' ? 'row' : 'column',
+    flexDirection: 'row',
     padding: 20,
     gap: 20,
-    ...(Platform.OS === 'web' ? { paddingLeft: 140, paddingRight: 140 } : {}),
+    paddingLeft: 140,
+    paddingRight: 140,
   },
   leftPanel: {
-    flex: Platform.OS === 'web' ? 1 : undefined,
+    flex: 1,
     padding: 24,
     borderRadius: 16,
     borderWidth: 1,
   },
   rightPanel: {
-    flex: Platform.OS === 'web' ? 1.2 : undefined,
+    flex: 1.2,
     padding: 24,
     borderRadius: 16,
     borderWidth: 1,
@@ -847,11 +681,22 @@ const styles = StyleSheet.create({
   },
   resultLabel: {
     fontSize: 14,
-    marginBottom: 8,
+    marginBottom: 12,
+  },
+  conversionFormula: {
+    fontSize: 14,
+    marginBottom: 6,
+    textAlign: 'center',
   },
   resultValue: {
     fontSize: 32,
     fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  conversionExplanation: {
+    fontSize: 12,
+    fontStyle: 'italic',
+    textAlign: 'center',
   },
   errorText: {
     fontSize: 12,

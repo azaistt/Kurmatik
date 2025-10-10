@@ -41,9 +41,35 @@ Kurmatik, Yahoo Finance API'sini kullanarak gerçek zamanlı döviz kurları ve 
 ### 🔧 Teknik Özellikler
 - **Lazy Loading**: Sayfa komponentleri için performans optimizasyonu
 - **Error Boundaries**: Kapsamlı hata yakalama
-- **Fallback APIs**: Birden fazla API kaynağı ile güvenilirlik
+- **Free & Open Source APIs**: Tamamen ücretsiz Yahoo Finance API kullanımı
+- **No API Key Required**: API anahtarı gerektirmeyen servisler
+- **Unlimited Requests**: Kota sınırlaması olmadan sınırsız istek
 - **Offline Support**: İnternet yokken static değerler
 - **TypeScript Support**: Tip güvenliği
+
+### 📡 API Kaynakları
+Kurmatik, %100 Yahoo Finance API kullanır - Tamamen ücretsiz ve açık kaynak:
+
+- **Yahoo Finance API**: Tüm finans verileri için tek kaynak
+  - ✅ Gerçek zamanlı döviz kurları
+  - ✅ Altın fiyatları (GC=F - COMEX Gold Futures)
+  - ✅ API anahtarı gerekmez
+  - ✅ Sınırsız istek - Kota yok
+  - ✅ 17+ para birimi desteği
+  - ✅ 7 farklı altın birimi hesaplama
+  - ✅ Çapraz kur desteği
+  - ✅ Altın-para birimi çevrimi
+  
+**Önceki Sürümler:**
+- ~~ExchangeRate-API~~ (Ücretli, kota sınırlaması) - Kaldırıldı ✅
+- ~~Truncgil API~~ (Türk altın piyasası) - Kaldırıldı ✅
+
+**Avantajlar:**
+- 🚀 Tek API = Daha hızlı ve tutarlı veri
+- 💰 %100 ücretsiz - Hiçbir ücret yok
+- 🔓 API anahtarı gerektirmez
+- ⚡ Kota sınırlaması yok
+- 🌍 Global piyasa verileri
 
 ## 🏃‍♂️ Çalıştırma
 

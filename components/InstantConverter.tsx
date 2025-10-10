@@ -32,9 +32,22 @@ export default function InstantConverter() {
     // eslint-disable-next-line
   }, [amount, fromCode]);
 
+  // Kaynak para birimi bilgisini al
+  const getFromLabel = () => {
+    const source = allOptions.find(opt => opt.code === fromCode);
+    return source?.label || fromCode;
+  };
+
   return (
     <View style={styles.container} className={Platform.OS === 'web' ? 'container' : ''}>
       <Text style={styles.title}>Anlık Kur / Altın Çevirici</Text>
+      
+      {/* Kaynak Para Birimi Bilgisi */}
+      <View style={styles.sourceInfo}>
+        <Text style={styles.sourceLabel}>Kaynak:</Text>
+        <Text style={styles.sourceValue}>{amount} {getFromLabel()} ({fromCode})</Text>
+      </View>
+
       <View style={styles.inputRow}>
         <TextInput
           style={styles.input}
@@ -56,6 +69,10 @@ export default function InstantConverter() {
           </Picker>
         </View>
       </View>
+
+      {/* Çevrim Sonuçları */}
+      <Text style={styles.resultsTitle}>Çevrim Sonuçları:</Text>
+      
       <View style={styles.grid} className={Platform.OS === 'web' ? 'grid' : ''}>
         {loading ? (
           <Text style={styles.loading}>Yükleniyor...</Text>
@@ -67,10 +84,16 @@ export default function InstantConverter() {
               className={Platform.OS === 'web' ? 'gridItem' : ''}
             >
               <Text style={styles.gridLabel} className={Platform.OS === 'web' ? 'gridLabel' : ''}>
-                {item.label}
+                ➜ {item.label}
+              </Text>
+              <Text style={styles.conversionText}>
+                {amount} {fromCode} =
               </Text>
               <Text style={styles.gridValue}>
-                {amount} {fromCode} = {item.value} {item.code}
+                {item.value} {item.code}
+              </Text>
+              <Text style={styles.explanationText}>
+                {getFromLabel()} → {item.label}
               </Text>
             </View>
           ))
@@ -99,6 +122,32 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginBottom: 16,
     textAlign: 'left',
+  },
+  sourceInfo: {
+    backgroundColor: '#1a2332',
+    padding: 12,
+    borderRadius: 12,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#2a3b4c',
+  },
+  sourceLabel: {
+    fontSize: 12,
+    color: '#8b95a5',
+    marginBottom: 4,
+    fontWeight: '600',
+  },
+  sourceValue: {
+    fontSize: 18,
+    color: '#fff',
+    fontWeight: '700',
+  },
+  resultsTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#8b95a5',
+    marginBottom: 12,
+    marginTop: 8,
   },
   inputRow: {
     flexDirection: 'row',
@@ -165,14 +214,28 @@ const styles = StyleSheet.create({
     color: '#bfa14a',
     fontWeight: '600',
     fontSize: 14,
-    marginBottom: 8,
+    marginBottom: 6,
     textAlign: 'center',
+  },
+  conversionText: {
+    color: '#8b95a5',
+    fontSize: 12,
+    textAlign: 'center',
+    marginTop: 4,
+    marginBottom: 2,
   },
   gridValue: {
     color: '#fff',
     fontWeight: '700',
-    fontSize: 16,
+    fontSize: 18,
     textAlign: 'center',
+    marginBottom: 4,
+  },
+  explanationText: {
+    color: '#6b7580',
+    fontSize: 11,
+    textAlign: 'center',
+    fontStyle: 'italic',
   },
   loading: {
     color: '#fff',
