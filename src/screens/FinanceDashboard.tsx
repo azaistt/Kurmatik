@@ -588,13 +588,14 @@ const styles = StyleSheet.create({
     paddingRight: 140,
   },
   leftPanel: {
-    flex: 1,
+    flex: 0.8,
     padding: 24,
     borderRadius: 16,
     borderWidth: 1,
+    maxWidth: 420,
   },
   rightPanel: {
-    flex: 1.2,
+    flex: 1.6,
     padding: 24,
     borderRadius: 16,
     borderWidth: 1,
