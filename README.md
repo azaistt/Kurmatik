@@ -1,287 +1,135 @@
-# 💰 Kurmatik - Modern Finans Uygulaması
+# 💰 Kurmatik - Modern Finans Platformu
 
-**Real-time Currency & Gold Price Converter with Smart Alerts**
+**Gerçek Zamanlı Döviz, Altın ve AI Finansal Asistan**
 
-Kurmatik, Yahoo Finance API'sini kullanarak gerçek zamanlı döviz kurları ve altın fiyatları sunan, akıllı uyarı sistemi ile donatılmış modern bir React Native uygulamasıdır.
+Kurmatik, canlı döviz kurları, altın fiyatları ve yapay zeka destekli finansal asistan ile donatılmış modern bir finans platformudur.
 
-## 🚀 Özellikler
+🌐 **Canlı Site**: [kurmatik.xyz](https://kurmatik.xyz)
 
-### 💱 Döviz Çevirici
-- **Desteklenen Para Birimleri**: USD, EUR, TRY, GBP, QAR, IRR, IQD, RUB
-- **Gerçek Zamanlı Kurlar**: Yahoo Finance API entegrasyonu
-- **Çapraz Kurlar**: Herhangi bir para biriminden diğerine çevrim
-- **Compact Design**: Mobil-optimized modern arayüz
-- **Otomatik Güncelleme**: Canlı piyasa verileri
+## ✨ Özellikler
+
+### 💱 Canlı Döviz Kurları
+- **USD/TRY, EUR/TRY** ve diğer döviz çiftleri
+- **Gerçek zamanlı** market ticker
+- **Anında çevirici** - hızlı hesaplama
 
 ### 🥇 Altın Fiyatları
-- **Gram Altın**: Anlık TL fiyatı
-- **Çeyrek Altın**: 1.608 gram
-- **Yarım Altın**: 3.216 gram
-- **Tam Altın**: 6.432 gram
-- **Cumhuriyet Altını**: 6.615 gram
-- **Ons Altın**: 31.1035 gram (Troy ons)
-- **XAU Entegrasyonu**: Ons bazlı uluslararası fiyatlar
+- **Gram Altın** canlı TL fiyatı
+- Otomatik güncelleme
+- TradingView chart entegrasyonu
 
-### 🔔 Akıllı Uyarı Sistemi
-- **Fiyat Uyarıları**: Kur ve altın fiyatları için hedef değer belirleme
-- **Koşul Bazlı**: Üstüne çıkınca / altına düşünce bildirim
-- **Kalıcı Depolama**: AsyncStorage ile uyarıları kaydetme
-- **Fallback Support**: AsyncStorage yoksa in-memory storage
-- **Real-time Monitoring**: Otomatik fiyat kontrolü
+### 🤖 AI Finansal Asistan
+- **Groq AI** (llama-3.3-70b-versatile)
+- Türkçe finansal danışmanlık
+- Hisse senedi, kripto, piyasa analizi
+- **Ücretsiz** (30 req/dk, 6000 token/dk)
 
-### 🎨 Modern UI/UX
-- **Swipe Navigation**: Sayfa geçişi için sağa-sola kaydırma
-- **Card-based Tasarım**: Profesyonel finans uygulaması görünümü
-- **Tema Sistemi**: Light/Dark mode desteği
-- **Responsive**: Mobil ve web uyumlu
-- **Compact Converter**: Küçük ekranda optimize edilmiş tasarım
-- **Pull-to-Refresh**: Verileri yenileme
-- **Keyboard Handling**: Otomatik klavye yönetimi
+### � TradingView Widget'ları
+- Hisse senedi fiyatları
+- Kripto para grafikleri
+- Forex piyasası
+- Market heat map
 
-### 🔧 Teknik Özellikler
-- **Lazy Loading**: Sayfa komponentleri için performans optimizasyonu
-- **Error Boundaries**: Kapsamlı hata yakalama
-- **Free & Open Source APIs**: Tamamen ücretsiz Yahoo Finance API kullanımı
-- **No API Key Required**: API anahtarı gerektirmeyen servisler
-- **Unlimited Requests**: Kota sınırlaması olmadan sınırsız istek
-- **Offline Support**: İnternet yokken static değerler
-- **TypeScript Support**: Tip güvenliği
+### � Teknik
+- **Vercel Serverless Functions** (/api/fx, /api/gold, /api/chat)
+- **Expo + React Native Web**
+- **TypeScript** desteği
+- **Responsive** tasarım
 
-### 📡 API Kaynakları
-Kurmatik, %100 Yahoo Finance API kullanır - Tamamen ücretsiz ve açık kaynak:
+## 🚀 Kurulum
 
-- **Yahoo Finance API**: Tüm finans verileri için tek kaynak
-  - ✅ Gerçek zamanlı döviz kurları
-  - ✅ Altın fiyatları (GC=F - COMEX Gold Futures)
-  - ✅ API anahtarı gerekmez
-  - ✅ Sınırsız istek - Kota yok
-  - ✅ 17+ para birimi desteği
-  - ✅ 7 farklı altın birimi hesaplama
-  - ✅ Çapraz kur desteği
-  - ✅ Altın-para birimi çevrimi
-  
-**Önceki Sürümler:**
-- ~~ExchangeRate-API~~ (Ücretli, kota sınırlaması) - Kaldırıldı ✅
-- ~~Truncgil API~~ (Türk altın piyasası) - Kaldırıldı ✅
-
-**Avantajlar:**
-- 🚀 Tek API = Daha hızlı ve tutarlı veri
-- 💰 %100 ücretsiz - Hiçbir ücret yok
-- 🔓 API anahtarı gerektirmez
-- ⚡ Kota sınırlaması yok
-- 🌍 Global piyasa verileri
-
-## 🏃‍♂️ Çalıştırma
-
-### Kurulum
 ```bash
 # Projeyi klonlayın
 git clone https://github.com/azaistt/Kurmatik.git
-cd Kurmatik
+cd Kurmatik/Kurmatik_
 
 # Bağımlılıkları yükleyin
 npm install
 
-# Uygulamayı başlatın
+# Environment variables oluşturun
+echo "GROQ_API_KEY=your_groq_api_key" > .env
+
+# Geliştirme sunucusunu başlatın
 npx expo start
+
+# Web için
+npx expo start --web
 ```
 
-### Test Etme
-- **Mobil**: QR kodu Expo Go ile tarayın
-- **Web**: Tarayıcıda açın (http://localhost:8081)
-- **Android**: Terminal'de `a` tuşuna basın
-- **iOS**: Terminal'de `i` tuşuna basın
-
-### Navigasyon
-- **Swipe**: Sayfa geçişi için sağa-sola kaydırın
-- **Home**: Ana sayfa - döviz ve altın çevirici
-- **Uyarılar**: İkinci sayfa - fiyat uyarıları
-
-## 📱 Uygulama Yapısı
+## � Proje Yapısı
 
 ```
-Kurmatik/
-├── app/
-│   ├── (tabs)/
-│   │   ├── _layout.tsx    # Ana navigasyon (TabView + Swipe)
-│   │   ├── index.tsx      # Ana sayfa
-│   │   └── explore.tsx    # Uyarılar sayfası
-│   └── _layout.tsx
+Kurmatik_/
+├── api/                   # Vercel Serverless Functions
+│   ├── fx.js             # Döviz API
+│   ├── gold.js           # Altın API  
+│   └── chat.js           # AI Chat API
+├── app/                   # Expo Router sayfaları
+│   ├── dashboard.tsx     # Ana finans sayfası
+│   ├── index.tsx         # Landing page
+│   └── (tabs)/
+├── components/            # React komponentleri
+│   ├── AIChat.tsx        # AI asistan
+│   ├── InstantConverter.tsx
+│   ├── TradingViewTicker.tsx
+│   └── market-widgets/   # TradingView widgets
 ├── src/
-│   ├── components/        # Yeniden kullanılabilir komponentler
-│   │   ├── Card.js
-│   │   ├── CompactConverter.js
-│   │   ├── CompactResult.js
-│   │   └── Header.js
-│   ├── lib/               # Yardımcı fonksiyonlar
-│   │   ├── api.js         # API entegrasyonları
-│   │   ├── alertBus.js    # Uyarı sistemi
-│   │   ├── format.js      # Veri formatlaması
-│   │   └── yahoo/         # Yahoo Finance API
-│   ├── screens/           # Sayfa komponentleri
-│   └── theme/             # Tema sistemi
-└── assets/                # Görseller ve ikonlar
+│   └── screens/
+│       └── FinanceDashboard.tsx  # Ana dashboard
+└── vercel.json           # Vercel konfigürasyonu
 ```
 
-## 🔌 API Entegrasyonları
+## 🔌 API Endpoints
 
-Bu projede birden fazla ücretsiz API kaynağı kullanılmıştır:
-
-### Birincil API'ler
-- **Yahoo Finance**: Döviz kurları için (`src/lib/yahoo/fx.js`)
-- **Truncgil**: Altın fiyatları için (`https://finans.truncgil.com/v4/today.json`)
-- **ExchangeRate API**: Fallback döviz kurları
-
-### Yardımcı Fonksiyonlar
-
-#### Ana API Fonksiyonları (`src/lib/api.js`)
-- `fetchFx(from, to, amount)` → Döviz çevirimi
-- `fetchGoldToday()` → Günlük altın fiyatları (TL)
-- `fetchGoldXau(to)` → XAU bazlı fiyatlar
-
-#### Veri Formatlama (`src/lib/format.js`)
-- `parseTr(string)` → TR formatından sayıya ("2.547,50" → 2547.5)
-- `num(number, digits)` → Sayıyı TR formatına
-
-#### Uyarı Sistemi (`src/lib/alertBus.js`)
-- `subscribe(callback)` → Uyarı sayısı değişikliklerini dinleme
-- `publish(count)` → Uyarı sayısını güncelleme
-
-### Test Scripti
-
-Windows PowerShell ile API'leri test edin:
-
-```powershell
-# Temel test
-node .\test-api.js
-
-# Yahoo Finance test
-node .\test-yahoo-comprehensive.js
-
-# XAU altın test
-node .\test-yahoo-xau.js
-```
-
-### Fallback Mekanizması
-
-Uygulama internet bağlantısı olmadığında veya API'ler yanıt vermediğinde static değerler kullanır:
-
+### `/api/fx` - Döviz Kurları
 ```javascript
-// Örnek fallback döviz kurları
-const staticRates = {
-  'USD': { 'TRY': 41.41, 'EUR': 0.92 },
-  'EUR': { 'TRY': 45.20, 'USD': 1.09 }
-};
-```
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-
-## 🥇 Altın Fiyatları Entegrasyonu
-
-### API Kaynağı
-- **Truncgil API**: `https://finans.truncgil.com/v4/today.json`
-- **Dönen Veriler**: Gram, Çeyrek, Yarım, Tam, Cumhuriyet, Ons altın fiyatları
-- **Format**: TR sayı formatı ("2.547,50")
-
-### Kullanım Örneği
-
-```javascript
-import { fetchGoldToday } from './src/lib/api';
-import { parseTr } from './src/lib/format';
-
-const gold = await fetchGoldToday();
-const prices = {
-  gram: parseTr(gold.gram?.Satış),
-  ceyrek: parseTr(gold.ceyrek?.Satış),
-  yarim: parseTr(gold.yarim?.Satış),
-  tam: parseTr(gold.tam?.Satış),
-  cumhuriyet: parseTr(gold.cumhuriyet?.Satış),
-  ons: parseTr(gold.ons?.Satış)
-};
-```
-
-### XAU Entegrasyonu
-
-Ons bazlı uluslararası fiyatlar için:
-
-```javascript
-import { fetchGoldXau } from './src/lib/api';
-
-const xauPrice = await fetchGoldXau('TRY'); // TRY cinsinden 1 ons fiyatı
-const gramPrice = xauPrice / 31.1035; // 1 gram fiyatı
-```
-
-## 🌐 Web Sürümü
-
-Kurmatik artık web'de de kullanılabilir! [kurmatik.vercel.app](https://kurmatik.vercel.app) adresinden modern web arayüzü ile erişebilirsiniz.
-
-### Vercel Deployment
-
-Kurmatik uygulaması Vercel üzerinde otomatik olarak deploy edilmektedir. Deployment ayarları:
-
-#### Vercel.json Yapılandırması
-
-```json
+// GET /api/fx?from=USD&to=TRY&amount=100
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "web-build"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/static/$1",
-      "headers": {
-        "cache-control": "public, max-age=31536000, immutable"
-      }
-    },
-    {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1",
-      "headers": {
-        "cache-control": "public, max-age=31536000, immutable"
-      }
-    },
-    {
-      "src": "/favicon.ico",
-      "dest": "/favicon.ico"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ]
+  "result": 4179.5,
+  "rate": 41.795,
+  "from": "USD",
+  "to": "TRY"
 }
 ```
 
-#### Vercel Dashboard Ayarları
+### `/api/gold` - Altın Fiyatları
+```javascript
+// GET /api/gold
+{
+  "gram_altin": 5670.17,
+  "updated": "2025-10-15T12:00:00Z"
+}
+```
 
-- **Framework Preset**: Other
-- **Build Command**: `npx expo export:web`
-- **Output Directory**: `web-build`
-- **Node.js Version**: 22.x
+### `/api/chat` - AI Asistan
+```javascript
+// POST /api/chat
+{
+  "message": "Apple hisse senedi fiyatı nedir?",
+  "conversationId": "main-chat"
+}
 
-#### Web Deployment için Geliştirmeler
+// Response
+{
+  "response": "Apple (AAPL) hisse senedi...",
+  "cached": false,
+  "model": "llama-3.3-70b-versatile"
+}
+```
 
-- TradingView ticker'ın sadece web'de gösterilmesi
-- Responsive tasarım ve layout ayarlamaları
-- Platform-specific component yapısı
-- Vercel Speed Insights entegrasyonu
+## 📊 Kullanılan Teknolojiler
+
+- **Frontend**: React Native + Expo
+- **Backend**: Vercel Serverless Functions
+- **AI**: Groq API (llama-3.3-70b)
+- **Charts**: TradingView Widgets
+- **APIs**: Yahoo Finance, Truncgil
+- **Deployment**: Vercel
+
+## 📝 Lisans
+
+MIT License - Açık kaynak projedir.
+
+## 👤 Geliştirici
+
+**azaistt** - [GitHub](https://github.com/azaistt)

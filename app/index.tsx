@@ -1,5 +1,6 @@
 import FinanceDashboard from '@/src/screens/FinanceDashboard';
 import { View, Text, useColorScheme, StyleSheet, Platform } from 'react-native';
+import Head from 'expo-router/head';
 
 const STEPS = [
   { step: '1', title: 'Kurmatik’i aç', description: 'Web veya mobil uygulamada aynı hesap ile giriş yap.' },
@@ -57,5 +58,18 @@ const styles = StyleSheet.create({
 
 // Header'ın yanına StepsHeaderInline'ı prop olarak gönder
 export default function FinanceDashboardWithSteps() {
-  return <FinanceDashboard stepsHeader={<StepsHeaderInline />} />;
+  return (
+    <>
+      {Platform.OS === 'web' && (
+        <Head>
+          <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4687295574139351"
+            crossOrigin="anonymous"
+          />
+        </Head>
+      )}
+      <FinanceDashboard stepsHeader={<StepsHeaderInline />} />
+    </>
+  );
 }

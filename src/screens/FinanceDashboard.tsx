@@ -11,6 +11,7 @@ import TradingViewTickerAlt from '@/components/TradingViewTickerAlt';
 import StockPriceWidget from '@/components/market-widgets/StockPriceWidget';
 import StockChartWidget from '@/components/market-widgets/StockChartWidget';
 import StockFinancialsWidget from '@/components/market-widgets/StockFinancialsWidget';
+import AdSenseBanner from '@/components/AdSenseBanner';
 
 // Modern tek sayfalık finans paneli
 export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactNode }) {
@@ -268,7 +269,39 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
   };
 
   return (
-    <div style={{ minHeight: '100vh', boxSizing: 'border-box', overflowY: 'auto', background: theme.page }}>
+    <div style={{ minHeight: '100vh', boxSizing: 'border-box', overflowY: 'auto', background: theme.page, position: 'relative' }}>
+      {/* Sol Kenar - Dikey Banner Reklam */}
+      <div style={{ 
+        position: 'fixed', 
+        left: '10px', 
+        top: '50%', 
+        transform: 'translateY(-50%)',
+        width: '160px',
+        zIndex: 100
+      }}>
+        <AdSenseBanner 
+          adSlot="1234567890"
+          adFormat="auto"
+          style={{ width: '160px', minHeight: '600px' }}
+        />
+      </div>
+
+      {/* Sağ Kenar - Dikey Banner Reklam */}
+      <div style={{ 
+        position: 'fixed', 
+        right: '10px', 
+        top: '50%', 
+        transform: 'translateY(-50%)',
+        width: '160px',
+        zIndex: 100
+      }}>
+        <AdSenseBanner 
+          adSlot="0987654321"
+          adFormat="auto"
+          style={{ width: '160px', minHeight: '600px' }}
+        />
+      </div>
+
       {/* TradingView Ticker - Header'ın hemen altında */}
       <TradingViewTicker />
         {/* Header */}
@@ -566,6 +599,22 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
             </Text>
           </View>
         </View>
+
+        {/* Alt Banner - Horizontal AdSense */}
+        <div style={{ 
+          width: '100%', 
+          padding: '20px 0',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <AdSenseBanner 
+            adSlot="1122334455"
+            adFormat="auto"
+            fullWidthResponsive={true}
+            style={{ maxWidth: '970px', width: '100%', minHeight: '90px' }}
+          />
+        </div>
 
         <BannerHorizontal />
       </div>
