@@ -104,8 +104,14 @@ export interface GoldPriceResponse {
 // Development: Direct API call | Production: Vercel proxy
 export async function fetchFx(from: string, to: string, amount: number): Promise<FxResponse> {
   try {
+    // Check if we're in development mode
+    const isDev = typeof window !== 'undefined' && 
+                  (window.location.hostname === 'localhost' || 
+                   window.location.hostname === '127.0.0.1' ||
+                   window.location.port === '8081');
+    
     // Development mode: Direct Yahoo Finance call
-    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+    if (isDev) {
       const url = `https://query1.finance.yahoo.com/v8/finance/chart/${from}${to}=X`;
       const response = await fetch(url);
       
@@ -159,8 +165,14 @@ export async function fetchFx(from: string, to: string, amount: number): Promise
  */
 export async function fetchGoldPrice(currency = 'USD'): Promise<GoldPriceResponse> {
   try {
+    // Check if we're in development mode
+    const isDev = typeof window !== 'undefined' && 
+                  (window.location.hostname === 'localhost' || 
+                   window.location.hostname === '127.0.0.1' ||
+                   window.location.port === '8081');
+    
     // Development mode: Direct Yahoo Finance call
-    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+    if (isDev) {
       const url = 'https://query1.finance.yahoo.com/v8/finance/chart/GC=F';
       const response = await fetch(url);
       
