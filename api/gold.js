@@ -15,14 +15,13 @@ module.exports = async function (req, res) {
     }
 
     // GC=F: Gold Futures (COMEX) - price per troy ounce in USD
-    const result = await yf.chart('GC=F');
-    const meta = result?.chart?.result?.[0]?.meta || result?.meta || null;
+    const quote = await yf.quote('GC=F');
     
-    if (!meta || !meta.regularMarketPrice) {
+    if (!quote || !quote.regularMarketPrice) {
       return res.status(404).json({ error: 'gold_price_not_found' });
     }
 
-    const ouncePrice = meta.regularMarketPrice;
+    const ouncePrice = quote.regularMarketPrice;
     const gramPrice = ouncePrice / 31.1035; // Convert troy ounce to gram
 
     const data = {
