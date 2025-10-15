@@ -558,27 +558,31 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   ticker: {
-    paddingVertical: 12,
+    paddingVertical: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#e2e8f0',
+    minHeight: 70,
   },
   tickerContent: {
     flexDirection: 'row',
-    paddingHorizontal: 16,
+    paddingHorizontal: 24,
+    alignItems: 'center',
   },
   tickerItem: {
     alignItems: 'center',
     marginRight: 32,
-    minWidth: 80,
+    minWidth: 120,
   },
   tickerLabel: {
-    fontSize: 12,
-    fontWeight: '500',
-    marginBottom: 2,
+    fontSize: 13,
+    fontWeight: '600',
+    marginBottom: 4,
+    letterSpacing: 0.5,
   },
   tickerValue: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
+    letterSpacing: 0.3,
   },
   mainContent: {
     flexDirection: 'row',

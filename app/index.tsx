@@ -16,9 +16,9 @@ function StepsHeaderInline() {
       <View style={styles.stepsRow}>
         {STEPS.map((item, idx) => (
           <View key={item.step} style={styles.stepItem}>
-            <Text style={{ color: dark ? '#4ade80' : '#2563eb', fontWeight: 'bold', fontSize: 20 }}>{item.step}</Text>
+            <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 20 }}>{item.step}</Text>
             <Text style={{ color: dark ? '#fff' : '#111827', fontWeight: '800', fontSize: 18, marginLeft: 2 }}>{item.title}</Text>
-            {idx < STEPS.length - 1 && <Text style={{ color: dark ? '#4ade80' : '#2563eb', fontWeight: 'bold', fontSize: 28, marginHorizontal: 12 }}>→</Text>}
+            {idx < STEPS.length - 1 && <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 28, marginHorizontal: 12 }}>→</Text>}
           </View>
         ))}
       </View>
