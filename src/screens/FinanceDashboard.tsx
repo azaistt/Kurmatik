@@ -50,25 +50,24 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
     setChatLoading(true);
 
     try {
-      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      // Call our Vercel serverless function instead of directly calling Groq
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.EXPO_PUBLIC_GROQ_API_KEY || ''}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          model: 'llama-3.1-70b-versatile',
-          messages: [
-            { role: 'system', content: 'Sen Kurmatik finans platformunun AI asistanısın. Hisse senedi, döviz, kripto ve finans konularında yardımcı oluyorsun. Kısa ve öz yanıtlar ver. Türkçe konuş.' },
-            { role: 'user', content: questionText }
-          ],
-          max_tokens: 300,
-          temperature: 0.7
+          message: questionText,
+          conversationId: 'main-chat'
         })
       });
 
+      if (!response.ok) {
+        throw new Error(`API responded with status: ${response.status}`);
+      }
+
       const data = await response.json();
-      const aiContent = data.choices?.[0]?.message?.content || 'Üzgünüm, yanıt alamadım.';
+      const aiContent = data.response || 'Üzgünüm, yanıt alamadım.';
       
       setChatMessages(prev => [...prev, { 
         id: (Date.now() + 1).toString(), 
