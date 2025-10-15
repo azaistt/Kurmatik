@@ -14,6 +14,7 @@ module.exports = async function (req, res) {
   }
 
   try {
+    console.log('Chat API called:', { body: req.body, env: process.env.GROQ_API_KEY ? 'KEY_EXISTS' : 'NO_KEY' });
     const { message, conversationId } = req.body;
     
     if (!message || typeof message !== 'string') {
@@ -53,7 +54,7 @@ module.exports = async function (req, res) {
         'Authorization': `Bearer ${GROQ_API_KEY}`
       },
       body: JSON.stringify({
-        model: 'llama-3.1-70b-versatile',
+        model: 'llama-3.3-70b-versatile',
         messages: [
           { 
             role: 'system', 
