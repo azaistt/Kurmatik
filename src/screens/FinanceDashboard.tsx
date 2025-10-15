@@ -83,11 +83,14 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
 
     async function fetchRealTimeData() {
       try {
+        console.log('📊 Fetching real-time market data...');
         const [usd, eur, gold] = await Promise.all([
           fetchFx('USD', 'TRY', 1),
           fetchFx('EUR', 'TRY', 1),
           fetchGoldPrice('TRY'),
         ]);
+
+        console.log('📈 Market data received:', { usd, eur, gold });
 
         if (cancelled) return;
 
@@ -96,19 +99,22 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
           const value = typeof input === 'number' ? input : Number(String(input).replace(',', '.'));
           if (!Number.isFinite(value)) return '—';
           return new Intl.NumberFormat('tr-TR', {
-            minimumFractionDigits: 0,
+            minimumFractionDigits: 2,
             maximumFractionDigits: fraction,
           }).format(value);
         };
 
-        setSnapshot({
-          usdTry: format(usd?.result ?? usd?.rate),
-          eurTry: format(eur?.result ?? eur?.rate),
+        const snapshotData = {
+          usdTry: format(usd?.rate ?? usd?.result ?? 0),
+          eurTry: format(eur?.rate ?? eur?.result ?? 0),
           gramAltin: format(gold?.gram ?? 0),
-          btcUsd: '98,750', // Mock BTC price
-        });
+          btcUsd: '98,750', // Mock BTC price - TODO: Add real BTC/USD fetch
+        };
+
+        console.log('✅ Snapshot updated:', snapshotData);
+        setSnapshot(snapshotData);
       } catch (error) {
-        console.warn('Real-time data fetch failed', error);
+        console.error('❌ Real-time data fetch failed:', error);
       }
     }
 
