@@ -14,7 +14,11 @@ module.exports = async function (req, res) {
   }
 
   try {
-    console.log('Chat API called:', { body: req.body, env: process.env.GROQ_API_KEY ? 'KEY_EXISTS' : 'NO_KEY' });
+    console.log('Chat API called:', { 
+      body: req.body, 
+      env: process.env.GROQ_API_KEY ? 'KEY_EXISTS' : 'NO_KEY',
+      keyLength: process.env.GROQ_API_KEY?.length || 0
+    });
     const { message, conversationId } = req.body;
     
     if (!message || typeof message !== 'string') {
@@ -44,9 +48,11 @@ module.exports = async function (req, res) {
     const GROQ_API_KEY = process.env.GROQ_API_KEY || process.env.EXPO_PUBLIC_GROQ_API_KEY;
     
     if (!GROQ_API_KEY) {
+      console.error('API key missing!');
       return res.status(500).json({ error: 'API key not configured' });
     }
 
+    console.log('Calling Groq API with message:', message.substring(0, 50));
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -69,7 +75,11 @@ module.exports = async function (req, res) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Groq API error:', response.status, errorText);
+      console.error('Groq API error:', { 
+        status: response.status, 
+        statusText: response.statusText,
+        error: errorText 
+      });
       return res.status(response.status).json({ 
         error: 'AI service error', 
         details: errorText 
@@ -93,10 +103,16 @@ module.exports = async function (req, res) {
     });
 
   } catch (err) {
-    console.error('api/chat error:', err?.message || err);
+    console.error('api/chat error:', {
+      message: err?.message,
+      stack: err?.stack,
+      name: err?.name,
+      raw: String(err)
+    });
     return res.status(500).json({ 
       error: 'internal_error', 
-      message: String(err) 
+      message: err?.message || String(err),
+      type: err?.name
     });
   }
 };
