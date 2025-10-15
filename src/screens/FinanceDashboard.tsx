@@ -35,8 +35,63 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
   });
 
   // Chat messages state
-  const [chatMessages, setChatMessages] = useState([]);
+  const [chatMessages, setChatMessages] = useState<Array<{id: string; role: 'user' | 'assistant'; content: string}>>([]);
   const [chatInput, setChatInput] = useState('');
+  const [chatLoading, setChatLoading] = useState(false);
+
+  // Chat handler
+  const handleSendMessage = async () => {
+    if (!chatInput.trim() || chatLoading) return;
+    
+    const userMsg = { id: Date.now().toString(), role: 'user' as const, content: chatInput };
+    setChatMessages(prev => [...prev, userMsg]);
+    const questionText = chatInput;
+    setChatInput('');
+    setChatLoading(true);
+
+    try {
+      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.EXPO_PUBLIC_GROQ_API_KEY || ''}`
+        },
+        body: JSON.stringify({
+          model: 'llama-3.1-70b-versatile',
+          messages: [
+            { role: 'system', content: 'Sen Kurmatik finans platformunun AI asistanısın. Hisse senedi, döviz, kripto ve finans konularında yardımcı oluyorsun. Kısa ve öz yanıtlar ver. Türkçe konuş.' },
+            { role: 'user', content: questionText }
+          ],
+          max_tokens: 300,
+          temperature: 0.7
+        })
+      });
+
+      const data = await response.json();
+      const aiContent = data.choices?.[0]?.message?.content || 'Üzgünüm, yanıt alamadım.';
+      
+      setChatMessages(prev => [...prev, { 
+        id: (Date.now() + 1).toString(), 
+        role: 'assistant', 
+        content: aiContent 
+      }]);
+    } catch (error) {
+      console.error('Chat error:', error);
+      setChatMessages(prev => [...prev, { 
+        id: (Date.now() + 1).toString(), 
+        role: 'assistant', 
+        content: '❌ Bağlantı hatası. Lütfen tekrar deneyin.' 
+      }]);
+    } finally {
+      setChatLoading(false);
+    }
+  };
+
+  // Quick action handler
+  const handleQuickAction = (question: string) => {
+    setChatInput(question);
+    setTimeout(() => handleSendMessage(), 100);
+  };
 
   // Multi-converter state
   const [multiConverterInput, setMultiConverterInput] = useState('');
@@ -412,22 +467,42 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
                   
                   {/* Quick Action Buttons */}
                   <View style={styles.quickActions}>
-                    <Pressable style={[styles.quickButton, { backgroundColor: theme.quickBg, borderColor: theme.quickBorder }]}>
+                    <Pressable 
+                      style={[styles.quickButton, { backgroundColor: theme.quickBg, borderColor: theme.quickBorder }]}
+                      onPress={() => handleQuickAction('Apple hisse senedi fiyatı nedir?')}
+                    >
                       <Text style={[styles.quickButtonText, { color: theme.accent }]}>🍎 Apple fiyatı?</Text>
                     </Pressable>
-                    <Pressable style={[styles.quickButton, { backgroundColor: theme.quickBg, borderColor: theme.quickBorder }]}>
+                    <Pressable 
+                      style={[styles.quickButton, { backgroundColor: theme.quickBg, borderColor: theme.quickBorder }]}
+                      onPress={() => handleQuickAction('Tesla hisse senedi grafiği hakkında bilgi ver')}
+                    >
                       <Text style={[styles.quickButtonText, { color: theme.accent }]}>⚡ Tesla grafiği</Text>
                     </Pressable>
-                    <Pressable style={[styles.quickButton, { backgroundColor: theme.quickBg, borderColor: theme.quickBorder }]}>
+                    <Pressable 
+                      style={[styles.quickButton, { backgroundColor: theme.quickBg, borderColor: theme.quickBorder }]}
+                      onPress={() => handleQuickAction('Bugünkü piyasa durumu nasıl?')}
+                    >
                       <Text style={[styles.quickButtonText, { color: theme.accent }]}>📊 Piyasa durumu</Text>
                     </Pressable>
                   </View>
                 </View>
               ) : (
-                // Chat messages will be rendered here
-                <View style={styles.messagesContainer}>
-                  {/* Messages go here */}
-                </View>
+                <ScrollView style={styles.messagesContainer} contentContainerStyle={{ paddingBottom: 8 }}>
+                  {chatMessages.map(msg => (
+                    <View key={msg.id} style={[
+                      styles.chatMessage,
+                      msg.role === 'user' ? styles.userChatMessage : styles.assistantChatMessage
+                    ]}>
+                      <Text style={styles.chatMessageText}>{msg.content}</Text>
+                    </View>
+                  ))}
+                  {chatLoading && (
+                    <View style={styles.loadingContainer}>
+                      <Text style={{ color: theme.accent, fontSize: 14 }}>💭 Düşünüyor...</Text>
+                    </View>
+                  )}
+                </ScrollView>
               )}
             </View>
 
@@ -446,8 +521,9 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
                 multiline
               />
               <Pressable 
-                style={[styles.sendButton, { backgroundColor: theme.accent }]}
-                onPress={() => {/* Handle chat message */}}
+                style={[styles.sendButton, { backgroundColor: theme.accent, opacity: chatLoading ? 0.5 : 1 }]}
+                onPress={handleSendMessage}
+                disabled={chatLoading}
               >
                 <Text style={styles.sendIcon}>→</Text>
               </Pressable>
@@ -755,6 +831,30 @@ const styles = StyleSheet.create({
   },
   messagesContainer: {
     flex: 1,
+  },
+  chatMessage: {
+    padding: 12,
+    borderRadius: 12,
+    marginBottom: 8,
+    maxWidth: '80%',
+  },
+  userChatMessage: {
+    backgroundColor: '#2563eb',
+    alignSelf: 'flex-end',
+    marginLeft: 'auto',
+  },
+  assistantChatMessage: {
+    backgroundColor: '#1a202c',
+    alignSelf: 'flex-start',
+  },
+  chatMessageText: {
+    color: '#fff',
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  loadingContainer: {
+    padding: 12,
+    alignItems: 'center',
   },
   chatInputContainer: {
     flexDirection: 'row',
