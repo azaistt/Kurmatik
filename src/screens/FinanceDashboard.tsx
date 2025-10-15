@@ -242,19 +242,19 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={styles.tickerContent}>
               <View style={styles.tickerItem}>
-                <Text style={[styles.tickerLabel, { color: theme.mutedText }]}>USD/TRY</Text>
+                <Text style={[styles.tickerLabel, { color: '#ffffff' }]}>USD/TRY</Text>
                 <Text style={[styles.tickerValue, { color: theme.accent }]}>{snapshot.usdTry}</Text>
               </View>
               <View style={styles.tickerItem}>
-                <Text style={[styles.tickerLabel, { color: theme.mutedText }]}>EUR/TRY</Text>
+                <Text style={[styles.tickerLabel, { color: '#ffffff' }]}>EUR/TRY</Text>
                 <Text style={[styles.tickerValue, { color: theme.accent }]}>{snapshot.eurTry}</Text>
               </View>
               <View style={styles.tickerItem}>
-                <Text style={[styles.tickerLabel, { color: theme.mutedText }]}>Gram Altın</Text>
+                <Text style={[styles.tickerLabel, { color: '#ffffff' }]}>Gram Altın</Text>
                 <Text style={[styles.tickerValue, { color: theme.gold }]}>{snapshot.gramAltin}₺</Text>
               </View>
               <View style={styles.tickerItem}>
-                <Text style={[styles.tickerLabel, { color: theme.mutedText }]}>BTC/USD</Text>
+                <Text style={[styles.tickerLabel, { color: '#ffffff' }]}>BTC/USD</Text>
                 <Text style={[styles.tickerValue, { color: theme.crypto }]}>{snapshot.btcUsd}$</Text>
               </View>
             </View>

@@ -12,12 +12,12 @@ function StepsHeaderInline() {
   const dark = colorScheme === 'dark';
   return (
     <View style={styles.stepsHeaderContainer}>
-      <Text style={[styles.stepsHeaderTitle, { color: dark ? '#bfc9db' : '#6b7280' }]}>NASIL ÇALIŞIR?</Text>
+      <Text style={[styles.stepsHeaderTitle, { color: '#ffffff' }]}>NASIL ÇALIŞIR?</Text>
       <View style={styles.stepsRow}>
         {STEPS.map((item, idx) => (
           <View key={item.step} style={styles.stepItem}>
             <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 20 }}>{item.step}</Text>
-            <Text style={{ color: dark ? '#fff' : '#111827', fontWeight: '800', fontSize: 18, marginLeft: 2 }}>{item.title}</Text>
+            <Text style={{ color: '#ffffff', fontWeight: '800', fontSize: 18, marginLeft: 2 }}>{item.title}</Text>
             {idx < STEPS.length - 1 && <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 28, marginHorizontal: 12 }}>→</Text>}
           </View>
         ))}
