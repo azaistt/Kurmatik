@@ -21,18 +21,19 @@ module.exports = async function (req, res) {
       return res.json({ cached: true, source: cache.data.source, data: cache.data });
     }
 
-    const result = await yf.chart(symbol);
-    const meta = result?.chart?.result?.[0]?.meta || result?.meta || null;
-    if (!meta) {
+    // yahoo-finance2 doğrudan quote() kullanarak daha basit
+    const quote = await yf.quote(symbol);
+    
+    if (!quote || !quote.regularMarketPrice) {
       return res.status(404).json({ error: 'symbol_not_found', symbol });
     }
 
     const data = {
       symbol,
-      rate: meta.regularMarketPrice,
-      previousClose: meta.previousClose,
-      change: meta.regularMarketPrice - meta.previousClose,
-      changePercent: meta.previousClose ? ((meta.regularMarketPrice - meta.previousClose) / meta.previousClose) * 100 : 0,
+      rate: quote.regularMarketPrice,
+      previousClose: quote.regularMarketPreviousClose || quote.previousClose,
+      change: quote.regularMarketChange || 0,
+      changePercent: quote.regularMarketChangePercent || 0,
       timestamp: Date.now(),
       source: 'yahoo-finance2'
     };
