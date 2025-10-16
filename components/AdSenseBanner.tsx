@@ -38,7 +38,7 @@ export default function AdSenseBanner({
           minHeight: style?.minHeight || '90px',
           width: '100%',
         }}
-        data-ad-client="ca-pub-4687295574139351"
+        data-ad-client="ca-pub-1300472662769141"
         data-ad-slot={adSlot}
         data-ad-format={adFormat}
         data-full-width-responsive={fullWidthResponsive ? 'true' : 'false'}

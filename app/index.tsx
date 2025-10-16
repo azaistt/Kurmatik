@@ -64,7 +64,7 @@ export default function FinanceDashboardWithSteps() {
         <Head>
           <script
             async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4687295574139351"
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1300472662769141"
             crossOrigin="anonymous"
           />
         </Head>
