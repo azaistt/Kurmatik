@@ -594,9 +594,54 @@ export default function FinanceDashboard({ stepsHeader }: { stepsHeader?: ReactN
               source={require('@/assets/images/icon.png')} 
               style={styles.footerLogo}
             />
-            <Text style={[styles.footerText, { color: theme.mutedText }]}> 
-              © 2024 Kurmatik Finance • Powered by StockBot AI • TradingView Widgets
-            </Text>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={[styles.footerText, { color: theme.mutedText, marginBottom: 8 }]}> 
+                © 2025 Kurmatik Finance • Powered by Groq AI • TradingView Widgets
+              </Text>
+              <div style={{ 
+                display: 'flex', 
+                gap: '16px', 
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                justifyContent: 'center'
+              }}>
+                <a href="/privacy" style={{ 
+                  color: theme.mutedText, 
+                  textDecoration: 'none', 
+                  fontSize: '12px',
+                  padding: '4px 8px'
+                }}>
+                  Privacy Policy
+                </a>
+                <span style={{ color: theme.mutedText, fontSize: '12px' }}>•</span>
+                <a href="/terms" style={{ 
+                  color: theme.mutedText, 
+                  textDecoration: 'none', 
+                  fontSize: '12px',
+                  padding: '4px 8px'
+                }}>
+                  Terms of Service
+                </a>
+                <span style={{ color: theme.mutedText, fontSize: '12px' }}>•</span>
+                <a href="/about" style={{ 
+                  color: theme.mutedText, 
+                  textDecoration: 'none', 
+                  fontSize: '12px',
+                  padding: '4px 8px'
+                }}>
+                  About Us
+                </a>
+                <span style={{ color: theme.mutedText, fontSize: '12px' }}>•</span>
+                <a href="mailto:info@kurmatik.xyz" style={{ 
+                  color: theme.mutedText, 
+                  textDecoration: 'none', 
+                  fontSize: '12px',
+                  padding: '4px 8px'
+                }}>
+                  Contact
+                </a>
+              </div>
+            </View>
           </View>
         </View>
 

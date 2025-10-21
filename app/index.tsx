@@ -62,6 +62,20 @@ export default function FinanceDashboardWithSteps() {
     <>
       {Platform.OS === 'web' && (
         <Head>
+          <title>Kurmatik Finance - Döviz Çevirici & AI Finansal Asistan</title>
+          <meta name="description" content="Canlı döviz kurları, altın fiyatları ve yapay zeka destekli finansal danışmanlık. USD/TRY, EUR/TRY kurları ve anında çeviri." />
+          <meta name="keywords" content="döviz çevirici, altın fiyatı, USD TRY, EUR TRY, finansal asistan, AI, kurmatik" />
+          <meta name="author" content="Kurmatik Finance" />
+          <meta name="robots" content="index, follow" />
+          <meta property="og:title" content="Kurmatik Finance - Döviz Çevirici" />
+          <meta property="og:description" content="Canlı döviz kurları ve AI finansal asistan" />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://kurmatik.xyz" />
+          <meta property="og:image" content="https://kurmatik.xyz/assets/images/icon.png" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Kurmatik Finance" />
+          <meta name="twitter:description" content="Döviz çevirici ve finansal asistan" />
+          <link rel="canonical" href="https://kurmatik.xyz" />
           <script
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1300472662769141"
