@@ -14,11 +14,20 @@
 .back { display: inline-block; margin-bottom: 2rem; color: var(--primary); text-decoration: none; }
 .back:hover { text-decoration: underline; }
 .box { background: var(--dark-card); padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid var(--primary); }
+.btn { padding: 8px 16px; border: 2px solid var(--primary); background: transparent; color: var(--text-primary); border-radius: 20px; cursor: pointer; margin-right: 1rem; }
+.btn.active { background: var(--primary); color: white; }
+.ct { display: none; }
+.ct.active { display: block; }
 </style>
 </head>
 <body>
 <div class='pg'>
 <a href='index.html' class='back'>← Ana Sayfaya Dön</a>
+<div style='text-align: center; margin-bottom: 2rem;'>
+<button class='btn active' onclick="show('tr')">🇹🇷 TR</button>
+<button class='btn' onclick="show('en')">🇺🇸 EN</button>
+</div>
+<div id='tr' class='ct active'>
 <h1>Destek ve Yardım</h1>
 <h2>İletişim</h2>
 <div class='box'>
@@ -46,5 +55,41 @@
 <hr style='margin: 3rem 0; border: none; border-top: 1px solid rgba(255,255,255,0.1);'>
 <p style='text-align: center;'><a href='index.html' class='back'>Ana Sayfa</a> | <a href='privacy.html' class='back'>Gizlilik</a> | <a href='terms.html' class='back'>Koşullar</a></p>
 </div>
+<div id='en' class='ct'>
+<h1>Support and Help</h1>
+<h2>Contact</h2>
+<div class='box'>
+<p><strong>Email:</strong> <a href='mailto:erolkpln@gmail.com'>erolkpln@gmail.com</a> | <a href='mailto:info@kurmatik.xyz'>info@kurmatik.xyz</a></p>
+<p><strong>Website:</strong> <a href='https://www.kurmatik.xyz'>www.kurmatik.xyz</a></p>
+<p><strong>Phone:</strong> <a href='tel:+905356115641'>+90 535 611 56 41</a></p>
+<p><strong>Location:</strong> Istanbul, Turkey</p>
+</div>
+<h2>Frequently Asked Questions</h2>
+<h3>What is Kurmatik?</h3>
+<p>A real-time exchange rates, gold prices, and AI-powered finance application.</p>
+<h3>How often is the data updated?</h3>
+<p>Financial data is automatically updated approximately every 30 seconds.</p>
+<h3>Is the app free?</h3>
+<p>Yes! Kurmatik is completely free.</p>
+<h3>Is my data safe?</h3>
+<p>Yes. Kurmatik does not share any of your personal information with third parties. Check our <a href='privacy.html'>Privacy Policy</a>.</p>
+<h3>I found an error, how do I report it?</h3>
+<p>Send an email to: <a href='mailto:info@kurmatik.xyz'>info@kurmatik.xyz</a></p>
+<h2>Resources</h2>
+<ul>
+<li><a href='privacy.html'>Privacy Policy</a></li>
+<li><a href='terms.html'>Terms of Service</a></li>
+</ul>
+<hr style='margin: 3rem 0; border: none; border-top: 1px solid rgba(255,255,255,0.1);'>
+<p style='text-align: center;'><a href='index.html' class='back'>Home</a> | <a href='privacy.html' class='back'>Privacy</a> | <a href='terms.html' class='back'>Terms</a></p>
+</div>
 </body>
-</html>
+<script>
+function show(l){
+  document.querySelectorAll('.ct').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.btn').forEach(e=>e.classList.remove('active'));
+  document.getElementById(l).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>

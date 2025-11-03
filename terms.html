@@ -13,13 +13,22 @@
 .pg ul { margin-left: 1.5rem; }
 .back { display: inline-block; margin-bottom: 2rem; color: var(--primary); text-decoration: none; }
 .back:hover { text-decoration: underline; }
+.btn { padding: 8px 16px; border: 2px solid var(--primary); background: transparent; color: var(--text-primary); border-radius: 20px; cursor: pointer; margin-right: 1rem; }
+.btn.active { background: var(--primary); color: white; }
+.ct { display: none; }
+.ct.active { display: block; }
 </style>
 </head>
 <body>
 <div class='pg'>
 <a href='index.html' class='back'>← Ana Sayfaya Dön</a>
+<div style='text-align: center; margin-bottom: 2rem;'>
+<button class='btn active' onclick="show('tr')">🇹🇷 TR</button>
+<button class='btn' onclick="show('en')">🇺🇸 EN</button>
+</div>
+<div id='tr' class='ct active'>
 <h1>Kullanım Koşulları</h1>
-<p><strong>Son Güncelleme:</strong> 3 Kasım 2025</p>
+<p><strong>Son Güncelleme:</strong> <span id='date-tr'></span></p>
 <p>Kurmatik uygulamasını kullanarak bu koşulları kabul etmiş olursunuz.</p>
 <h2>Hizmet Tanımı</h2>
 <p>Kurmatik şu hizmetleri sunar:</p>
@@ -59,5 +68,69 @@
 <hr style='margin: 3rem 0; border: none; border-top: 1px solid rgba(255,255,255,0.1);'>
 <p style='text-align: center;'><a href='index.html' class='back'>Ana Sayfa</a> | <a href='privacy.html' class='back'>Gizlilik</a> | <a href='support.html' class='back'>Destek</a></p>
 </div>
+<div id='en' class='ct'>
+<h1>Terms of Service</h1>
+<p><strong>Last Updated:</strong> <span id='date-en'></span></p>
+<p>By using the Kurmatik application, you agree to these terms.</p>
+<h2>Service Description</h2>
+<p>Kurmatik provides the following services:</p>
+<ul>
+<li>Real-time exchange rates</li>
+<li>Gold prices</li>
+<li>Price alerts</li>
+<li>Market charts</li>
+</ul>
+<h2>Acceptable Use</h2>
+<ul>
+<li>You will use the app for legal purposes</li>
+<li>You will not violate anyone's rights</li>
+<li>You will not send automated requests</li>
+</ul>
+<h2>Financial Information</h2>
+<p><strong>IMPORTANT:</strong> The information provided is for information purposes only.</p>
+<ul>
+<li>Not investment advice</li>
+<li>Does not provide financial consulting</li>
+<li>Contains no guarantees or warranties</li>
+</ul>
+<p>Make investment decisions at your own risk.</p>
+<h2>Data Accuracy</h2>
+<p>Kurmatik does its best to ensure data accuracy but makes no 100% guarantee. There may be delays or errors in the data.</p>
+<h2>Service Interruptions</h2>
+<p>Kurmatik does not guarantee 24/7 uninterrupted service.</p>
+<h2>Limitation of Liability</h2>
+<p>Kurmatik cannot be held responsible for direct or indirect damages.</p>
+<h2>Applicable Law</h2>
+<p>These terms are governed by the laws of the Republic of Turkey.</p>
+<h2>Contact</h2>
+<p><strong>Email:</strong> <a href='mailto:erolkpln@gmail.com'>erolkpln@gmail.com</a> | <a href='mailto:info@kurmatik.xyz'>info@kurmatik.xyz</a></p>
+<p><strong>Website:</strong> <a href='https://www.kurmatik.xyz'>www.kurmatik.xyz</a></p>
+<p><strong>Phone:</strong> <a href='tel:+905356115641'>+90 535 611 56 41</a></p>
+<p><strong>Location:</strong> Istanbul, Turkey</p>
+<hr style='margin: 3rem 0; border: none; border-top: 1px solid rgba(255,255,255,0.1);'>
+<p style='text-align: center;'><a href='index.html' class='back'>Home</a> | <a href='privacy.html' class='back'>Privacy</a> | <a href='support.html' class='back'>Support</a></p>
+</div>
 </body>
-</html>
+<script>
+function show(l){
+  document.querySelectorAll('.ct').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.btn').forEach(e=>e.classList.remove('active'));
+  document.getElementById(l).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function updateDate() {
+  const months_tr = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+  const months_en = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const today = new Date();
+  
+  const date_tr = `${today.getDate()} ${months_tr[today.getMonth()]} ${today.getFullYear()}`;
+  const date_en = `${months_en[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
+  
+  document.getElementById('date-tr').textContent = date_tr;
+  document.getElementById('date-en').textContent = date_en;
+}
+
+updateDate();
+</script>
+</body>
