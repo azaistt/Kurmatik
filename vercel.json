@@ -1,12 +1,5 @@
 {
-  "buildCommand": "npm run vercel-build",
-  "outputDirectory": "dist",
-  "framework": null,
   "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "/api/:path*"
-    },
     {
       "source": "/privacy",
       "destination": "/privacy.html"
@@ -18,21 +11,6 @@
     {
       "source": "/terms",
       "destination": "/terms.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/_expo/static/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
     }
   ]
 }
