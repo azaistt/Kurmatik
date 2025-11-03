@@ -4,7 +4,15 @@
 
 Kurmatik, canlı döviz kurları, altın fiyatları ve yapay zeka destekli finansal asistan ile donatılmış modern bir finans platformudur.
 
-🌐 **Canlı Site**: [kurmatik.xyz](https://kurmatik.xyz)
+🌐 **Canlı Site**: [kurmatik.xyz](https://kurmatik.xyz)  
+📱 **App Store**: Yakında...  
+🤖 **Google Play**: Yakında...
+
+## 📄 Yasal Sayfalar
+
+- [Gizlilik Politikası](https://kurmatik.xyz/privacy.html)
+- [Destek Sayfası](https://kurmatik.xyz/support.html)
+- [Kullanım Koşulları](https://kurmatik.xyz/terms.html)
 
 ## ✨ Özellikler
 
@@ -59,14 +67,14 @@ npx expo start --web
 ## � Proje Yapısı
 
 ```
-Kurmatik_/
+Kurmatik/
 ├── api/                   # Vercel Serverless Functions
 │   ├── fx.js             # Döviz API
 │   ├── gold.js           # Altın API  
 │   └── chat.js           # AI Chat API
 ├── app/                   # Expo Router sayfaları
 │   ├── dashboard.tsx     # Ana finans sayfası
-│   ├── index.tsx         # Landing page
+│   ├── index.tsx         # Uygulama ana sayfa
 │   └── (tabs)/
 ├── components/            # React komponentleri
 │   ├── AIChat.tsx        # AI asistan
@@ -76,6 +84,11 @@ Kurmatik_/
 ├── src/
 │   └── screens/
 │       └── FinanceDashboard.tsx  # Ana dashboard
+├── index.html            # Web landing page
+├── privacy.html          # Gizlilik politikası
+├── support.html          # Destek sayfası
+├── terms.html            # Kullanım koşulları
+├── landing.css           # Landing page stilleri
 └── vercel.json           # Vercel konfigürasyonu
 ```
 
@@ -130,6 +143,14 @@ Kurmatik_/
 
 MIT License - Açık kaynak projedir.
 
-## 👤 Geliştirici
+## � İletişim
+
+- **E-posta**: [erolkpln@gmail.com](mailto:erolkpln@gmail.com) | [info@kurmatik.xyz](mailto:info@kurmatik.xyz)
+- **Web**: [www.kurmatik.xyz](https://www.kurmatik.xyz)
+- **Telefon**: +90 535 611 56 41
+- **Konum**: İstanbul, Türkiye
+- **GitHub**: [github.com/azaistt/Kurmatik](https://github.com/azaistt/Kurmatik)
+
+## �👤 Geliştirici
 
 **azaistt** - [GitHub](https://github.com/azaistt)
