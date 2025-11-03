@@ -1,174 +1,63 @@
-<!DOCTYPE html>
-<html lang="tr">
+﻿<!DOCTYPE html>
+<html lang='tr'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kullanım Koşulları - Kurmatik</title>
-    <link rel="stylesheet" href="landing.css">
-    <style>
-        .terms-page {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        .terms-page h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-        .terms-page h2 {
-            font-size: 1.8rem;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-        .terms-page p, .terms-page li {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--gray);
-            margin-bottom: 1rem;
-        }
-        .terms-page ul {
-            margin-left: 2rem;
-        }
-        .back-link {
-            display: inline-block;
-            margin-bottom: 2rem;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-        .last-updated {
-            font-style: italic;
-            color: var(--gray);
-            margin-bottom: 2rem;
-        }
-    </style>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>Kullanım Koşulları - Kurmatik</title>
+<link rel='stylesheet' href='landing.css'>
+<style>
+.pg { max-width: 900px; margin: 0 auto; padding: 60px 20px; }
+.pg h1 { font-size: 2rem; color: var(--primary); text-align: center; }
+.pg h2 { font-size: 1.3rem; margin-top: 1.5rem; color: var(--text-primary); }
+.pg p, .pg li { font-size: 0.95rem; line-height: 1.7; color: var(--text-secondary); }
+.pg ul { margin-left: 1.5rem; }
+.back { display: inline-block; margin-bottom: 2rem; color: var(--primary); text-decoration: none; }
+.back:hover { text-decoration: underline; }
+</style>
 </head>
 <body>
-    <div class="terms-page">
-        <a href="index.html" class="back-link">← Ana Sayfaya Dön</a>
-        
-        <h1>Kullanım Koşulları</h1>
-        <p class="last-updated">Son Güncelleme: 3 Kasım 2025</p>
-        
-        <p>Kurmatik mobil uygulamasını kullanarak, aşağıdaki kullanım koşullarını kabul etmiş olursunuz. Lütfen bu koşulları dikkatlice okuyun.</p>
-        
-        <h2>1. Hizmet Tanımı</h2>
-        <p>Kurmatik, kullanıcılara şu hizmetleri sunar:</p>
-        <ul>
-            <li>Gerçek zamanlı döviz kurları</li>
-            <li>Altın fiyatları (gram, çeyrek, ons)</li>
-            <li>AI destekli finansal asistan</li>
-            <li>Döviz çevirme araçları</li>
-            <li>Piyasa grafikleri ve analizleri</li>
-        </ul>
-        
-        <h2>2. Kabul Edilen Kullanım</h2>
-        <p>Kurmatik'i kullanarak aşağıdakileri kabul edersiniz:</p>
-        <ul>
-            <li>Uygulamayı yasal amaçlarla kullanacaksınız</li>
-            <li>Başkalarının haklarını ihlal etmeyeceksiniz</li>
-            <li>Uygulamayı tersine mühendislik yapmayacaksınız</li>
-            <li>Otomatik sistemlerle aşırı istek göndermeyeceksiniz</li>
-        </ul>
-        
-        <h2>3. Finansal Bilgiler ve Sorumluluk Reddi</h2>
-        <p><strong>ÖNEMLİ:</strong> Kurmatik'te sağlanan tüm finansal bilgiler yalnızca bilgilendirme amaçlıdır. Bu bilgiler:</p>
-        <ul>
-            <li>Yatırım tavsiyesi değildir</li>
-            <li>Finansal danışmanlık hizmeti sunmaz</li>
-            <li>Alım-satım kararları için tek kaynak olmamalıdır</li>
-            <li>Garanti veya taahhüt içermez</li>
-        </ul>
-        <p>Kullanıcılar, yatırım kararlarını kendi sorumluluklarında alır. Kurmatik, finansal kayıplardan sorumlu tutulamaz.</p>
-        
-        <h2>4. Veri Doğruluğu</h2>
-        <p>Kurmatik, veri doğruluğu için elinden geleni yapar ancak:</p>
-        <ul>
-            <li>Verilerin %100 doğru olduğunu garanti etmez</li>
-            <li>Gecikme veya hatalı veri olabilir</li>
-            <li>Üçüncü taraf API'lere bağımlıdır (Yahoo Finance, Truncgil vb.)</li>
-        </ul>
-        <p>Kritik kararlar için birden fazla kaynağı kontrol etmeniz önerilir.</p>
-        
-        <h2>5. AI Asistan Kullanımı</h2>
-        <p>AI Finansal Asistan:</p>
-        <ul>
-            <li>Groq AI teknolojisini kullanır</li>
-            <li>Genel bilgi amaçlıdır, profesyonel danışmanlık değildir</li>
-            <li>Yanıtlar her zaman doğru olmayabilir</li>
-            <li>Yatırım kararları için tek kaynak olmamalıdır</li>
-        </ul>
-        
-        <h2>6. Hizmet Kesintileri</h2>
-        <p>Kurmatik:</p>
-        <ul>
-            <li>7/24 kesintisiz hizmet garantisi vermez</li>
-            <li>Bakım için geçici olarak kapatılabilir</li>
-            <li>Üçüncü taraf API kesintilerinden etkilenebilir</li>
-            <li>Önceden haber vermeden güncellenebilir</li>
-        </ul>
-        
-        <h2>7. Fikri Mülkiyet</h2>
-        <p>Kurmatik uygulaması ve içeriği telif hakkı ile korunmaktadır. Kullanıcılar:</p>
-        <ul>
-            <li>Uygulamayı kopyalayamaz veya dağıtamaz</li>
-            <li>Kaynak kodunu tersine mühendislik yapamaz</li>
-            <li>Ticari amaçla yeniden satamaz</li>
-        </ul>
-        <p>Açık kaynak bileşenler MIT lisansı altındadır.</p>
-        
-        <h2>8. Kullanıcı Davranışı</h2>
-        <p>Kullanıcılar aşağıdaki davranışlardan kaçınmalıdır:</p>
-        <ul>
-            <li>Spam veya kötüye kullanım</li>
-            <li>Aşırı API istekleri (rate limiting)</li>
-            <li>Zararlı yazılım yükleme girişimleri</li>
-            <li>Güvenlik açıklarını istismar etme</li>
-        </ul>
-        
-        <h2>9. Hesap Askıya Alma</h2>
-        <p>Kurmatik, kullanım koşullarını ihlal eden kullanıcıların erişimini askıya alma veya sonlandırma hakkını saklı tutar.</p>
-        
-        <h2>10. Gizlilik</h2>
-        <p>Kullanıcı verilerinin korunması için <a href="privacy.html">Gizlilik Politikamızı</a> okuyun.</p>
-        
-        <h2>11. Değişiklikler</h2>
-        <p>Kurmatik, bu kullanım koşullarını istediği zaman değiştirme hakkını saklı tutar. Önemli değişiklikler uygulama içinde duyurulacaktır.</p>
-        
-        <h2>12. Sorumluluk Sınırı</h2>
-        <p>Kurmatik ve geliştiricileri:</p>
-        <ul>
-            <li>Doğrudan veya dolaylı zararlardan sorumlu değildir</li>
-            <li>Veri kaybından sorumlu tutulamaz</li>
-            <li>Üçüncü taraf hizmet kesintilerinden sorumlu değildir</li>
-            <li>Finansal kayıplardan sorumlu tutulamaz</li>
-        </ul>
-        
-        <h2>13. Uygulanacak Hukuk</h2>
-        <p>Bu kullanım koşulları Türkiye Cumhuriyeti yasalarına tabidir.</p>
-        
-        <h2>14. İletişim</h2>
-        <p>Kullanım koşulları hakkında sorularınız için:</p>
-        <p>
-            <strong>E-posta:</strong> <a href="mailto:erolkpln@gmail.com">erolkpln@gmail.com</a> | <a href="mailto:info@kurmatik.xyz">info@kurmatik.xyz</a><br>
-            <strong>Web:</strong> <a href="https://www.kurmatik.xyz" target="_blank">www.kurmatik.xyz</a><br>
-            <strong>Telefon:</strong> <a href="tel:+905356115641">+90 535 611 56 41</a><br>
-            <strong>Konum:</strong> İstanbul, Türkiye<br>
-            <strong>GitHub:</strong> <a href="https://github.com/azaistt/Kurmatik" target="_blank">github.com/azaistt/Kurmatik</a>
-        </p>
-        
-        <hr style="margin: 3rem 0; border: none; border-top: 1px solid #ddd;">
-        
-        <p style="text-align: center;">
-            <a href="index.html" class="back-link">← Ana Sayfaya Dön</a> | 
-            <a href="privacy.html" class="back-link">Gizlilik Politikası</a> | 
-            <a href="support.html" class="back-link">Destek</a>
-        </p>
-    </div>
+<div class='pg'>
+<a href='index.html' class='back'>← Ana Sayfaya Dön</a>
+<h1>Kullanım Koşulları</h1>
+<p><strong>Son Güncelleme:</strong> 3 Kasım 2025</p>
+<p>Kurmatik uygulamasını kullanarak bu koşulları kabul etmiş olursunuz.</p>
+<h2>Hizmet Tanımı</h2>
+<p>Kurmatik şu hizmetleri sunar:</p>
+<ul>
+<li>Gerçek zamanlı döviz kurları</li>
+<li>Altın fiyatları</li>
+<li>Fiyat alarmları</li>
+<li>Piyasa grafikleri</li>
+</ul>
+<h2>Kabul Edilen Kullanım</h2>
+<ul>
+<li>Uygulamayı yasal amaçlarla kullanacaksınız</li>
+<li>Başkalarının haklarını ihlal etmeyeceksiniz</li>
+<li>Otomatik istekler göndermeyeceksiniz</li>
+</ul>
+<h2>Finansal Bilgiler</h2>
+<p><strong>ÖNEML:</strong> Sağlanan bilgiler yalnızca bilgilendirme amaçlıdır.</p>
+<ul>
+<li>Yatırım tavsiyesi değildir</li>
+<li>Finansal danışmanlık sunmaz</li>
+<li>Garanti veya taahhüt içermez</li>
+</ul>
+<p>Yatırım kararlarını kendi sorumluluğunuzda alınız.</p>
+<h2>Veri Doğruluğu</h2>
+<p>Kurmatik, veri doğruluğu için elinden geleni yapar ancak %100 garanti vermez. Verilerde gecikme veya hata olabilir.</p>
+<h2>Hizmet Kesintileri</h2>
+<p>Kurmatik 7/24 kesintisiz hizmet garantisi vermez.</p>
+<h2>Sorumluluk Sınırı</h2>
+<p>Kurmatik, doğrudan veya dolaylı zararlardan sorumlu tutulamaz.</p>
+<h2>Uygulanacak Hukuk</h2>
+<p>Bu koşullar Türkiye Cumhuriyeti yasalarına tabidir.</p>
+<h2>İletişim</h2>
+<p><strong>E-posta:</strong> <a href='mailto:erolkpln@gmail.com'>erolkpln@gmail.com</a> | <a href='mailto:info@kurmatik.xyz'>info@kurmatik.xyz</a></p>
+<p><strong>Web:</strong> <a href='https://www.kurmatik.xyz'>www.kurmatik.xyz</a></p>
+<p><strong>Telefon:</strong> <a href='tel:+905356115641'>+90 535 611 56 41</a></p>
+<p><strong>Konum:</strong> İstanbul, Türkiye</p>
+<hr style='margin: 3rem 0; border: none; border-top: 1px solid rgba(255,255,255,0.1);'>
+<p style='text-align: center;'><a href='index.html' class='back'>Ana Sayfa</a> | <a href='privacy.html' class='back'>Gizlilik</a> | <a href='support.html' class='back'>Destek</a></p>
+</div>
 </body>
 </html>
