@@ -28,7 +28,7 @@
 </div>
 <div id='tr' class='ct'>
 <h1>Gizlilik Politikası</h1>
-<p><strong>3 Kasım 2025</strong></p>
+<p><strong><span id='date-tr'></span></strong></p>
 <h2>Toplanan Bilgiler</h2>
 <ul><li>Uygulama ayarları (yerel)</li><li>Fiyat alarmları (cihazda)</li><li>Anonim istatistikler</li></ul>
 <h2>Veri Kaynakları</h2>
@@ -47,7 +47,7 @@
 </div>
 <div id='en' class='ct active'>
 <h1>Privacy Policy</h1>
-<p><strong>November 3, 2025</strong></p>
+<p><strong><span id='date-en'></span></strong></p>
 <h2>Information Collected</h2>
 <ul><li>App settings (local)</li><li>Price alerts (on device)</li><li>Anonymous stats</li></ul>
 <h2>Data Sources</h2>
@@ -67,6 +67,27 @@
 <hr style='margin: 3rem 0; border: none; border-top: 1px solid rgba(255,255,255,0.1);'>
 <p style='text-align: center;'><a href='index.html' class='back'>Ana Sayfa</a> | <a href='support.html' class='back'>Destek</a> | <a href='terms.html' class='back'>Koşullar</a></p>
 </div>
-<script>function show(l){document.querySelectorAll('.ct').forEach(e=>e.classList.remove('active'));document.querySelectorAll('.btn').forEach(e=>e.classList.remove('active'));document.getElementById(l).classList.add('active');event.target.classList.add('active');}</script>
+<script>
+function show(l){
+  document.querySelectorAll('.ct').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.btn').forEach(e=>e.classList.remove('active'));
+  document.getElementById(l).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function updateDate() {
+  const months_tr = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+  const months_en = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const today = new Date();
+  
+  const date_tr = `${today.getDate()} ${months_tr[today.getMonth()]} ${today.getFullYear()}`;
+  const date_en = `${months_en[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
+  
+  document.getElementById('date-tr').textContent = date_tr;
+  document.getElementById('date-en').textContent = date_en;
+}
+
+updateDate();
+</script>
 </body>
 </html>
