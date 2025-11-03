@@ -24,8 +24,8 @@
 <div class='pg'>
 <a href='index.html' class='back'>← Ana Sayfaya Dön</a>
 <div style='text-align: center; margin-bottom: 2rem;'>
-<button class='btn' onclick="show('tr')">🇹🇷 TR</button>
-<button class='btn active' onclick="show('en')">🇺🇸 EN</button>
+<button class='btn' onclick="show(this, 'tr')">🇹🇷 TR</button>
+<button class='btn active' onclick="show(this, 'en')">🇺🇸 EN</button>
 </div>
 <div id='tr' class='ct'>
 <h1>Destek ve Yardım</h1>
@@ -85,11 +85,11 @@
 </div>
 </body>
 <script>
-function show(l){
-  document.querySelectorAll('.ct').forEach(e=>e.classList.remove('active'));
-  document.querySelectorAll('.btn').forEach(e=>e.classList.remove('active'));
+function show(e, l){
+  document.querySelectorAll('.ct').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.btn').forEach(el=>el.classList.remove('active'));
   document.getElementById(l).classList.add('active');
-  event.target.classList.add('active');
+  e.classList.add('active');
 }
 </script>
 </body>
