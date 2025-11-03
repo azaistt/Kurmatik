@@ -1,143 +1,429 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gizlilik Politikası - Kurmatik</title>
-    <link rel="stylesheet" href="landing.css">
-    <style>
-        .policy-page {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        .policy-page h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-        .policy-page h2 {
-            font-size: 1.8rem;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-        .policy-page p, .policy-page li {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--gray);
-            margin-bottom: 1rem;
-        }
-        .policy-page ul {
-            margin-left: 2rem;
-        }
-        .back-link {
-            display: inline-block;
-            margin-bottom: 2rem;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-        .last-updated {
-            font-style: italic;
-            color: var(--gray);
-            margin-bottom: 2rem;
-        }
-    </style>
-</head>
-<body>
-    <div class="policy-page">
-        <a href="index.html" class="back-link">← Ana Sayfaya Dön</a>
-        
-        <h1>Gizlilik Politikası</h1>
-        <p class="last-updated">Son Güncelleme: 3 Kasım 2025</p>
-        
-        <p>Kurmatik ("biz", "bizim" veya "uygulama"), kullanıcıların gizliliğini korumaya kararlıdır. Bu gizlilik politikası, Kurmatik mobil uygulaması kullanılırken hangi bilgilerin toplandığını, nasıl kullanıldığını ve korunduğunu açıklar.</p>
-        
-        <h2>1. Toplanan Bilgiler</h2>
-        <p>Kurmatik aşağıdaki bilgileri toplayabilir:</p>
-        <ul>
-            <li><strong>Finansal Veriler:</strong> Uygulama içinde görüntülediğiniz döviz kurları, altın fiyatları ve piyasa verileri.</li>
-            <li><strong>Kullanım Verileri:</strong> Uygulamanın nasıl kullanıldığına dair anonim istatistikler.</li>
-            <li><strong>Tercihler:</strong> Uygulama ayarları ve tercihleri (favori para birimleri vb.).</li>
-        </ul>
-        
-        <h2>2. Veri Kaynakları</h2>
-        <p>Kurmatik, finansal verileri aşağıdaki kaynaklardan alır:</p>
-        <ul>
-            <li><strong>Yahoo Finance API:</strong> Döviz kurları, hisse senedi fiyatları</li>
-            <li><strong>Truncgil API:</strong> Altın fiyatları</li>
-            <li><strong>TradingView:</strong> Grafik ve piyasa widget'ları</li>
-        </ul>
-        <p>Güncelleme sıklığı: Veriler yaklaşık 30 saniyede bir otomatik olarak güncellenir.</p>
-        
-        <h2>3. Bilgilerin Kullanımı</h2>
-        <p>Toplanan bilgiler şu amaçlarla kullanılır:</p>
-        <ul>
-            <li>Gerçek zamanlı finansal verileri sağlamak</li>
-            <li>Uygulama performansını iyileştirmek</li>
-            <li>Kullanıcı deneyimini kişiselleştirmek</li>
-            <li>Teknik sorunları tespit etmek ve çözmek</li>
-        </ul>
-        
-        <h2>4. AI Asistan</h2>
+<!DOCTYPE html><!DOCTYPE html>
+
+<html lang="tr"><html lang="tr">
+
+<head><head>
+
+    <meta charset="UTF-8">    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Privacy Policy / Gizlilik Politikası - Kurmatik</title>    <title>Gizlilik Politikası - Kurmatik</title>
+
+    <link rel="stylesheet" href="landing.css">    <link rel="stylesheet" href="landing.css">
+
+    <style>    <style>
+
+        .policy-page {        .policy-page {
+
+            max-width: 900px;            max-width: 900px;
+
+            margin: 0 auto;            margin: 0 auto;
+
+            padding: 40px 20px;            padding: 40px 20px;
+
+        }        }
+
+        .policy-page h1 {        .policy-page h1 {
+
+            font-size: 2.5rem;            font-size: 2.5rem;
+
+            margin-bottom: 1rem;            margin-bottom: 1rem;
+
+            color: var(--primary);            color: var(--primary-color);
+
+        }        }
+
+        .policy-page h2 {        .policy-page h2 {
+
+            font-size: 1.8rem;            font-size: 1.8rem;
+
+            margin-top: 2rem;            margin-top: 2rem;
+
+            margin-bottom: 1rem;            margin-bottom: 1rem;
+
+            color: var(--text-primary);            color: var(--dark);
+
+        }        }
+
+        .policy-page p, .policy-page li {        .policy-page p, .policy-page li {
+
+            font-size: 1.1rem;            font-size: 1.1rem;
+
+            line-height: 1.8;            line-height: 1.8;
+
+            color: var(--text-secondary);            color: var(--gray);
+
+            margin-bottom: 1rem;            margin-bottom: 1rem;
+
+        }        }
+
+        .policy-page ul {        .policy-page ul {
+
+            margin-left: 2rem;            margin-left: 2rem;
+
+        }        }
+
+        .back-link {        .back-link {
+
+            display: inline-block;            display: inline-block;
+
+            margin-bottom: 2rem;            margin-bottom: 2rem;
+
+            color: var(--primary);            color: var(--primary-color);
+
+            text-decoration: none;            text-decoration: none;
+
+            font-weight: 500;            font-weight: 500;
+
+        }        }
+
+        .back-link:hover {        .back-link:hover {
+
+            text-decoration: underline;            text-decoration: underline;
+
+        }        }
+
+        .last-updated {        .last-updated {
+
+            font-style: italic;            font-style: italic;
+
+            color: var(--text-secondary);            color: var(--gray);
+
+            margin-bottom: 2rem;            margin-bottom: 2rem;
+
+        }        }
+
+        .language-toggle {    </style>
+
+            display: flex;</head>
+
+            gap: 1rem;<body>
+
+            margin-bottom: 2rem;    <div class="policy-page">
+
+            justify-content: center;        <a href="index.html" class="back-link">← Ana Sayfaya Dön</a>
+
+        }        
+
+        .language-toggle button {        <h1>Gizlilik Politikası</h1>
+
+            padding: 10px 20px;        <p class="last-updated">Son Güncelleme: 3 Kasım 2025</p>
+
+            border: 2px solid var(--primary);        
+
+            background: transparent;        <p>Kurmatik ("biz", "bizim" veya "uygulama"), kullanıcıların gizliliğini korumaya kararlıdır. Bu gizlilik politikası, Kurmatik mobil uygulaması kullanılırken hangi bilgilerin toplandığını, nasıl kullanıldığını ve korunduğunu açıklar.</p>
+
+            color: var(--text-primary);        
+
+            border-radius: 25px;        <h2>1. Toplanan Bilgiler</h2>
+
+            cursor: pointer;        <p>Kurmatik aşağıdaki bilgileri toplayabilir:</p>
+
+            font-weight: 600;        <ul>
+
+            transition: all 0.3s;            <li><strong>Finansal Veriler:</strong> Uygulama içinde görüntülediğiniz döviz kurları, altın fiyatları ve piyasa verileri.</li>
+
+        }            <li><strong>Kullanım Verileri:</strong> Uygulamanın nasıl kullanıldığına dair anonim istatistikler.</li>
+
+        .language-toggle button.active {            <li><strong>Tercihler:</strong> Uygulama ayarları ve tercihleri (favori para birimleri vb.).</li>
+
+            background: var(--primary);        </ul>
+
+        }        
+
+        .language-toggle button:hover {        <h2>2. Veri Kaynakları</h2>
+
+            background: var(--primary);        <p>Kurmatik, finansal verileri aşağıdaki kaynaklardan alır:</p>
+
+        }        <ul>
+
+        .content-section {            <li><strong>Yahoo Finance API:</strong> Döviz kurları, hisse senedi fiyatları</li>
+
+            display: none;            <li><strong>Truncgil API:</strong> Altın fiyatları</li>
+
+        }            <li><strong>TradingView:</strong> Grafik ve piyasa widget'ları</li>
+
+        .content-section.active {        </ul>
+
+            display: block;        <p>Güncelleme sıklığı: Veriler yaklaşık 30 saniyede bir otomatik olarak güncellenir.</p>
+
+        }        
+
+    </style>        <h2>3. Bilgilerin Kullanımı</h2>
+
+</head>        <p>Toplanan bilgiler şu amaçlarla kullanılır:</p>
+
+<body>        <ul>
+
+    <div class="policy-page">            <li>Gerçek zamanlı finansal verileri sağlamak</li>
+
+        <a href="index.html" class="back-link">← Ana Sayfaya Dön / Back to Home</a>            <li>Uygulama performansını iyileştirmek</li>
+
+                    <li>Kullanıcı deneyimini kişiselleştirmek</li>
+
+        <div class="language-toggle">            <li>Teknik sorunları tespit etmek ve çözmek</li>
+
+            <button onclick="switchLanguage('tr')" id="btn-tr" class="active">🇹🇷 Türkçe</button>        </ul>
+
+            <button onclick="switchLanguage('en')" id="btn-en">🇺🇸 English</button>        
+
+        </div>        <h2>4. AI Asistan</h2>
+
         <p>Kurmatik'teki AI Finansal Asistan şu şekilde çalışır:</p>
-        <ul>
-            <li><strong>Model:</strong> Groq AI (llama-3.3-70b-versatile)</li>
-            <li><strong>Veri Saklama:</strong> Sohbet geçmişi yerel olarak cihazınızda saklanır</li>
-            <li><strong>Üçüncü Taraf:</strong> Sorularınız Groq API'sine gönderilir ancak kişisel bilgileriniz paylaşılmaz</li>
-            <li><strong>Amaç:</strong> Sadece finansal bilgi ve piyasa analizi sağlamak</li>
-        </ul>
+
+        <!-- Turkish Version -->        <ul>
+
+        <div id="content-tr" class="content-section active">            <li><strong>Model:</strong> Groq AI (llama-3.3-70b-versatile)</li>
+
+            <h1>Gizlilik Politikası</h1>            <li><strong>Veri Saklama:</strong> Sohbet geçmişi yerel olarak cihazınızda saklanır</li>
+
+            <p class="last-updated">Son Güncelleme: 3 Kasım 2025</p>            <li><strong>Üçüncü Taraf:</strong> Sorularınız Groq API'sine gönderilir ancak kişisel bilgileriniz paylaşılmaz</li>
+
+                        <li><strong>Amaç:</strong> Sadece finansal bilgi ve piyasa analizi sağlamak</li>
+
+            <p>Kurmatik ("biz", "bizim" veya "uygulama"), kullanıcıların gizliliğini korumaya kararlıdır. Bu gizlilik politikası, Kurmatik mobil uygulaması kullanılırken hangi bilgilerin toplandığını, nasıl kullanıldığını ve korunduğunu açıklar.</p>        </ul>
+
+                    
+
+            <h2>1. Toplanan Bilgiler</h2>        <h2>5. Veri Paylaşımı</h2>
+
+            <p>Kurmatik aşağıdaki bilgileri toplayabilir:</p>        <p>Kurmatik, kullanıcı verilerini üçüncü taraflarla <strong>satmaz, kiralamaz veya paylaşmaz</strong>. Veriler yalnızca uygulama işlevselliğini sağlamak için kullanılır.</p>
+
+            <ul>        
+
+                <li><strong>Finansal Veriler:</strong> Uygulama içinde görüntülediğiniz döviz kurları, altın fiyatları ve piyasa verileri.</li>        <h2>6. Veri Güvenliği</h2>
+
+                <li><strong>Kullanım Verileri:</strong> Uygulamanın nasıl kullanıldığına dair anonim istatistikler.</li>        <p>Bilgilerinizi korumak için uygun güvenlik önlemleri alırız:</p>
+
+                <li><strong>Tercihler:</strong> Uygulama ayarları ve tercihleri (favori para birimleri, fiyat alarmları vb.).</li>        <ul>
+
+            </ul>            <li>HTTPS şifreli bağlantı kullanımı</li>
+
+                        <li>Vercel güvenli sunucu altyapısı</li>
+
+            <h2>2. Veri Kaynakları</h2>            <li>Minimum veri toplama prensibi</li>
+
+            <p>Kurmatik, finansal verileri güvenilir kaynaklardan alır:</p>        </ul>
+
+            <ul>        
+
+                <li><strong>Yahoo Finance API:</strong> Döviz kurları, hisse senedi fiyatları</li>        <h2>7. Çerezler ve Yerel Depolama</h2>
+
+                <li><strong>Truncgil API:</strong> Altın fiyatları</li>        <p>Uygulama, kullanıcı tercihlerini saklamak için yerel depolama (localStorage) kullanır. Bu veriler yalnızca cihazınızda kalır ve sunucularımıza gönderilmez.</p>
+
+            </ul>        
+
+            <p>Güncelleme sıklığı: Veriler gerçek zamanlı olarak güncellenir.</p>        <h2>8. Üçüncü Taraf Hizmetler</h2>
+
+                    <p>Kurmatik şu üçüncü taraf hizmetleri kullanır:</p>
+
+            <h2>3. Bilgilerin Kullanımı</h2>        <ul>
+
+            <p>Toplanan bilgiler şu amaçlarla kullanılır:</p>            <li><strong>Vercel:</strong> Hosting ve serverless fonksiyonlar</li>
+
+            <ul>            <li><strong>Groq AI:</strong> AI asistan servisi</li>
+
+                <li>Gerçek zamanlı finansal verileri sağlamak</li>            <li><strong>TradingView:</strong> Grafik widget'ları</li>
+
+                <li>Fiyat alarmlarını yönetmek ve bildirim göndermek</li>        </ul>
+
+                <li>Uygulama performansını iyileştirmek</li>        <p>Bu hizmetlerin kendi gizlilik politikaları geçerlidir.</p>
+
+                <li>Kullanıcı deneyimini kişiselleştirmek</li>        
+
+                <li>Teknik sorunları tespit etmek ve çözmek</li>        <h2>9. Çocukların Gizliliği</h2>
+
+            </ul>        <p>Kurmatik, 13 yaşından küçük çocuklardan bilerek veri toplamaz. Eğer bir ebeveyn veya vasiniz ve çocuğunuzun bize bilgi sağladığını düşünüyorsanız, lütfen bizimle iletişime geçin.</p>
+
+                    
+
+            <h2>4. Fiyat Alarmları</h2>        <h2>10. Değişiklikler</h2>
+
+            <p>Kurmatik'teki fiyat alarmları şu şekilde çalışır:</p>        <p>Bu gizlilik politikası zaman zaman güncellenebilir. Değişiklikler bu sayfada yayınlanacak ve son güncelleme tarihi belirtilecektir.</p>
+
+            <ul>        
+
+                <li><strong>Yerel Depolama:</strong> Alarm ayarlarınız cihazınızda yerel olarak saklanır</li>        <h2>11. İletişim</h2>
+
+                <li><strong>Bildirimler:</strong> Hedef fiyata ulaşıldığında anında bildirim gönderilir</li>        <p>Gizlilik politikamız hakkında sorularınız varsa lütfen bizimle iletişime geçin:</p>
+
+                <li><strong>Gizlilik:</strong> Alarm verileriniz üçüncü taraflarla paylaşılmaz</li>        <p>
+
+            </ul>            <strong>E-posta:</strong> <a href="mailto:erolkpln@gmail.com">erolkpln@gmail.com</a> | <a href="mailto:info@kurmatik.xyz">info@kurmatik.xyz</a><br>
+
+                        <strong>Web:</strong> <a href="https://www.kurmatik.xyz" target="_blank">www.kurmatik.xyz</a><br>
+
+            <h2>5. Veri Paylaşımı</h2>            <strong>Telefon:</strong> +90 535 611 56 41<br>
+
+            <p>Kurmatik, kullanıcı verilerini üçüncü taraflarla <strong>satmaz, kiralamaz veya paylaşmaz</strong>. Veriler yalnızca uygulama işlevselliğini sağlamak için kullanılır.</p>            <strong>Konum:</strong> İstanbul, Türkiye<br>
+
+                        <strong>GitHub:</strong> <a href="https://github.com/azaistt/Kurmatik" target="_blank">github.com/azaistt/Kurmatik</a>
+
+            <h2>6. Veri Güvenliği</h2>        </p>
+
+            <p>Bilgilerinizi korumak için uygun güvenlik önlemleri alırız:</p>        
+
+            <ul>        <hr style="margin: 3rem 0; border: none; border-top: 1px solid #ddd;">
+
+                <li>HTTPS şifreli bağlantı kullanımı</li>        
+
+                <li>Güvenli sunucu altyapısı</li>        <p style="text-align: center;">
+
+                <li>Minimum veri toplama prensibi</li>            <a href="index.html" class="back-link">← Ana Sayfaya Dön</a> | 
+
+                <li>Yerel veri şifreleme</li>            <a href="support.html" class="back-link">Destek</a> | 
+
+            </ul>            <a href="terms.html" class="back-link">Kullanım Koşulları</a>
+
+                    </p>
+
+            <h2>7. Yerel Depolama</h2>    </div>
+
+            <p>Uygulama, kullanıcı tercihlerini ve alarm ayarlarını saklamak için cihazınızda yerel depolama kullanır. Bu veriler yalnızca cihazınızda kalır ve sunucularımıza gönderilmez.</p></body>
+
+            </html>
+
+            <h2>8. Üçüncü Taraf Hizmetler</h2>
+            <p>Kurmatik şu üçüncü taraf hizmetleri kullanır:</p>
+            <ul>
+                <li><strong>Yahoo Finance:</strong> Finansal veri sağlayıcı</li>
+                <li><strong>Truncgil:</strong> Altın fiyat verisi sağlayıcı</li>
+            </ul>
+            <p>Bu hizmetlerin kendi gizlilik politikaları geçerlidir.</p>
+            
+            <h2>9. Çocukların Gizliliği</h2>
+            <p>Kurmatik, 13 yaşından küçük çocuklardan bilerek veri toplamaz. Eğer bir ebeveyn veya vasiniz ve çocuğunuzun bize bilgi sağladığını düşünüyorsanız, lütfen bizimle iletişime geçin.</p>
+            
+            <h2>10. Değişiklikler</h2>
+            <p>Bu gizlilik politikası zaman zaman güncellenebilir. Değişiklikler bu sayfada yayınlanacak ve son güncelleme tarihi belirtilecektir.</p>
+            
+            <h2>11. İletişim</h2>
+            <p>Gizlilik politikamız hakkında sorularınız varsa lütfen bizimle iletişime geçin:</p>
+            <p>
+                <strong>E-posta:</strong> <a href="mailto:erolkpln@gmail.com">erolkpln@gmail.com</a> | <a href="mailto:info@kurmatik.xyz">info@kurmatik.xyz</a><br>
+                <strong>Web:</strong> <a href="https://www.kurmatik.xyz" target="_blank">www.kurmatik.xyz</a><br>
+                <strong>Telefon:</strong> +90 535 611 56 41<br>
+                <strong>Konum:</strong> İstanbul, Türkiye
+            </p>
+        </div>
+
+        <!-- English Version -->
+        <div id="content-en" class="content-section">
+            <h1>Privacy Policy</h1>
+            <p class="last-updated">Last Updated: November 3, 2025</p>
+            
+            <p>Kurmatik ("we", "our" or "the app") is committed to protecting user privacy. This privacy policy explains what information is collected when using the Kurmatik mobile application, how it is used, and how it is protected.</p>
+            
+            <h2>1. Information Collected</h2>
+            <p>Kurmatik may collect the following information:</p>
+            <ul>
+                <li><strong>Financial Data:</strong> Currency exchange rates, gold prices, and market data viewed within the app.</li>
+                <li><strong>Usage Data:</strong> Anonymous statistics about how the app is used.</li>
+                <li><strong>Preferences:</strong> App settings and preferences (favorite currencies, price alerts, etc.).</li>
+            </ul>
+            
+            <h2>2. Data Sources</h2>
+            <p>Kurmatik obtains financial data from trusted sources:</p>
+            <ul>
+                <li><strong>Yahoo Finance API:</strong> Currency exchange rates, stock prices</li>
+                <li><strong>Truncgil API:</strong> Gold prices</li>
+            </ul>
+            <p>Update frequency: Data is updated in real-time.</p>
+            
+            <h2>3. Use of Information</h2>
+            <p>Collected information is used for the following purposes:</p>
+            <ul>
+                <li>Providing real-time financial data</li>
+                <li>Managing price alerts and sending notifications</li>
+                <li>Improving app performance</li>
+                <li>Personalizing user experience</li>
+                <li>Identifying and resolving technical issues</li>
+            </ul>
+            
+            <h2>4. Price Alerts</h2>
+            <p>Price alerts in Kurmatik work as follows:</p>
+            <ul>
+                <li><strong>Local Storage:</strong> Your alert settings are stored locally on your device</li>
+                <li><strong>Notifications:</strong> Instant notifications are sent when target prices are reached</li>
+                <li><strong>Privacy:</strong> Your alert data is not shared with third parties</li>
+            </ul>
+            
+            <h2>5. Data Sharing</h2>
+            <p>Kurmatik does <strong>not sell, rent, or share</strong> user data with third parties. Data is used solely to provide app functionality.</p>
+            
+            <h2>6. Data Security</h2>
+            <p>We take appropriate security measures to protect your information:</p>
+            <ul>
+                <li>HTTPS encrypted connections</li>
+                <li>Secure server infrastructure</li>
+                <li>Minimal data collection principle</li>
+                <li>Local data encryption</li>
+            </ul>
+            
+            <h2>7. Local Storage</h2>
+            <p>The app uses local storage on your device to save user preferences and alert settings. This data remains only on your device and is not sent to our servers.</p>
+            
+            <h2>8. Third-Party Services</h2>
+            <p>Kurmatik uses the following third-party services:</p>
+            <ul>
+                <li><strong>Yahoo Finance:</strong> Financial data provider</li>
+                <li><strong>Truncgil:</strong> Gold price data provider</li>
+            </ul>
+            <p>These services have their own privacy policies.</p>
+            
+            <h2>9. Children's Privacy</h2>
+            <p>Kurmatik does not knowingly collect data from children under 13. If you are a parent or guardian and believe your child has provided us with information, please contact us.</p>
+            
+            <h2>10. Changes</h2>
+            <p>This privacy policy may be updated from time to time. Changes will be posted on this page with the updated date.</p>
+            
+            <h2>11. Contact</h2>
+            <p>If you have questions about our privacy policy, please contact us:</p>
+            <p>
+                <strong>Email:</strong> <a href="mailto:erolkpln@gmail.com">erolkpln@gmail.com</a> | <a href="mailto:info@kurmatik.xyz">info@kurmatik.xyz</a><br>
+                <strong>Website:</strong> <a href="https://www.kurmatik.xyz" target="_blank">www.kurmatik.xyz</a><br>
+                <strong>Phone:</strong> +90 535 611 56 41<br>
+                <strong>Location:</strong> Istanbul, Turkey
+            </p>
+        </div>
         
-        <h2>5. Veri Paylaşımı</h2>
-        <p>Kurmatik, kullanıcı verilerini üçüncü taraflarla <strong>satmaz, kiralamaz veya paylaşmaz</strong>. Veriler yalnızca uygulama işlevselliğini sağlamak için kullanılır.</p>
-        
-        <h2>6. Veri Güvenliği</h2>
-        <p>Bilgilerinizi korumak için uygun güvenlik önlemleri alırız:</p>
-        <ul>
-            <li>HTTPS şifreli bağlantı kullanımı</li>
-            <li>Vercel güvenli sunucu altyapısı</li>
-            <li>Minimum veri toplama prensibi</li>
-        </ul>
-        
-        <h2>7. Çerezler ve Yerel Depolama</h2>
-        <p>Uygulama, kullanıcı tercihlerini saklamak için yerel depolama (localStorage) kullanır. Bu veriler yalnızca cihazınızda kalır ve sunucularımıza gönderilmez.</p>
-        
-        <h2>8. Üçüncü Taraf Hizmetler</h2>
-        <p>Kurmatik şu üçüncü taraf hizmetleri kullanır:</p>
-        <ul>
-            <li><strong>Vercel:</strong> Hosting ve serverless fonksiyonlar</li>
-            <li><strong>Groq AI:</strong> AI asistan servisi</li>
-            <li><strong>TradingView:</strong> Grafik widget'ları</li>
-        </ul>
-        <p>Bu hizmetlerin kendi gizlilik politikaları geçerlidir.</p>
-        
-        <h2>9. Çocukların Gizliliği</h2>
-        <p>Kurmatik, 13 yaşından küçük çocuklardan bilerek veri toplamaz. Eğer bir ebeveyn veya vasiniz ve çocuğunuzun bize bilgi sağladığını düşünüyorsanız, lütfen bizimle iletişime geçin.</p>
-        
-        <h2>10. Değişiklikler</h2>
-        <p>Bu gizlilik politikası zaman zaman güncellenebilir. Değişiklikler bu sayfada yayınlanacak ve son güncelleme tarihi belirtilecektir.</p>
-        
-        <h2>11. İletişim</h2>
-        <p>Gizlilik politikamız hakkında sorularınız varsa lütfen bizimle iletişime geçin:</p>
-        <p>
-            <strong>E-posta:</strong> <a href="mailto:erolkpln@gmail.com">erolkpln@gmail.com</a> | <a href="mailto:info@kurmatik.xyz">info@kurmatik.xyz</a><br>
-            <strong>Web:</strong> <a href="https://www.kurmatik.xyz" target="_blank">www.kurmatik.xyz</a><br>
-            <strong>Telefon:</strong> +90 535 611 56 41<br>
-            <strong>Konum:</strong> İstanbul, Türkiye<br>
-            <strong>GitHub:</strong> <a href="https://github.com/azaistt/Kurmatik" target="_blank">github.com/azaistt/Kurmatik</a>
-        </p>
-        
-        <hr style="margin: 3rem 0; border: none; border-top: 1px solid #ddd;">
+        <hr style="margin: 3rem 0; border: none; border-top: 1px solid rgba(255,255,255,0.1);">
         
         <p style="text-align: center;">
-            <a href="index.html" class="back-link">← Ana Sayfaya Dön</a> | 
-            <a href="support.html" class="back-link">Destek</a> | 
-            <a href="terms.html" class="back-link">Kullanım Koşulları</a>
+            <a href="index.html" class="back-link">← Ana Sayfaya Dön / Back to Home</a> | 
+            <a href="support.html" class="back-link">Destek / Support</a> | 
+            <a href="terms.html" class="back-link">Kullanım Koşulları / Terms</a>
         </p>
     </div>
+
+    <script>
+        function switchLanguage(lang) {
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.language-toggle button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected language content
+            document.getElementById('content-' + lang).classList.add('active');
+            document.getElementById('btn-' + lang).classList.add('active');
+            
+            // Save preference
+            localStorage.setItem('preferredLanguage', lang);
+        }
+        
+        // Load saved language preference
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang && savedLang === 'en') {
+                switchLanguage('en');
+            }
+        });
+    </script>
 </body>
 </html>
