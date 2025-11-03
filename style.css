@@ -1,10 +1,7 @@
 :root {
     --bg: #0f1119;
-    --card: #1a1f2e;
-    --primary: #4A90E2;
     --text: #ffffff;
     --text-light: #b0b5c1;
-    --border: #2a3041;
 }
 
 * {
@@ -17,286 +14,96 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: var(--bg);
     color: var(--text);
-    line-height: 1.6;
 }
 
 .container {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 2rem;
 }
 
-/* Header */
-.header {
-    background: rgba(15, 17, 25, 0.9);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-    padding: 1rem 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-size: 1.3rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--primary), #50C878);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.header nav {
-    display: flex;
-    gap: 2rem;
-}
-
-.header a {
-    color: var(--text-light);
-    text-decoration: none;
-    transition: color 0.2s;
-}
-
-.header a:hover {
-    color: var(--primary);
-}
-
-/* Hero */
 .hero {
-    padding: 4rem 0;
-}
-
-.hero .container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
     align-items: center;
+    margin-bottom: 4rem;
 }
 
-.hero-left h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    line-height: 1.2;
-}
-
-.hero-left p {
-    color: var(--text-light);
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
-}
-
-.cta {
-    display: flex;
-    gap: 1rem;
-}
-
-.btn {
-    padding: 0.875rem 2rem;
-    border-radius: 8px;
-    font-weight: 600;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s;
-    display: inline-block;
-}
-
-.btn-primary {
-    background: var(--primary);
-    color: white;
-    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
-}
-
-.phone-img {
-    max-width: 100%;
+.video video {
+    width: 100%;
     height: auto;
-    border-radius: 20px;
+    border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-/* Features */
-.features {
-    padding: 4rem 0;
-    background: linear-gradient(180deg, transparent, rgba(74, 144, 226, 0.05));
-    margin: 2rem 0;
-}
-
-.features h2 {
-    font-size: 2rem;
-    margin-bottom: 3rem;
-    text-align: center;
-}
-
-.features .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-}
-
-.feature {
-    background: var(--card);
-    padding: 2rem;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    text-align: center;
-    transition: all 0.3s;
-}
-
-.feature:hover {
-    border-color: var(--primary);
-    transform: translateY(-5px);
-}
-
-.feature .icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-}
-
-.feature h3 {
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem;
-}
-
-.feature p {
-    color: var(--text-light);
-    font-size: 0.95rem;
-}
-
-/* Download */
 .download {
-    padding: 4rem 0;
     text-align: center;
 }
 
 .download h2 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
 }
 
-.download > .container > p {
-    color: var(--text-light);
-    margin-bottom: 2rem;
-}
-
-.stores {
-    display: flex;
-    gap: 2rem;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-top: 2rem;
-}
-
-.store-btn {
-    position: relative;
+.download .badge {
     display: inline-block;
-    text-decoration: none;
-    opacity: 0.7;
-    transition: opacity 0.3s;
+    margin: 0.5rem;
 }
 
-.store-btn:not(.disabled):hover {
-    opacity: 1;
-}
-
-.store-btn img {
-    height: 50px;
+.download img {
+    height: 60px;
     width: auto;
+    opacity: 0.8;
 }
 
-.badge {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.7);
-    color: #FFB81C;
-    padding: 0.25rem 0.75rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    pointer-events: none;
-}
-
-/* Footer */
-.footer {
-    background: var(--card);
-    border-top: 1px solid var(--border);
-    padding: 3rem 0 1rem;
-    margin-top: 4rem;
-}
-
-.footer .container {
+.screens {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 2rem;
-    margin-bottom: 2rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
 }
 
-.footer-col h4 {
-    margin-bottom: 1rem;
+.screens img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.footer-col ul {
-    list-style: none;
-}
-
-.footer-col a {
-    color: var(--text-light);
-    text-decoration: none;
-    transition: color 0.2s;
-}
-
-.footer-col a:hover {
-    color: var(--primary);
-}
-
-.footer-col p {
-    margin-bottom: 0.5rem;
-}
-
-.footer-bottom {
+footer {
     text-align: center;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border);
+    padding: 2rem;
+    border-top: 1px solid #2a3041;
     color: var(--text-light);
     font-size: 0.9rem;
 }
 
-/* Mobile */
+footer a {
+    color: var(--text-light);
+    text-decoration: none;
+    margin: 0 1rem;
+    transition: color 0.2s;
+}
+
+footer a:hover {
+    color: #4A90E2;
+}
+
+footer p {
+    margin-top: 1rem;
+}
+
 @media (max-width: 768px) {
-    .hero .container {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-
-    .hero-left h1 {
-        font-size: 1.8rem;
-    }
-
-    .hero-left p {
-        font-size: 1rem;
-    }
-
-    .features .grid {
+    .hero {
         grid-template-columns: 1fr;
     }
 
-    .stores {
-        gap: 1rem;
+    .screens {
+        grid-template-columns: 1fr;
     }
 
-    .store-btn img {
-        height: 40px;
+    .download h2 {
+        font-size: 1.4rem;
     }
 }
