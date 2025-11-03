@@ -67,17 +67,10 @@ body {
 }
 
 .logo-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.logo-img-hero {
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
     object-fit: contain;
+    margin-bottom: 1.5rem;
 }
 
 .hero-title {
