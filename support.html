@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destek - Kurmatik</title>
+    <link rel="stylesheet" href="landing.css">
+    <style>
+        .support-page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .support-page h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        .support-page h2 {
+            font-size: 1.8rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        .support-page p, .support-page li {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+        .support-page ul {
+            margin-left: 2rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .contact-box {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+        .faq-item {
+            background: var(--light);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .faq-item h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="support-page">
+        <a href="index.html" class="back-link">← Ana Sayfaya Dön</a>
+        
+        <h1>Destek ve Yardım</h1>
+        <p>Kurmatik uygulaması hakkında sorularınız için doğru yerdesiniz. Aşağıda sıkça sorulan sorular ve iletişim bilgilerimiz bulunmaktadır.</p>
+        
+        <h2>📧 İletişim</h2>
+        <div class="contact-box">
+            <p><strong>E-posta:</strong> <a href="mailto:support@kurmatik.xyz">support@kurmatik.xyz</a></p>
+            <p><strong>GitHub:</strong> <a href="https://github.com/azaistt/Kurmatik" target="_blank">github.com/azaistt/Kurmatik</a></p>
+            <p><strong>Yanıt Süresi:</strong> Genellikle 24-48 saat içinde</p>
+        </div>
+        
+        <h2>❓ Sıkça Sorulan Sorular</h2>
+        
+        <div class="faq-item">
+            <h3>Kurmatik nedir?</h3>
+            <p>Kurmatik, gerçek zamanlı döviz kurları, altın fiyatları ve yapay zeka destekli finansal asistan içeren modern bir finans platformudur.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h3>Veriler hangi kaynaklardan geliyor?</h3>
+            <p>Kurmatik şu kaynaklardan veri alır:</p>
+            <ul>
+                <li><strong>Yahoo Finance:</strong> Döviz kurları, hisse senedi fiyatları</li>
+                <li><strong>Truncgil API:</strong> Altın fiyatları</li>
+                <li><strong>TradingView:</strong> Grafik ve piyasa widget'ları</li>
+            </ul>
+        </div>
+        
+        <div class="faq-item">
+            <h3>Veriler ne sıklıkla güncellenir?</h3>
+            <p>Tüm finansal veriler yaklaşık <strong>30 saniyede bir</strong> otomatik olarak güncellenir. Bu sayede en güncel piyasa verilerine erişebilirsiniz.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h3>AI Asistan nasıl çalışıyor?</h3>
+            <p>AI Finansal Asistan, Groq AI (llama-3.3-70b-versatile) modelini kullanır. Finansal sorularınıza Türkçe yanıt verir, piyasa analizi yapar ve hisse senedi bilgisi sağlar. Ücretsizdir ve sohbet geçmişi cihazınızda yerel olarak saklanır.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h3>Uygulama ücretsiz mi?</h3>
+            <p>Evet! Kurmatik tamamen <strong>ücretsiz</strong> bir uygulamadır. Tüm özellikler hiçbir ücret ödemeden kullanılabilir.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h3>Hangi platformlarda çalışıyor?</h3>
+            <p>Kurmatik şu anda <strong>iOS</strong> ve <strong>Android</strong> platformları için geliştirilmektedir. Web versiyonu da mevcuttur.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h3>İnternet bağlantısı gerekli mi?</h3>
+            <p>Evet. Kurmatik, gerçek zamanlı veriler çektiği için aktif bir internet bağlantısı gerektirir.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h3>Verilerim güvende mi?</h3>
+            <p>Evet. Kurmatik minimum veri toplama prensibini uygular ve hiçbir kişisel bilginizi üçüncü taraflarla paylaşmaz. Detaylar için <a href="privacy.html">Gizlilik Politikamızı</a> inceleyin.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h3>Bir hata buldum, nasıl bildiririm?</h3>
+            <p>Hataları şu yollarla bildirebilirsiniz:</p>
+            <ul>
+                <li>E-posta: <a href="mailto:support@kurmatik.xyz">support@kurmatik.xyz</a></li>
+                <li>GitHub Issues: <a href="https://github.com/azaistt/Kurmatik/issues" target="_blank">Yeni Issue Aç</a></li>
+            </ul>
+        </div>
+        
+        <div class="faq-item">
+            <h3>Özellik önerisinde bulunabilir miyim?</h3>
+            <p>Kesinlikle! Önerilerinizi <a href="mailto:support@kurmatik.xyz">support@kurmatik.xyz</a> adresine veya GitHub üzerinden iletebilirsiniz. Kullanıcı geri bildirimlerine önem veriyoruz.</p>
+        </div>
+        
+        <h2>🔧 Teknik Sorunlar</h2>
+        <p>Eğer teknik bir sorun yaşıyorsanız, lütfen aşağıdaki bilgileri e-postanıza ekleyin:</p>
+        <ul>
+            <li>Kullandığınız cihaz ve işletim sistemi</li>
+            <li>Uygulama versiyonu</li>
+            <li>Sorunun detaylı açıklaması</li>
+            <li>Varsa ekran görüntüsü</li>
+        </ul>
+        
+        <h2>📚 Kaynaklar</h2>
+        <ul>
+            <li><a href="privacy.html">Gizlilik Politikası</a></li>
+            <li><a href="terms.html">Kullanım Koşulları</a></li>
+            <li><a href="https://github.com/azaistt/Kurmatik" target="_blank">GitHub Repository</a></li>
+        </ul>
+        
+        <hr style="margin: 3rem 0; border: none; border-top: 1px solid #ddd;">
+        
+        <p style="text-align: center;">
+            <a href="index.html" class="back-link">← Ana Sayfaya Dön</a> | 
+            <a href="privacy.html" class="back-link">Gizlilik Politikası</a> | 
+            <a href="terms.html" class="back-link">Kullanım Koşulları</a>
+        </p>
+    </div>
+</body>
+</html>
