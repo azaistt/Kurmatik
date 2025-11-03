@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://kurmatik.xyz/sitemap.xml
+
+# Specific rules for AdSense crawling
+User-agent: Googlebot
+Allow: /
+
+User-agent: Mediapartners-Google
+Allow: /
+
+# Block access to sensitive areas
+Disallow: /api/
+Disallow: /_next/
+Disallow: /node_modules/
+
+# Allow important pages for SEO
+Allow: /
+Allow: /dashboard
+Allow: /privacy
+Allow: /terms

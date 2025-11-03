@@ -1,0 +1,8 @@
+# Mobil geliştirme için geçici olarak devre dışı bırakılan klasörler
+/android/
+/ios/
+/build/
+*.apk
+*.aab
+*.ipa
+*.xcarchive
