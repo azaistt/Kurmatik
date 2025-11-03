@@ -1,0 +1,571 @@
+<!DOCTYPE html><!DOCTYPE html><!DOCTYPE html><!DOCTYPE html>
+
+<html lang="tr">
+
+<head><html lang="tr">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><head><html lang="tr"><html lang="tr">
+
+    <title>Kurmatik - Akıllı Döviz Takip ve Alarm Uygulaması</title>
+
+    <meta name="description" content="Döviz kurlarını takip edin, fiyat alarmları oluşturun. Gerçek zamanlı kur bilgileri ve anında bildirimler.">    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="landing.css">
+
+</head>    <meta name="viewport" content="width=device-width, initial-scale=1.0"><head><head>
+
+<body>
+
+    <!-- Header -->    <title>Kurmatik - Modern Finans Platformu</title>
+
+    <header class="header">
+
+        <div class="container">    <meta name="description" content="Gerçek zamanlı döviz kurları, altın fiyatları ve yapay zeka destekli finansal asistan.">    <meta charset="UTF-8">    <meta charset="UTF-8">
+
+            <div class="logo">
+
+                <img src="assets/kk.png" alt="Kurmatik" class="logo-img">    <link rel="stylesheet" href="landing.css">
+
+                <span>Kurmatik</span>
+
+            </div></head>    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+            <nav class="nav">
+
+                <a href="#features">Özellikler</a><body>
+
+                <a href="#video">Video</a>
+
+                <a href="#download">İndir</a>    <div class="landing-page">    <title>Kurmatik - Modern Finans Platformu</title>    <title>Anlık Döviz ve Altın Kurları</title>
+
+                <a href="privacy.html">Gizlilik</a>
+
+                <a href="support.html">Destek</a>        <!-- Header -->
+
+            </nav>
+
+        </div>        <header class="header">    <meta name="description" content="Gerçek zamanlı döviz kurları, altın fiyatları ve yapay zeka destekli finansal asistan.">    <link rel="stylesheet" href="styles.css">
+
+    </header>
+
+            <div class="container">
+
+    <!-- Hero Section -->
+
+    <section class="hero">                <div class="logo">    <link rel="stylesheet" href="landing.css"></head>
+
+        <div class="container">
+
+            <div class="hero-content">                    <h1>💰 Kurmatik</h1>
+
+                <div class="hero-text">
+
+                    <h1 class="hero-title">Döviz ve Altın Fiyatlarını<br>Akıllıca Takip Edin</h1>                </div></head><body>
+
+                    <p class="hero-subtitle">Gerçek zamanlı kur bilgileri, akıllı fiyat alarmları ve anında bildirimlerle finansal kararlarınızı daha kolay alın.</p>
+
+                    <div class="hero-buttons">                <nav class="nav">
+
+                        <a href="#download" class="btn btn-primary">Uygulamayı İndir</a>
+
+                        <a href="#video" class="btn btn-secondary">Videoyu İzle</a>                    <a href="#features">Özellikler</a><body>    <div class="page">
+
+                    </div>
+
+                    <div class="hero-stats">                    <a href="#download">İndir</a>
+
+                        <div class="stat">
+
+                            <div class="stat-value">100+</div>                    <a href="privacy.html">Gizlilik</a>    <div class="landing-page">        <header class="title-bar">
+
+                            <div class="stat-label">Döviz Çifti</div>
+
+                        </div>                    <a href="support.html">Destek</a>
+
+                        <div class="stat">
+
+                            <div class="stat-value">Anlık</div>                </nav>        <!-- Header -->            <h1>Anlık Döviz ve Altın Kurları</h1>
+
+                            <div class="stat-label">Bildirimler</div>
+
+                        </div>            </div>
+
+                        <div class="stat">
+
+                            <div class="stat-value">Ücretsiz</div>        </header>        <header class="header">        </header>
+
+                            <div class="stat-label">Kullanım</div>
+
+                        </div>
+
+                    </div>
+
+                </div>        <!-- Hero Section -->            <div class="container">
+
+                <div class="hero-phone">
+
+                    <img src="assets/kk.png" alt="Kurmatik Uygulama Ekranı">        <section class="hero">
+
+                </div>
+
+            </div>            <div class="container">                <div class="logo">        <main class="dashboard">
+
+        </div>
+
+    </section>                <h2 class="hero-title">Modern Finans Platformu</h2>
+
+
+
+    <!-- Video Section -->                <p class="hero-subtitle">Gerçek zamanlı döviz kurları, altın fiyatları ve yapay zeka destekli finansal asistan</p>                    <h1>💰 Kurmatik</h1>            <section class="row top">
+
+    <section id="video" class="video-section">
+
+        <div class="container">                <div class="hero-buttons">
+
+            <h2 class="section-title">Kurmatik'i Keşfedin</h2>
+
+            <p class="section-subtitle">Uygulamanın nasıl çalıştığını videoda görebilirsiniz</p>                    <a href="#download" class="btn btn-primary">Uygulamayı İndir</a>                </div>                <article class="card green gram" aria-label="Gram Altın">
+
+            <div class="video-container">
+
+                <video controls poster="assets/kk.png">                    <a href="#features" class="btn btn-secondary">Özellikleri Keşfet</a>
+
+                    <source src="assets/Kurmatik_TNT.mp4" type="video/mp4">
+
+                    Tarayıcınız video etiketini desteklemiyor.                </div>                <nav class="nav">                    <div class="ribbon" id="ribbon-gram"><span>GRAM ALTIN</span></div>
+
+                </video>
+
+            </div>            </div>
+
+        </div>
+
+    </section>        </section>                    <a href="#features">Özellikler</a>                    <div class="content">
+
+
+
+    <!-- Features Section -->
+
+    <section id="features" class="features">
+
+        <div class="container">        <!-- Features Section -->                    <a href="#download">İndir</a>                        <div class="trend">
+
+            <h2 class="section-title">Özellikler</h2>
+
+            <p class="section-subtitle">Kurmatik ile finansal piyasaları takip etmek çok kolay</p>        <section id="features" class="features">
+
+            
+
+            <div class="features-grid">            <div class="container">                    <a href="privacy.html">Gizlilik</a>                            <span class="arrow" id="arrow-gram"></span>
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">💱</div>                <h2 class="section-title">Özellikler</h2>
+
+                    <h3>Döviz Çevirici</h3>
+
+                    <p>Anında döviz çevirme işlemleri yapın. 100+ döviz çifti desteği ile hızlı ve kolay hesaplama.</p>                <div class="features-grid">                    <a href="support.html">Destek</a>                            <span class="pct" id="pct-gram"></span>
+
+                </div>
+
+                    <div class="feature-card">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">🔔</div>                        <div class="feature-icon">💱</div>                </nav>                        </div>
+
+                    <h3>Fiyat Alarmları</h3>
+
+                    <p>Hedef fiyatlarınızı belirleyin, uygunsuz değerlere ulaşıldığında anında bildirim alın.</p>                        <h3>Canlı Döviz Kurları</h3>
+
+                </div>
+
+                        <p>USD/TRY, EUR/TRY ve diğer döviz çiftleri için gerçek zamanlı kurlar</p>            </div>                        <div class="value"><span id="val-gram"></span></div>
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">📊</div>                    </div>
+
+                    <h3>Gerçek Zamanlı Kurlar</h3>
+
+                    <p>USD, EUR, GBP, Altın ve daha fazlası. Tüm kurlar gerçek zamanlı güncellenir.</p>                    <div class="feature-card">        </header>                    </div>
+
+                </div>
+
+                        <div class="feature-icon">🥇</div>
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">📈</div>                        <h3>Altın Fiyatları</h3>                </article>
+
+                    <h3>Fiyat Grafikleri</h3>
+
+                    <p>Geçmiş fiyat hareketlerini görselleştirin ve trendleri analiz edin.</p>                        <p>Gram altın, çeyrek altın ve ons fiyatlarını anlık takip edin</p>
+
+                </div>
+
+                    </div>        <!-- Hero Section -->
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">⚡</div>                    <div class="feature-card">
+
+                    <h3>Hızlı ve Hafif</h3>
+
+                    <p>Kullanımı kolay, hızlı ve minimal tasarımı ile pil dostu uygulama.</p>                        <div class="feature-icon">🤖</div>        <section class="hero">                <article class="card green ceyrek" aria-label="Çeyrek Altın">
+
+                </div>
+
+                        <h3>AI Finansal Asistan</h3>
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">🌙</div>                        <p>Yapay zeka destekli finansal danışmanlık ve piyasa analizi</p>            <div class="container">                    <div class="ribbon" id="ribbon-ceyrek"><span>ÇEYREK ALTIN</span></div>
+
+                    <h3>Karanlık Tema</h3>
+
+                    <p>Göz dostu karanlık tema ile gece kullanımında da konforlu deneyim.</p>                    </div>
+
+                </div>
+
+            </div>                    <div class="feature-card">                <h2 class="hero-title">Modern Finans Platformu</h2>                    <div class="content">
+
+        </div>
+
+    </section>                        <div class="feature-icon">📊</div>
+
+
+
+    <!-- How It Works -->                        <h3>Anında Çevirici</h3>                <p class="hero-subtitle">Gerçek zamanlı döviz kurları, altın fiyatları ve yapay zeka destekli finansal asistan</p>                        <div class="trend">
+
+    <section class="how-it-works">
+
+        <div class="container">                        <p>Hızlı ve kolay döviz çevirme işlemleri</p>
+
+            <h2 class="section-title">Nasıl Çalışır?</h2>
+
+            <div class="steps">                    </div>                <div class="hero-buttons">                            <span class="arrow" id="arrow-ceyrek"></span>
+
+                <div class="step">
+
+                    <div class="step-number">1</div>                    <div class="feature-card">
+
+                    <h3>Uygulamayı İndirin</h3>
+
+                    <p>App Store veya Google Play'den Kurmatik'i ücretsiz indirin.</p>                        <div class="feature-icon">📈</div>                    <a href="#download" class="btn btn-primary">Uygulamayı İndir</a>                            <span class="pct" id="pct-ceyrek"></span>
+
+                </div>
+
+                <div class="step">                        <h3>Piyasa Grafikleri</h3>
+
+                    <div class="step-number">2</div>
+
+                    <h3>Alarm Oluşturun</h3>                        <p>TradingView entegrasyonu ile detaylı grafikler</p>                    <a href="#features" class="btn btn-secondary">Özellikleri Keşfet</a>                        </div>
+
+                    <p>Takip etmek istediğiniz döviz için hedef fiyat belirleyin.</p>
+
+                </div>                    </div>
+
+                <div class="step">
+
+                    <div class="step-number">3</div>                    <div class="feature-card">                </div>                        <div class="value"><span id="val-ceyrek"></span></div>
+
+                    <h3>Bildirim Alın</h3>
+
+                    <p>Fiyat hedef seviyeye ulaştığında anında bildirim alın.</p>                        <div class="feature-icon">🔔</div>
+
+                </div>
+
+            </div>                        <h3>Otomatik Güncelleme</h3>            </div>                    </div>
+
+        </div>
+
+    </section>                        <p>Veriler otomatik olarak 30 saniyede bir güncellenir</p>
+
+
+
+    <!-- Download Section -->                    </div>        </section>                </article>
+
+    <section id="download" class="download">
+
+        <div class="container">                </div>
+
+            <h2 class="section-title">Şimdi İndirin</h2>
+
+            <p class="section-subtitle">iOS ve Android cihazlar için ücretsiz</p>            </div>
+
+            <div class="download-buttons">
+
+                <a href="#" class="store-button disabled">        </section>
+
+                    <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store">
+
+                    <span class="coming-soon">Yakında</span>        <!-- Features Section -->                <article class="card green ons" aria-label="Altın Ons">
+
+                </a>
+
+                <a href="#" class="store-button disabled">        <!-- Download Section -->
+
+                    <img src="https://play.google.com/intl/en_us/badges/static/images/badges/tr_badge_web_generic.png" alt="Google Play">
+
+                    <span class="coming-soon">Yakında</span>        <section id="download" class="download">        <section id="features" class="features">                    <div class="ribbon" id="ribbon-ons"><span>ALTIN ONS</span></div>
+
+                </a>
+
+            </div>            <div class="container">
+
+            <p class="test-notice">⚠️ Uygulama şu anda test aşamasındadır. Çok yakında yayınlanacak!</p>
+
+        </div>                <h2 class="section-title">Uygulamayı İndir</h2>            <div class="container">                    <div class="content">
+
+    </section>
+
+                <p class="download-text">iOS ve Android için yakında...</p>
+
+    <!-- Footer -->
+
+    <footer class="footer">                <div class="download-buttons">                <h2 class="section-title">Özellikler</h2>                        <div class="trend">
+
+        <div class="container">
+
+            <div class="footer-content">                    <a href="#" class="store-button">
+
+                <div class="footer-section">
+
+                    <h3>Kurmatik</h3>                        <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" style="height: 50px;">                <div class="features-grid">                            <span class="arrow" id="arrow-ons"></span>
+
+                    <p>Döviz ve altın fiyatlarını akıllıca takip edin.</p>
+
+                </div>                    </a>
+
+                <div class="footer-section">
+
+                    <h4>Bağlantılar</h4>                    <a href="#" class="store-button">                    <div class="feature-card">                            <span class="pct" id="pct-ons"></span>
+
+                    <ul>
+
+                        <li><a href="privacy.html">Gizlilik Politikası</a></li>                        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Google Play" style="height: 73px;">
+
+                        <li><a href="support.html">Destek</a></li>
+
+                        <li><a href="terms.html">Kullanım Koşulları</a></li>                    </a>                        <div class="feature-icon">💱</div>                        </div>
+
+                    </ul>
+
+                </div>                </div>
+
+                <div class="footer-section">
+
+                    <h4>İletişim</h4>            </div>                        <h3>Canlı Döviz Kurları</h3>                        <div class="value"><span id="val-ons"></span></div>
+
+                    <ul>
+
+                        <li><a href="mailto:erolkpln@gmail.com">erolkpln@gmail.com</a></li>        </section>
+
+                        <li><a href="mailto:info@kurmatik.xyz">info@kurmatik.xyz</a></li>
+
+                        <li><a href="tel:+905356115641">+90 535 611 56 41</a></li>                        <p>USD/TRY, EUR/TRY ve diğer döviz çiftleri için gerçek zamanlı kurlar</p>                    </div>
+
+                        <li>İstanbul, Türkiye</li>
+
+                    </ul>        <!-- Footer -->
+
+                </div>
+
+            </div>        <footer class="footer">                    </div>                </article>
+
+            <div class="footer-bottom">
+
+                <p>&copy; 2025 Kurmatik. Tüm hakları saklıdır.</p>            <div class="container">
+
+            </div>
+
+        </div>                <div class="footer-content">                    <div class="feature-card">
+
+    </footer>
+
+</body>                    <div class="footer-section">
+
+</html>
+
+                        <h3>Kurmatik</h3>                        <div class="feature-icon">🥇</div>                <article class="card green gumus" aria-label="Gümüş Ons">
+
+                        <p>Modern finans platformu</p>
+
+                    </div>                        <h3>Altın Fiyatları</h3>                    <div class="ribbon" id="ribbon-gumus"><span>GÜMÜŞ (ONS)</span></div>
+
+                    <div class="footer-section">
+
+                        <h4>Bağlantılar</h4>                        <p>Gram altın, çeyrek altın ve ons fiyatlarını anlık takip edin</p>                    <div class="content">
+
+                        <ul>
+
+                            <li><a href="privacy.html">Gizlilik Politikası</a></li>                    </div>                        <div class="trend">
+
+                            <li><a href="support.html">Destek</a></li>
+
+                            <li><a href="terms.html">Kullanım Koşulları</a></li>                    <div class="feature-card">                            <span class="arrow" id="arrow-gumus"></span>
+
+                        </ul>
+
+                    </div>                        <div class="feature-icon">🤖</div>                            <span class="pct" id="pct-gumus"></span>
+
+                    <div class="footer-section">
+
+                        <h4>İletişim</h4>                        <h3>AI Finansal Asistan</h3>                        </div>
+
+                        <ul>
+
+                            <li><a href="mailto:erolkpln@gmail.com">erolkpln@gmail.com</a></li>                        <p>Yapay zeka destekli finansal danışmanlık ve piyasa analizi</p>                        <div class="value"><span id="val-gumus"></span></div>
+
+                            <li><a href="mailto:info@kurmatik.xyz">info@kurmatik.xyz</a></li>
+
+                            <li><a href="tel:+905356115641">+90 535 611 56 41</a></li>                    </div>                    </div>
+
+                            <li>İstanbul, Türkiye</li>
+
+                            <li><a href="https://www.kurmatik.xyz" target="_blank">www.kurmatik.xyz</a></li>                    <div class="feature-card">                </article>
+
+                            <li><a href="https://github.com/azaistt/Kurmatik" target="_blank">GitHub</a></li>
+
+                        </ul>                        <div class="feature-icon">📊</div>            </section>
+
+                    </div>
+
+                </div>                        <h3>Anında Çevirici</h3>
+
+                <div class="footer-bottom">
+
+                    <p>&copy; 2025 Kurmatik. Tüm hakları saklıdır.</p>                        <p>Hızlı ve kolay döviz çevirme işlemleri</p>            <div class="divider">
+
+                </div>
+
+            </div>                    </div>                <div class="divider-inner">DOLAR ENDEKSİ</div>
+
+        </footer>
+
+    </div>                    <div class="feature-card">                <div class="dxy-value" id="dxy-value"></div>
+
+</body>
+
+</html>                        <div class="feature-icon">📈</div>            </div>
+
+
+                        <h3>Piyasa Grafikleri</h3>
+
+                        <p>TradingView entegrasyonu ile detaylı grafikler</p>            <section class="row bottom">
+
+                    </div>                <article class="card red usdtry" aria-label="USD/TRY">
+
+                    <div class="feature-card">                    <div class="ribbon" id="ribbon-usdtry"><span>USD/TRY</span></div>
+
+                        <div class="feature-icon">🔔</div>                    <div class="content">
+
+                        <h3>Otomatik Güncelleme</h3>                        <div class="trend">
+
+                        <p>Veriler otomatik olarak 30 saniyede bir güncellenir</p>                            <span class="arrow" id="arrow-usdtry"></span>
+
+                    </div>                            <span class="pct" id="pct-usdtry"></span>
+
+                </div>                        </div>
+
+            </div>                        <div class="value"><span id="val-usdtry"></span></div>
+
+        </section>                    </div>
+
+                </article>
+
+        <!-- Download Section -->
+
+        <section id="download" class="download">                <article class="card red eurtry" aria-label="EUR/TRY">
+
+            <div class="container">                    <div class="ribbon" id="ribbon-eurtry"><span>EUR/TRY</span></div>
+
+                <h2 class="section-title">Uygulamayı İndir</h2>                    <div class="content">
+
+                <p class="download-text">iOS ve Android için yakında...</p>                        <div class="trend">
+
+                <div class="download-buttons">                            <span class="arrow" id="arrow-eurtry"></span>
+
+                    <a href="#" class="store-button">                            <span class="pct" id="pct-eurtry"></span>
+
+                        <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" style="height: 50px;">                        </div>
+
+                    </a>                        <div class="value"><span id="val-eurtry"></span></div>
+
+                    <a href="#" class="store-button">                    </div>
+
+                        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Google Play" style="height: 73px;">                </article>
+
+                    </a>
+
+                </div>                <article class="card red eurusd" aria-label="EUR/USD">
+
+            </div>                    <div class="ribbon" id="ribbon-eurusd"><span>EUR/USD</span></div>
+
+        </section>                    <div class="content">
+
+                        <div class="trend">
+
+        <!-- Footer -->                            <span class="arrow" id="arrow-eurusd"></span>
+
+        <footer class="footer">                            <span class="pct" id="pct-eurusd"></span>
+
+            <div class="container">                        </div>
+
+                <div class="footer-content">                        <div class="value"><span id="val-eurusd"></span></div>
+
+                    <div class="footer-section">                    </div>
+
+                        <h3>Kurmatik</h3>                </article>
+
+                        <p>Modern finans platformu</p>
+
+                    </div>                <article class="card red gbptry" aria-label="GBP/TRY">
+
+                    <div class="footer-section">                    <div class="ribbon" id="ribbon-gbptry"><span>GBP/TRY</span></div>
+
+                        <h4>Bağlantılar</h4>                    <div class="content">
+
+                        <ul>                        <div class="trend">
+
+                            <li><a href="privacy.html">Gizlilik Politikası</a></li>                            <span class="arrow" id="arrow-gbptry"></span>
+
+                            <li><a href="support.html">Destek</a></li>                            <span class="pct" id="pct-gbptry"></span>
+
+                            <li><a href="terms.html">Kullanım Koşulları</a></li>                        </div>
+
+                        </ul>                        <div class="value"><span id="val-gbptry"></span></div>
+
+                    </div>                    </div>
+
+                    <div class="footer-section">                </article>
+
+                        <h4>İletişim</h4>            </section>
+
+                        <ul>        </main>
+
+                            <li><a href="mailto:support@kurmatik.xyz">support@kurmatik.xyz</a></li>
+
+                            <li><a href="https://github.com/azaistt/Kurmatik" target="_blank">GitHub</a></li>        <footer class="update-time">
+
+                        </ul>            <span id="last-update"></span>
+
+                    </div>        </footer>
+
+                </div>    </div>
+
+                <div class="footer-bottom">
+
+                    <p>&copy; 2025 Kurmatik. Tüm hakları saklıdır.</p>    <script src="script.js"></script>
+
+                </div></body>
+
+            </div></html>
+
+        </footer><parameter name="filePath">e:\Anlık_kur_x\index.html
+    </div>
+</body>
+</html>
