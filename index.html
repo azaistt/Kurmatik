@@ -43,6 +43,22 @@
             width: 100%;
             border-radius: 8px;
         }
+        footer {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            font-size: 14px;
+        }
+        footer a {
+            color: #007AFF;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
         @media (max-width: 600px) {
             .gallery {
                 grid-template-columns: 1fr;
@@ -76,6 +92,12 @@
             <img src="assets/K_sayfa_02.jpg" alt="Kurmatik Ekran 2">
             <img src="assets/K_sayfa_03.jpg" alt="Kurmatik Ekran 3">
         </div>
+
+        <footer>
+            <a href="privacy.html">Gizlilik</a>
+            <a href="terms.html">Koşullar</a>
+            <a href="support.html">Destek</a>
+        </footer>
     </div>
 
 </body>
