@@ -1,7 +1,6 @@
 :root {
     --bg: #0f1119;
     --text: #ffffff;
-    --text-light: #b0b5c1;
 }
 
 * {
@@ -16,7 +15,7 @@ body {
     color: var(--text);
 }
 
-.container {
+.wrapper {
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
@@ -27,71 +26,52 @@ body {
     grid-template-columns: 2fr 1fr;
     gap: 2rem;
     align-items: center;
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
 }
 
-.video video {
+.hero video {
     width: 100%;
     height: auto;
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-.download {
+.download-box {
     text-align: center;
 }
 
-.download h2 {
+.download-box h2 {
     font-size: 1.8rem;
     margin-bottom: 1.5rem;
 }
 
-.download .badge {
+.download-box a {
     display: inline-block;
     margin: 0.5rem;
 }
 
-.download img {
+.download-box img {
     height: 60px;
     width: auto;
-    opacity: 0.8;
+    opacity: 0.85;
+    transition: opacity 0.2s;
 }
 
-.screens {
+.download-box a:hover img {
+    opacity: 1;
+}
+
+.gallery {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
-    margin-bottom: 3rem;
 }
 
-.screens img {
+.gallery img {
     width: 100%;
     height: auto;
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-footer {
-    text-align: center;
-    padding: 2rem;
-    border-top: 1px solid #2a3041;
-    color: var(--text-light);
-    font-size: 0.9rem;
-}
-
-footer a {
-    color: var(--text-light);
-    text-decoration: none;
-    margin: 0 1rem;
-    transition: color 0.2s;
-}
-
-footer a:hover {
-    color: #4A90E2;
-}
-
-footer p {
-    margin-top: 1rem;
 }
 
 @media (max-width: 768px) {
@@ -99,11 +79,11 @@ footer p {
         grid-template-columns: 1fr;
     }
 
-    .screens {
+    .gallery {
         grid-template-columns: 1fr;
     }
 
-    .download h2 {
+    .download-box h2 {
         font-size: 1.4rem;
     }
 }
