@@ -1,104 +1,205 @@
-# 💰 Kurmatik - Modern Finans Platformu
+# 💰 Kurmatik# 💰 Kurmatik - Modern Finans Platformu
 
-**Gerçek Zamanlı Döviz, Altın ve AI Finansal Asistan**
 
-Kurmatik, canlı döviz kurları, altın fiyatları ve yapay zeka destekli finansal asistan ile donatılmış modern bir finans platformudur.
 
-🌐 **Canlı Site**: [kurmatik.xyz](https://kurmatik.xyz)  
-📱 **App Store**: Yakında...  
-🤖 **Google Play**: Yakında...
+**Gerçek Zamanlı Döviz ve Altın Takibi - Mobil Uygulama****Gerçek Zamanlı Döviz, Altın ve AI Finansal Asistan**
 
-## 📄 Yasal Sayfalar
 
-- [Gizlilik Politikası](https://kurmatik.xyz/privacy.html)
+
+Kurmatik, canlı döviz kurları, altın fiyatları ve anlık fiyat alarmları ile donatılmış modern bir mobil finans uygulamasıdır.Kurmatik, canlı döviz kurları, altın fiyatları ve yapay zeka destekli finansal asistan ile donatılmış modern bir finans platformudur.
+
+
+
+🌐 **Web Sitesi**: [kurmatik.xyz](https://kurmatik.xyz)  🌐 **Canlı Site**: [kurmatik.xyz](https://kurmatik.xyz)  
+
+📱 **App Store**: Yakında...  📱 **App Store**: Yakında...  
+
+🤖 **Google Play**: Yakında...🤖 **Google Play**: Yakında...
+
+
+
+> 🚧 **Not**: Uygulama şu anda test aşamasındadır. Apple App Store ve Google Play Store'da yayınlandıktan sonra indirme linkleri eklenecektir.## 📄 Yasal Sayfalar
+
+
+
+## 📄 Yasal Sayfalar- [Gizlilik Politikası](https://kurmatik.xyz/privacy.html)
+
 - [Destek Sayfası](https://kurmatik.xyz/support.html)
-- [Kullanım Koşulları](https://kurmatik.xyz/terms.html)
 
-## ✨ Özellikler
+- [Gizlilik Politikası](https://kurmatik.xyz/privacy)- [Kullanım Koşulları](https://kurmatik.xyz/terms.html)
 
-### 💱 Canlı Döviz Kurları
+- [Destek](https://kurmatik.xyz/support)
+
+- [Kullanım Koşulları](https://kurmatik.xyz/terms)## ✨ Özellikler
+
+
+
+## ✨ Uygulama Özellikleri### 💱 Canlı Döviz Kurları
+
 - **USD/TRY, EUR/TRY** ve diğer döviz çiftleri
-- **Gerçek zamanlı** market ticker
-- **Anında çevirici** - hızlı hesaplama
 
-### 🥇 Altın Fiyatları
+### 💱 Döviz Çevirici- **Gerçek zamanlı** market ticker
+
+- **100+ döviz** desteği- **Anında çevirici** - hızlı hesaplama
+
+- Gerçek zamanlı kurlar
+
+- Hızlı ve kolay kullanım### 🥇 Altın Fiyatları
+
 - **Gram Altın** canlı TL fiyatı
-- Otomatik güncelleme
-- TradingView chart entegrasyonu
 
-### 🤖 AI Finansal Asistan
+### 🔔 Fiyat Alarmları- Otomatik güncelleme
+
+- İstediğiniz fiyata ulaşınca bildirim- TradingView chart entegrasyonu
+
+- Özelleştirilebilir uyarılar
+
+- Kaçırılmayan fırsatlar### 🤖 AI Finansal Asistan
+
 - **Groq AI** (llama-3.3-70b-versatile)
-- Türkçe finansal danışmanlık
-- Hisse senedi, kripto, piyasa analizi
-- **Ücretsiz** (30 req/dk, 6000 token/dk)
+
+### 📊 Canlı Kurlar- Türkçe finansal danışmanlık
+
+- Anlık döviz ve altın fiyatları- Hisse senedi, kripto, piyasa analizi
+
+- Grafik desteği- **Ücretsiz** (30 req/dk, 6000 token/dk)
+
+- Güncel piyasa verileri
 
 ### � TradingView Widget'ları
-- Hisse senedi fiyatları
-- Kripto para grafikleri
-- Forex piyasası
-- Market heat map
 
-### � Teknik
-- **Vercel Serverless Functions** (/api/fx, /api/gold, /api/chat)
-- **Expo + React Native Web**
-- **TypeScript** desteği
+### ⚡ Hızlı ve Hafif- Hisse senedi fiyatları
+
+- Minimal tasarım- Kripto para grafikleri
+
+- Düşük veri kullanımı- Forex piyasası
+
+- Kolay gezinme- Market heat map
+
+
+
+### 🌙 Koyu Tema### � Teknik
+
+- Modern görünüm- **Vercel Serverless Functions** (/api/fx, /api/gold, /api/chat)
+
+- Göz dostu arayüz- **Expo + React Native Web**
+
+- Gece modu- **TypeScript** desteği
+
 - **Responsive** tasarım
+
+## 📁 Proje Yapısı
 
 ## 🚀 Kurulum
 
-```bash
-# Projeyi klonlayın
-git clone https://github.com/azaistt/Kurmatik.git
-cd Kurmatik/Kurmatik_
+```
 
-# Bağımlılıkları yükleyin
-npm install
+Kurmatik/```bash
 
-# Environment variables oluşturun
-echo "GROQ_API_KEY=your_groq_api_key" > .env
+├── index.html            # Ana landing page# Projeyi klonlayın
 
-# Geliştirme sunucusunu başlatın
-npx expo start
+├── landing.css           # Stil dosyası (dark theme)git clone https://github.com/azaistt/Kurmatik.git
+
+├── privacy.html          # Gizlilik politikasıcd Kurmatik/Kurmatik_
+
+├── support.html          # Destek sayfası
+
+├── terms.html            # Kullanım koşulları# Bağımlılıkları yükleyin
+
+├── assets/               # Görseller ve videolarnpm install
+
+│   ├── kk.png           # Logo
+
+│   └── Kurmatik_TNT.mp4 # Tanıtım videosu# Environment variables oluşturun
+
+├── public/               # SEO dosyalarıecho "GROQ_API_KEY=your_groq_api_key" > .env
+
+│   ├── robots.txt
+
+│   └── sitemap.xml# Geliştirme sunucusunu başlatın
+
+└── vercel.json           # Vercel konfigürasyonunpx expo start
+
+```
 
 # Web için
-npx expo start --web
+
+## 🚀 Deploymentnpx expo start --web
+
 ```
+
+Site Vercel üzerinde otomatik olarak deploy edilir:
 
 ## � Proje Yapısı
 
-```
-Kurmatik/
+```bash
+
+# GitHub'a push yap```
+
+git push origin mainKurmatik/
+
 ├── api/                   # Vercel Serverless Functions
-│   ├── fx.js             # Döviz API
-│   ├── gold.js           # Altın API  
-│   └── chat.js           # AI Chat API
+
+# Vercel otomatik olarak deploy eder│   ├── fx.js             # Döviz API
+
+# https://kurmatik.xyz│   ├── gold.js           # Altın API  
+
+```│   └── chat.js           # AI Chat API
+
 ├── app/                   # Expo Router sayfaları
-│   ├── dashboard.tsx     # Ana finans sayfası
+
+## 📊 Kullanılan Teknolojiler│   ├── dashboard.tsx     # Ana finans sayfası
+
 │   ├── index.tsx         # Uygulama ana sayfa
-│   └── (tabs)/
-├── components/            # React komponentleri
-│   ├── AIChat.tsx        # AI asistan
-│   ├── InstantConverter.tsx
+
+- **Frontend**: HTML5, CSS3, JavaScript│   └── (tabs)/
+
+- **Hosting**: Vercel├── components/            # React komponentleri
+
+- **Design**: Modern Dark Theme│   ├── AIChat.tsx        # AI asistan
+
+- **Video**: Kurmatik App Demo│   ├── InstantConverter.tsx
+
 │   ├── TradingViewTicker.tsx
-│   └── market-widgets/   # TradingView widgets
+
+## 📝 Lisans│   └── market-widgets/   # TradingView widgets
+
 ├── src/
-│   └── screens/
+
+MIT License - Açık kaynak projedir.│   └── screens/
+
 │       └── FinanceDashboard.tsx  # Ana dashboard
-├── index.html            # Web landing page
+
+## 📧 İletişim├── index.html            # Web landing page
+
 ├── privacy.html          # Gizlilik politikası
-├── support.html          # Destek sayfası
-├── terms.html            # Kullanım koşulları
-├── landing.css           # Landing page stilleri
-└── vercel.json           # Vercel konfigürasyonu
-```
 
-## 🔌 API Endpoints
+- **E-posta**: [erolkpln@gmail.com](mailto:erolkpln@gmail.com) | [info@kurmatik.xyz](mailto:info@kurmatik.xyz)├── support.html          # Destek sayfası
 
-### `/api/fx` - Döviz Kurları
+- **Web**: [www.kurmatik.xyz](https://www.kurmatik.xyz)├── terms.html            # Kullanım koşulları
+
+- **Telefon**: +90 535 611 56 41├── landing.css           # Landing page stilleri
+
+- **Konum**: İstanbul, Türkiye└── vercel.json           # Vercel konfigürasyonu
+
+- **GitHub**: [github.com/azaistt/Kurmatik](https://github.com/azaistt/Kurmatik)```
+
+
+
+## 👤 Geliştirici## 🔌 API Endpoints
+
+
+
+**azaistt** - [GitHub Profil](https://github.com/azaistt)### `/api/fx` - Döviz Kurları
+
 ```javascript
-// GET /api/fx?from=USD&to=TRY&amount=100
+
+---// GET /api/fx?from=USD&to=TRY&amount=100
+
 {
-  "result": 4179.5,
+
+Made with ❤️ in Istanbul  "result": 4179.5,
+
   "rate": 41.795,
   "from": "USD",
   "to": "TRY"
