@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang='tr'>
 <head>
 <meta charset='UTF-8'>
@@ -22,59 +22,138 @@
 <body>
 <div class='pg'>
 <a href='index.html' class='back'>← Ana Sayfaya Dön</a>
+
 <div style='text-align: center; margin-bottom: 2rem;'>
-<button class='btn' onclick="show(this, 'tr')">🇹🇷 TR</button>
-<button class='btn active' onclick="show(this, 'en')">🇺🇸 EN</button>
+  <button class='btn' onclick="show(this, 'tr')">🇹🇷 TR</button>
+  <button class='btn active' onclick="show(this, 'en')">🇺🇸 EN</button>
 </div>
+
+<!-- ============ TR ============ -->
 <div id='tr' class='ct'>
-<h1>Gizlilik Politikası</h1>
-<p><strong><span id='date-tr'></span></strong></p>
-<h2>Toplanan Bilgiler</h2>
-<ul><li>Uygulama ayarları (yerel)</li><li>Fiyat alarmları (cihazda)</li><li>Anonim istatistikler</li></ul>
-<h2>Veri Kaynakları</h2>
-<ul><li>Yahoo Finance: Döviz kurları (30 saniyede bir güncellenir)</li></ul>
-<h2>Güncelleme Sıklığı</h2>
-<p>Finansal veriler <strong>otomatik olarak 30 saniyede bir</strong> güncellenir. Kullanıcılar her zaman en güncel bilgileri elde eder.</p>
-<h2>Bilgilerin Kullanımı</h2>
-<ul><li>Finansal veriler</li><li>Uygulama işlevselliği</li><li>Performans iyileştirme</li></ul>
-<h2>Depolama</h2>
-<p>Veriler <strong>sadece cihazınızda</strong> saklanır. Hiçbir sunucuya veya üçüncü tarafa gönderilmez.</p>
-<h2>Gizlilik ve Güvenlik Özeti</h2>
-<ul><li><strong>Şifre gerekmez</strong> - Uygulama herkese açıktır</li><li><strong>Kişisel veri toplanmaz</strong> - Başka uygulamalar veya cihazlar izlenmez</li><li><strong>Yatırım tavsiyesi değildir</strong> - Sadece bilgilendirme amaçlıdır</li><li><strong>Finansal danışmanlık sunmaz</strong> - Yatırım kararları sizin sorumluluğunuzdadır</li></ul>
-<h2>Güvenlik</h2>
-<ul><li>HTTPS şifreli bağlantı</li><li>Veri paylaşılmaz</li><li><strong>Şifre veya kayıt gerekmez</strong> - Sadece bilgi verme amaçlı</li><li><strong>Yatırım amaçlı bir uygulama değildir</strong></li><li><strong>Hiçbir kişisel veri toplanmaz</strong> - Sadece döviz kurları gösterilir</li><li><strong>Anonim kullanım</strong> - Kullanıcı kimliği iz bırakmaz</li></ul>
-<h2>İletişim</h2>
-<p><strong>E-posta:</strong> <a href='mailto:erolkpln@gmail.com'>erolkpln@gmail.com</a> | <a href='mailto:info@kurmatik.xyz'>info@kurmatik.xyz</a></p>
-<p><strong>Web:</strong> <a href='https://www.kurmatik.xyz'>www.kurmatik.xyz</a></p>
-<p><strong>Telefon:</strong> +90 535 611 56 41</p>
-<p><strong>Konum:</strong> İstanbul, Türkiye</p>
+  <h1>Gizlilik Politikası</h1>
+  <p><strong><span id='date-tr'></span></strong></p>
+
+  <h2>Toplanan Bilgiler</h2>
+  <ul>
+    <li>Uygulama ayarları (cihazda yerel)</li>
+    <li>Fiyat alarmları ve tercihler (cihazda yerel)</li>
+    <li>Anonim kullanım istatistikleri (kişisel veri içermez)</li>
+  </ul>
+
+  <h2>Veri Kaynakları</h2>
+  <ul>
+    <li>Yahoo Finance: Döviz kurları</li>
+    <li>Truncgil Finans: Altın fiyatları (Gram, Çeyrek, Yarım, Tam, Cumhuriyet, Ons)</li>
+    <li>Bağlantı/erişim sorunlarında: Sınırlı <em>statik</em> yedek kur değerleri</li>
+  </ul>
+
+  <h2>Güncelleme Sıklığı</h2>
+  <p>Finansal veriler <strong>otomatik olarak 30 saniyede bir</strong> yenilenir. Erişim olmadığında uygulama geçici olarak statik yedek değerleri gösterebilir.</p>
+
+  <h2>Bilgilerin Kullanımı</h2>
+  <ul>
+    <li>Kur ve altın fiyatlarını göstermek</li>
+    <li>Uygulama işlevselliğini sağlamak (alarm hatırlatmaları vb.)</li>
+    <li>Performansı ve kararlılığı iyileştirmek (anonim istatistikler)</li>
+  </ul>
+
+  <h2>Depolama</h2>
+  <p>Uyarılar ve ayarlar <strong>yalnızca cihazınızda</strong> saklanır. Sunucularımıza veya üçüncü taraflara gönderilmez.</p>
+
+  <h2>App Tracking Transparency (ATT)</h2>
+  <p>Kurmatik reklam gelirleriyle ücretsiz kalır. Apple’ın ATT çerçevesi, sadece reklamların genel performansını iyileştirmek amacıyla kullanılabilir. <strong>Kişisel veriler toplanmaz veya üçüncü taraflarla paylaşılmaz.</strong> İzin vermezseniz uygulama <strong>tüm temel özellikleriyle çalışmaya devam eder</strong>.</p>
+
+  <h2>Reklamcılık</h2>
+  <ul>
+    <li>Google AdMob kullanılabilir. Reklam kişiselleştirmesi için ATT izni sorulabilir.</li>
+    <li>İzin vermemek uygulamanın kullanımını kısıtlamaz.</li>
+  </ul>
+
+  <h2>Bildirimler</h2>
+  <p>Fiyat uyarıları için bildirim izni isteyebiliriz. Bu izin yalnızca cihazınızda tetiklenen uyarıları göstermek içindir; <strong>sunucu tarafı takip yapılmaz</strong>.</p>
+
+  <h2>Gizlilik ve Güvenlik Özeti</h2>
+  <ul>
+    <li><strong>Kayıt/Giriş gerekmez</strong> — Uygulama herkese açıktır.</li>
+    <li><strong>Kişisel veri toplanmaz</strong> — Diğer uygulamalar veya cihaz davranışları izlenmez.</li>
+    <li><strong>HTTPS</strong> üzerinden şifreli iletişim.</li>
+    <li><strong>Yatırım tavsiyesi değildir</strong> — Bilgilendirme amaçlıdır; kararlar kullanıcıya aittir.</li>
+  </ul>
+
+  <h2>İletişim</h2>
+  <p><strong>E-posta:</strong> <a href='mailto:erolkpln@gmail.com'>erolkpln@gmail.com</a> | <a href='mailto:info@kurmatik.xyz'>info@kurmatik.xyz</a></p>
+  <p><strong>Web:</strong> <a href='https://www.kurmatik.xyz'>www.kurmatik.xyz</a></p>
+  <p><strong>Telefon:</strong> +90 535 611 56 41</p>
+  <p><strong>Konum:</strong> İstanbul, Türkiye</p>
 </div>
+
+<!-- ============ EN ============ -->
 <div id='en' class='ct active'>
-<h1>Privacy Policy</h1>
-<p><strong><span id='date-en'></span></strong></p>
-<h2>Information Collected</h2>
-<ul><li>App settings (local)</li><li>Price alerts (on device)</li><li>Anonymous stats</li></ul>
-<h2>Data Sources</h2>
-<ul><li>Yahoo Finance: Exchange rates (updated every 30 seconds)</li></ul>
-<h2>Update Frequency</h2>
-<p>Financial data is <strong>automatically updated every 30 seconds</strong>. Users always get the most current information.</p>
-<h2>Use of Information</h2>
-<ul><li>Financial data</li><li>App functionality</li><li>Performance</li></ul>
-<h2>Storage</h2>
-<p>Data stored <strong>only on your device</strong>. Nothing is sent to any server or third party.</p>
-<h2>Privacy and Security Summary</h2>
-<ul><li><strong>No password required</strong> - App is open to everyone</li><li><strong>No personal data collected</strong> - Other apps or devices are not tracked</li><li><strong>Not investment advice</strong> - Information purposes only</li><li><strong>No financial consulting</strong> - Investment decisions are your responsibility</li></ul>
-<h2>Security</h2>
-<ul><li>HTTPS encrypted connection</li><li>Data not shared</li><li><strong>No password or registration required</strong> - Information purposes only</li><li><strong>Not an investment application</strong></li><li><strong>No personal data collected</strong> - Only exchange rates are displayed</li><li><strong>Anonymous usage</strong> - User identity leaves no trace</li></ul>
-<h2>Contact</h2>
-<p><strong>Email:</strong> <a href='mailto:erolkpln@gmail.com'>erolkpln@gmail.com</a> | <a href='mailto:info@kurmatik.xyz'>info@kurmatik.xyz</a></p>
-<p><strong>Website:</strong> <a href='https://www.kurmatik.xyz'>www.kurmatik.xyz</a></p>
-<p><strong>Phone:</strong> +90 535 611 56 41</p>
-<p><strong>Location:</strong> Istanbul, Turkey</p>
+  <h1>Privacy Policy</h1>
+  <p><strong><span id='date-en'></span></strong></p>
+
+  <h2>Information Collected</h2>
+  <ul>
+    <li>App settings (stored locally on device)</li>
+    <li>Price alerts and preferences (stored locally on device)</li>
+    <li>Anonymous usage statistics (no personal data)</li>
+  </ul>
+
+  <h2>Data Sources</h2>
+  <ul>
+    <li>Yahoo Finance: FX rates</li>
+    <li>Truncgil Finance: Gold prices (Gram, Quarter, Half, Full, Cumhuriyet, Ounce)</li>
+    <li>When unavailable: limited <em>static</em> fallback rates</li>
+  </ul>
+
+  <h2>Update Frequency</h2>
+  <p>Financial data is <strong>automatically refreshed every 30 seconds</strong>. If live sources are unreachable, the app may temporarily show static fallback values.</p>
+
+  <h2>Use of Information</h2>
+  <ul>
+    <li>Display currency and gold prices</li>
+    <li>Provide core functionality (price alerts)</li>
+    <li>Improve performance and stability (anonymous metrics)</li>
+  </ul>
+
+  <h2>Storage</h2>
+  <p>Alerts and settings are stored <strong>only on your device</strong>. Nothing is sent to our servers or shared with third parties.</p>
+
+  <h2>App Tracking Transparency (ATT)</h2>
+  <p>Kurmatik remains free thanks to ads. Apple’s ATT framework may be used solely to improve general ad performance. <strong>No personal data is collected or sold.</strong> If you deny tracking, the app <strong>continues to work fully</strong>.</p>
+
+  <h2>Advertising</h2>
+  <ul>
+    <li>Google AdMob may be used. ATT permission may be requested for ad personalization.</li>
+    <li>Declining permission does not limit core functionality.</li>
+  </ul>
+
+  <h2>Notifications</h2>
+  <p>We may request notification permission for price alerts. This is only to deliver local alerts; <strong>no server-side tracking</strong> is performed.</p>
+
+  <h2>Privacy & Security Summary</h2>
+  <ul>
+    <li><strong>No sign-up or login</strong> — open to everyone.</li>
+    <li><strong>No personal data collection</strong> — no tracking of other apps or device behavior.</li>
+    <li><strong>HTTPS</strong> encrypted connections.</li>
+    <li><strong>Not financial advice</strong> — for informational purposes only; decisions are yours.</li>
+  </ul>
+
+  <h2>Contact</h2>
+  <p><strong>Email:</strong> <a href='mailto:erolkpln@gmail.com'>erolkpln@gmail.com</a> | <a href='mailto:info@kurmatik.xyz'>info@kurmatik.xyz</a></p>
+  <p><strong>Website:</strong> <a href='https://www.kurmatik.xyz'>www.kurmatik.xyz</a></p>
+  <p><strong>Phone:</strong> +90 535 611 56 41</p>
+  <p><strong>Location:</strong> Istanbul, Turkey</p>
 </div>
+
 <hr style='margin: 3rem 0; border: none; border-top: 1px solid rgba(255,255,255,0.1);'>
-<p style='text-align: center;'><a href='index.html' class='back'>Ana Sayfa</a> | <a href='support.html' class='back'>Destek</a> | <a href='terms.html' class='back'>Koşullar</a></p>
+<p style='text-align: center;'>
+  <a href='index.html' class='back'>Ana Sayfa</a> |
+  <a href='support.html' class='back'>Destek</a> |
+  <a href='terms.html' class='back'>Koşullar</a>
+</p>
 </div>
+
 <script>
 function show(e, l){
   document.querySelectorAll('.ct').forEach(el=>el.classList.remove('active'));
@@ -87,14 +166,11 @@ function updateDate() {
   const months_tr = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
   const months_en = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   const today = new Date();
-  
   const date_tr = `${today.getDate()} ${months_tr[today.getMonth()]} ${today.getFullYear()}`;
   const date_en = `${months_en[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
-  
   document.getElementById('date-tr').textContent = date_tr;
   document.getElementById('date-en').textContent = date_en;
 }
-
 updateDate();
 </script>
 </body>
