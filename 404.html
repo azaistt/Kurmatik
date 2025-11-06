@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Redirect</title>
+    <script>
+        // GitHub Pages redirect script
+        var pathSegments = window.location.pathname.split('/').filter(Boolean);
+        var redirect = window.location.protocol + '//' + window.location.host;
+        
+        // Eğer son segment .html ile bitmiyorsa .html ekle
+        if (pathSegments.length > 0) {
+            var lastSegment = pathSegments[pathSegments.length - 1];
+            if (!lastSegment.includes('.')) {
+                // GitHub Pages repository base path'i kontrol et
+                var basePath = '/Kurmatik'; // Eğer user page değilse bunu eklemeyin
+                redirect += basePath + window.location.pathname;
+                if (!lastSegment.endsWith('.html')) {
+                    redirect = redirect.replace(/\/$/, '') + '.html';
+                }
+            }
+        }
+        
+        if (redirect !== window.location.href) {
+            window.location = redirect;
+        }
+    </script>
+</head>
+<body>
+    Yönlendiriliyorsunuz...
+</body>
+</html>
